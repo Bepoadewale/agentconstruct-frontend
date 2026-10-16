@@ -1,0 +1,141 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+import { describe, expect, it, vi } from 'vitest';
+
+const auth = vi.hoisted(() => ({
+  profile: null as null | {
+    user: { subject: string; role: 'developer' | 'administrator' };
+    workspace: { id: string; name: string };
+  },
+  token: null as string | null,
+  loading: false,
+  error: null as string | null,
+  api: { request: vi.fn() },
+  signIn: vi.fn(),
+  localSignIn: vi.fn(),
+  completeCallback: vi.fn(),
+  signOut: vi.fn(),
+}));
+
+vi.mock('./auth/AuthContext', () => ({ useAuth: () => auth }));
+import App from './App';
+
+describe('application routes', () => {
+  it('redirects unauthenticated workspace routes to sign in', async () => {
+    auth.profile = null;
+    render(
+      <MemoryRouter initialEntries={['/overview']}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      await screen.findByRole('heading', { name: /sign in to your control plane/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders role-aware administrator review work from the backend', async () => {
+    auth.profile = {
+      user: { subject: 'admin', role: 'administrator' },
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+    };
+    auth.api.request.mockImplementation((path: string) => {
+      if (path === '/api/v1/dashboard')
+        return Promise.resolve({
+          workspace: { id: 'workspace-1', name: 'Founder workspace' },
+          projects: [],
+          cloud_connections: [],
+          plans: [],
+          recent_activity: [],
+        });
+      if (path.includes('/admin/customer-plan-revisions'))
+        return Promise.resolve([
+          {
+            id: 'revision-1',
+            plan_id: 'plan-1',
+            revision: 1,
+            state: 'SUBMITTED',
+            creator_subject: 'developer',
+            title: 'Support API',
+            content_digest: 'a'.repeat(64),
+            content: {
+              summary: { selected_profile: 'App Runner', why: 'Simple' },
+              resource_breakdown: [],
+              security: [],
+            },
+          },
+        ]);
+      return Promise.reject(new Error(`Unexpected ${path}`));
+    });
+    render(
+      <MemoryRouter initialEntries={['/overview']}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(await screen.findByText('Plans requiring a decision')).toBeInTheDocument();
+    expect(screen.getByText('Support API')).toBeInTheDocument();
+  });
+
+  it('does not offer approval controls to a developer', async () => {
+    auth.profile = {
+      user: { subject: 'developer', role: 'developer' },
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+    };
+    auth.api.request.mockResolvedValue({
+      id: 'revision-1',
+      plan_id: 'plan-1',
+      revision: 1,
+      state: 'SUBMITTED',
+      creator_subject: 'developer',
+      content_digest: 'a'.repeat(64),
+      content: {
+        summary: { selected_profile: 'App Runner', why: 'Simplest viable option' },
+        resource_breakdown: [],
+        security: [],
+      },
+    });
+    render(
+      <MemoryRouter initialEntries={['/plans/revision-1']}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      await screen.findByText(/waiting for an authorized workspace administrator/i),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /approve exact digest/i })).not.toBeInTheDocument();
+  });
+
+  it('submits a draft using the exact backend contract', async () => {
+    auth.profile = {
+      user: { subject: 'developer', role: 'developer' },
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+    };
+    auth.api.request.mockResolvedValue({
+      id: 'revision-1',
+      plan_id: 'plan-1',
+      revision: 1,
+      state: 'DRAFT',
+      creator_subject: 'developer',
+      content_digest: 'a'.repeat(64),
+      content: {
+        summary: { selected_profile: 'App Runner', why: 'Simplest viable option' },
+        resource_breakdown: [],
+        security: [],
+      },
+    });
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/plans/revision-1']}>
+        <App />
+      </MemoryRouter>,
+    );
+    await user.click(await screen.findByRole('button', { name: /submit for approval/i }));
+    await waitFor(() =>
+      expect(auth.api.request).toHaveBeenCalledWith(
+        '/api/v1/customer-plan-revisions/revision-1/submit',
+        expect.objectContaining({ method: 'POST', retrySafe: false }),
+      ),
+    );
+    expect(await screen.findByText(/submitted for administrator review/i)).toBeInTheDocument();
+  });
+});

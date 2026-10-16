@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /overview
+Disallow: /plans
+Disallow: /history
+Disallow: /activity
+Disallow: /connections
+Disallow: /settings
+
