@@ -9,7 +9,7 @@ pricing, policy, approvals, audit integrity, integrations, secrets, execution, a
 
 ## Local development
 
-Requirements: Node.js 22+, npm 10+, and an AgentConstruct API on `http://127.0.0.1:8000`.
+Requirements: Node.js 22+, npm 10+, and an AgentConstruct API on `http://127.0.0.1:8080`.
 
 ```bash
 cp .env.example .env.local

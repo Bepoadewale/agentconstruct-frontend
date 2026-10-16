@@ -5,7 +5,7 @@ const trimSlash = (value: string) => value.replace(/\/+$/, '');
 const configuredApiBaseUrl = trimSlash(import.meta.env.VITE_API_BASE_URL?.trim() ?? '');
 
 export const config = Object.freeze({
-  apiBaseUrl: configuredApiBaseUrl || (import.meta.env.DEV ? 'http://127.0.0.1:8000' : ''),
+  apiBaseUrl: configuredApiBaseUrl || (import.meta.env.DEV ? 'http://127.0.0.1:8080' : ''),
   apiConfigured: Boolean(configuredApiBaseUrl || import.meta.env.DEV),
   authMode: (import.meta.env.VITE_AUTH_MODE ?? 'oidc') as AuthMode,
   localLoginEnabled:

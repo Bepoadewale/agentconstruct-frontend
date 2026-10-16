@@ -3,9 +3,16 @@
     "schemas": {
       "ApiCredentialRequest": {
         "properties": {
-          "name": { "maxLength": 100, "minLength": 2, "title": "Name", "type": "string" },
+          "name": {
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Name",
+            "type": "string"
+          },
           "scopes": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "maxItems": 12,
             "title": "Scopes",
             "type": "array"
@@ -17,7 +24,12 @@
       },
       "ApprovalRequest": {
         "properties": {
-          "plan_hash": { "maxLength": 64, "minLength": 64, "title": "Plan Hash", "type": "string" }
+          "plan_hash": {
+            "maxLength": 64,
+            "minLength": 64,
+            "title": "Plan Hash",
+            "type": "string"
+          }
         },
         "required": ["plan_hash"],
         "title": "ApprovalRequest",
@@ -37,7 +49,11 @@
       },
       "AwsQuickCreateRequest": {
         "properties": {
-          "account_id": { "pattern": "^[0-9]{12}$", "title": "Account Id", "type": "string" }
+          "account_id": {
+            "pattern": "^[0-9]{12}$",
+            "title": "Account Id",
+            "type": "string"
+          }
         },
         "required": ["account_id"],
         "title": "AwsQuickCreateRequest",
@@ -90,7 +106,14 @@
       "CloudExecutionRunRequest": {
         "properties": {
           "confirmation": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Confirmation"
           },
           "content_digest": {
@@ -100,11 +123,27 @@
             "type": "string"
           },
           "expected_account_id": {
-            "anyOf": [{ "pattern": "^[0-9]{12}$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[0-9]{12}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expected Account Id"
           },
           "expected_region": {
-            "anyOf": [{ "pattern": "^[a-z]{2}-[a-z]+-\\d$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[a-z]{2}-[a-z]+-\\d$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expected Region"
           },
           "mode": {
@@ -114,15 +153,36 @@
             "type": "string"
           },
           "preflight_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Preflight Id"
           },
           "terraform_plan_review_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Terraform Plan Review Id"
           },
           "terraform_render_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Terraform Render Id"
           }
         },
@@ -133,15 +193,27 @@
       "CloudInventorySnapshotRequest": {
         "description": "Credential-free discovery result received from the trusted discovery worker.",
         "properties": {
-          "captured_at": { "format": "date-time", "title": "Captured At", "type": "string" },
+          "captured_at": {
+            "format": "date-time",
+            "title": "Captured At",
+            "type": "string"
+          },
           "provenance": {
             "maxLength": 80,
             "minLength": 3,
             "title": "Provenance",
             "type": "string"
           },
-          "region": { "pattern": "^[a-z]{2}-[a-z]+-\\d$", "title": "Region", "type": "string" },
-          "snapshot": { "additionalProperties": true, "title": "Snapshot", "type": "object" }
+          "region": {
+            "pattern": "^[a-z]{2}-[a-z]+-\\d$",
+            "title": "Region",
+            "type": "string"
+          },
+          "snapshot": {
+            "additionalProperties": true,
+            "title": "Snapshot",
+            "type": "object"
+          }
         },
         "required": ["region", "provenance", "captured_at", "snapshot"],
         "title": "CloudInventorySnapshotRequest",
@@ -150,13 +222,23 @@
       "CloudReadinessPreflightRequest": {
         "properties": {
           "allowed_regions": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "maxItems": 20,
             "title": "Allowed Regions",
             "type": "array"
           },
           "budget_ceiling_usd": {
-            "anyOf": [{ "minimum": 1.0, "type": "integer" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Budget Ceiling Usd"
           },
           "content_digest": {
@@ -172,7 +254,15 @@
             "type": "string"
           },
           "expected_account_id": {
-            "anyOf": [{ "pattern": "^[0-9]{12}$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[0-9]{12}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expected Account Id"
           },
           "require_reviewed_pr": {
@@ -181,7 +271,9 @@
             "type": "boolean"
           },
           "required_tags": {
-            "additionalProperties": { "type": "string" },
+            "additionalProperties": {
+              "type": "string"
+            },
             "maxProperties": 20,
             "title": "Required Tags",
             "type": "object"
@@ -247,7 +339,9 @@
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
             "title": "Detail",
             "type": "array"
           }
@@ -259,49 +353,105 @@
         "description": "User-editable planning constraints for a new draft revision.",
         "properties": {
           "accepted_assumptions": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "maxItems": 20,
             "title": "Accepted Assumptions",
             "type": "array"
           },
           "availability_target": {
-            "anyOf": [{ "pattern": "^99\\\\.(9|99)%$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^99\\\\.(9|99)%$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Availability Target"
           },
           "data_classification": {
             "anyOf": [
-              { "pattern": "^(public|internal|restricted)$", "type": "string" },
-              { "type": "null" }
+              {
+                "pattern": "^(public|internal|restricted)$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Data Classification"
           },
           "environment": {
             "anyOf": [
-              { "items": { "$ref": "#/components/schemas/EnvironmentName" }, "type": "array" },
-              { "type": "null" }
+              {
+                "items": {
+                  "$ref": "#/components/schemas/EnvironmentName"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Environment"
           },
           "monthly_budget_usd": {
-            "anyOf": [{ "minimum": 1.0, "type": "integer" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Monthly Budget Usd"
           },
           "public_access": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Public Access"
           },
           "region": {
-            "anyOf": [{ "pattern": "^[a-z]{2}-[a-z]+-\\d$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[a-z]{2}-[a-z]+-\\d$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Region"
           },
           "rejected_assumptions": {
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "maxItems": 20,
             "title": "Rejected Assumptions",
             "type": "array"
           },
           "workload_type": {
-            "anyOf": [{ "maxLength": 80, "minLength": 2, "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 2,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Workload Type"
           }
         },
@@ -321,9 +471,19 @@
             "title": "Content Digest",
             "type": "string"
           },
-          "decision": { "$ref": "#/components/schemas/InfrastructurePlanDecision" },
+          "decision": {
+            "$ref": "#/components/schemas/InfrastructurePlanDecision"
+          },
           "reason": {
-            "anyOf": [{ "maxLength": 2000, "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Reason"
           }
         },
@@ -334,7 +494,11 @@
       "InfrastructurePlanRevisionRequest": {
         "description": "New customer-plan draft content. The preceding revision is never edited.",
         "properties": {
-          "content": { "additionalProperties": true, "title": "Content", "type": "object" }
+          "content": {
+            "additionalProperties": true,
+            "title": "Content",
+            "type": "object"
+          }
         },
         "required": ["content"],
         "title": "InfrastructurePlanRevisionRequest",
@@ -343,7 +507,14 @@
       "IntentRequest": {
         "properties": {
           "cloud_connection_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Cloud Connection Id"
           },
           "idempotency_key": {
@@ -352,10 +523,25 @@
             "title": "Idempotency Key",
             "type": "string"
           },
-          "project_id": { "title": "Project Id", "type": "string" },
-          "prompt": { "maxLength": 10000, "minLength": 20, "title": "Prompt", "type": "string" },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "prompt": {
+            "maxLength": 10000,
+            "minLength": 20,
+            "title": "Prompt",
+            "type": "string"
+          },
           "source_repository": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Source Repository"
           }
         },
@@ -365,7 +551,12 @@
       },
       "InvitationRequest": {
         "properties": {
-          "email": { "maxLength": 240, "minLength": 3, "title": "Email", "type": "string" },
+          "email": {
+            "maxLength": 240,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
           "role": {
             "default": "developer",
             "pattern": "^(developer|operator|administrator)$",
@@ -379,7 +570,12 @@
       },
       "LocalLoginRequest": {
         "properties": {
-          "username": { "maxLength": 80, "minLength": 2, "title": "Username", "type": "string" }
+          "username": {
+            "maxLength": 80,
+            "minLength": 2,
+            "title": "Username",
+            "type": "string"
+          }
         },
         "required": ["username"],
         "title": "LocalLoginRequest",
@@ -399,7 +595,12 @@
       },
       "PlanCommentRequest": {
         "properties": {
-          "body": { "maxLength": 4000, "minLength": 1, "title": "Body", "type": "string" }
+          "body": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          }
         },
         "required": ["body"],
         "title": "PlanCommentRequest",
@@ -407,18 +608,34 @@
       },
       "ProjectRequest": {
         "properties": {
-          "name": { "pattern": "^[a-z][a-z0-9-]{2,40}$", "title": "Name", "type": "string" },
+          "name": {
+            "pattern": "^[a-z][a-z0-9-]{2,40}$",
+            "title": "Name",
+            "type": "string"
+          },
           "repository_branch": {
             "anyOf": [
-              { "pattern": "^[A-Za-z0-9._/-]{1,255}$", "type": "string" },
-              { "type": "null" }
+              {
+                "pattern": "^[A-Za-z0-9._/-]{1,255}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Repository Branch"
           },
           "repository_url": {
             "anyOf": [
-              { "format": "uri", "maxLength": 2083, "minLength": 1, "type": "string" },
-              { "type": "null" }
+              {
+                "format": "uri",
+                "maxLength": 2083,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
             ],
             "title": "Repository Url"
           }
@@ -430,12 +647,19 @@
       "SubscriptionRequest": {
         "properties": {
           "limits": {
-            "additionalProperties": { "type": "integer" },
+            "additionalProperties": {
+              "type": "integer"
+            },
             "maxProperties": 20,
             "title": "Limits",
             "type": "object"
           },
-          "plan_name": { "maxLength": 80, "minLength": 2, "title": "Plan Name", "type": "string" },
+          "plan_name": {
+            "maxLength": 80,
+            "minLength": 2,
+            "title": "Plan Name",
+            "type": "string"
+          },
           "state": {
             "default": "ACTIVE",
             "pattern": "^(TRIAL|ACTIVE|PAST_DUE|CANCELED)$",
@@ -449,8 +673,18 @@
       },
       "SupportTicketRequest": {
         "properties": {
-          "body": { "maxLength": 8000, "minLength": 1, "title": "Body", "type": "string" },
-          "subject": { "maxLength": 160, "minLength": 3, "title": "Subject", "type": "string" }
+          "body": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Body",
+            "type": "string"
+          },
+          "subject": {
+            "maxLength": 160,
+            "minLength": 3,
+            "title": "Subject",
+            "type": "string"
+          }
         },
         "required": ["subject", "body"],
         "title": "SupportTicketRequest",
@@ -471,7 +705,11 @@
       },
       "TerraformPlanReviewRequest": {
         "properties": {
-          "allow_cloud_plan": { "default": false, "title": "Allow Cloud Plan", "type": "boolean" },
+          "allow_cloud_plan": {
+            "default": false,
+            "title": "Allow Cloud Plan",
+            "type": "boolean"
+          },
           "content_digest": {
             "maxLength": 64,
             "minLength": 64,
@@ -479,11 +717,27 @@
             "type": "string"
           },
           "expected_account_id": {
-            "anyOf": [{ "pattern": "^[0-9]{12}$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[0-9]{12}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expected Account Id"
           },
           "expected_region": {
-            "anyOf": [{ "pattern": "^[a-z]{2}-[a-z]+-\\d$", "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "pattern": "^[a-z]{2}-[a-z]+-\\d$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Expected Region"
           },
           "mode": {
@@ -493,7 +747,14 @@
             "type": "string"
           },
           "preflight_id": {
-            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Preflight Id"
           }
         },
@@ -503,15 +764,35 @@
       },
       "ValidationError": {
         "properties": {
-          "ctx": { "title": "Context", "type": "object" },
-          "input": { "title": "Input" },
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
-            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
             "title": "Location",
             "type": "array"
           },
-          "msg": { "title": "Message", "type": "string" },
-          "type": { "title": "Error Type", "type": "string" }
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
         },
         "required": ["loc", "msg", "type"],
         "title": "ValidationError",
@@ -519,9 +800,28 @@
       }
     }
   },
-  "info": { "title": "AgentConstruct", "version": "0.1.0" },
+  "info": {
+    "title": "AgentConstruct",
+    "version": "0.1.0"
+  },
   "openapi": "3.1.0",
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "api_root__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Api Root"
+      }
+    },
     "/api/v1/admin/customer-plan-revisions": {
       "get": {
         "operationId": "admin_customer_plan_revisions_api_v1_admin_customer_plan_revisions_get",
@@ -530,24 +830,43 @@
             "in": "query",
             "name": "state",
             "required": false,
-            "schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "State" }
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "State"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -564,18 +883,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -592,26 +920,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ApiCredentialRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/ApiCredentialRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -628,21 +967,31 @@
             "in": "path",
             "name": "credential_id",
             "required": true,
-            "schema": { "title": "Credential Id", "type": "string" }
+            "schema": {
+              "title": "Credential Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "204": { "description": "Successful Response" },
+          "204": {
+            "description": "Successful Response"
+          },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -660,7 +1009,14 @@
             "name": "environment_id",
             "required": false,
             "schema": {
-              "anyOf": [{ "type": "string" }, { "type": "null" }],
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
               "title": "Environment Id"
             }
           },
@@ -668,18 +1024,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -696,24 +1061,43 @@
             "in": "query",
             "name": "entity_id",
             "required": false,
-            "schema": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Entity Id" }
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Entity Id"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -728,19 +1112,29 @@
         "operationId": "local_login_api_v1_auth_local_login_post",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/LocalLoginRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocalLoginRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -757,18 +1151,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -783,24 +1186,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/SubscriptionRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -817,18 +1233,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -843,26 +1268,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CloudConnectionRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CloudConnectionRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -879,21 +1315,31 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "204": { "description": "Successful Response" },
+          "204": {
+            "description": "Successful Response"
+          },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -908,24 +1354,36 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -942,32 +1400,46 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AwsQuickCreateRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/AwsQuickCreateRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -984,30 +1456,45 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "job_id",
             "required": true,
-            "schema": { "title": "Job Id", "type": "string" }
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1024,32 +1511,46 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AwsConnectionVerificationRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/AwsConnectionVerificationRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "202": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1066,24 +1567,36 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1098,32 +1611,46 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CloudInventorySnapshotRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CloudInventorySnapshotRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1140,24 +1667,36 @@
             "in": "path",
             "name": "connection_id",
             "required": true,
-            "schema": { "title": "Connection Id", "type": "string" }
+            "schema": {
+              "title": "Connection Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1174,18 +1713,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1202,24 +1750,36 @@
             "in": "path",
             "name": "run_id",
             "required": true,
-            "schema": { "title": "Run Id", "type": "string" }
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1236,32 +1796,46 @@
             "in": "path",
             "name": "run_id",
             "required": true,
-            "schema": { "title": "Run Id", "type": "string" }
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CloudExecutionExecuteRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CloudExecutionExecuteRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1278,24 +1852,36 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1312,32 +1898,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CloudExecutionRunRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CloudExecutionRunRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1354,32 +1954,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/CloudReadinessPreflightRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/CloudReadinessPreflightRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1396,32 +2010,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InfrastructurePlanDecisionRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/InfrastructurePlanDecisionRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1438,32 +2066,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/DesiredStatePublicationRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/DesiredStatePublicationRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1480,38 +2122,55 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "publication_id",
             "required": true,
-            "schema": { "title": "Publication Id", "type": "string" }
+            "schema": {
+              "title": "Publication Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/DesiredStatePublicationStateRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/DesiredStatePublicationStateRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1528,30 +2187,45 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1568,24 +2242,36 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1602,24 +2288,36 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1636,32 +2334,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/TerraformPlanRenderRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/TerraformPlanRenderRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1678,32 +2390,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/TerraformPlanReviewRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/TerraformPlanReviewRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1720,24 +2446,36 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1752,30 +2490,46 @@
             "in": "path",
             "name": "revision_id",
             "required": true,
-            "schema": { "title": "Revision Id", "type": "string" }
+            "schema": {
+              "title": "Revision Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/PlanCommentRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanCommentRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1792,32 +2546,46 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InfrastructurePlanConstraintUpdateRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/InfrastructurePlanConstraintUpdateRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1834,32 +2602,46 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/InfrastructurePlanRevisionRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/InfrastructurePlanRevisionRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1876,18 +2658,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1904,26 +2695,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/DataLifecycleRequestBody" }
+              "schema": {
+                "$ref": "#/components/schemas/DataLifecycleRequestBody"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "202": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1940,24 +2742,36 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -1974,30 +2788,46 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/ApprovalRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2014,24 +2844,36 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2048,24 +2890,36 @@
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2082,18 +2936,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2110,24 +2973,36 @@
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2144,24 +3019,36 @@
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2178,24 +3065,36 @@
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2212,24 +3111,36 @@
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2246,24 +3157,36 @@
             "in": "path",
             "name": "environment_id",
             "required": true,
-            "schema": { "title": "Environment Id", "type": "string" }
+            "schema": {
+              "title": "Environment Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2280,18 +3203,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2308,24 +3240,36 @@
             "in": "path",
             "name": "installation_id",
             "required": true,
-            "schema": { "title": "Installation Id", "type": "string" }
+            "schema": {
+              "title": "Installation Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2342,30 +3286,45 @@
             "in": "path",
             "name": "installation_id",
             "required": true,
-            "schema": { "title": "Installation Id", "type": "string" }
+            "schema": {
+              "title": "Installation Id",
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "repository",
             "required": true,
-            "schema": { "title": "Repository", "type": "string" }
+            "schema": {
+              "title": "Repository",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2379,7 +3338,11 @@
         "operationId": "github_webhook_api_v1_github_webhooks_post",
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           }
         },
@@ -2394,24 +3357,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/IntentRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntentRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2428,24 +3404,36 @@
             "in": "path",
             "name": "intent_id",
             "required": true,
-            "schema": { "title": "Intent Id", "type": "string" }
+            "schema": {
+              "title": "Intent Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2462,18 +3450,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2490,24 +3487,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/ProjectRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2524,30 +3534,45 @@
             "in": "path",
             "name": "project_id",
             "required": true,
-            "schema": { "title": "Project Id", "type": "string" }
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
           },
           {
             "in": "path",
             "name": "plan_id",
             "required": true,
-            "schema": { "title": "Plan Id", "type": "string" }
+            "schema": {
+              "title": "Plan Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2564,21 +3589,31 @@
             "in": "path",
             "name": "project_id",
             "required": true,
-            "schema": { "title": "Project Id", "type": "string" }
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
-          "204": { "description": "Successful Response" },
+          "204": {
+            "description": "Successful Response"
+          },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2595,24 +3630,36 @@
             "in": "path",
             "name": "project_id",
             "required": true,
-            "schema": { "title": "Project Id", "type": "string" }
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2629,26 +3676,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/SupportTicketRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/SupportTicketRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2665,18 +3723,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2693,24 +3760,37 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/InvitationRequest" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvitationRequest"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "201": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2727,18 +3807,27 @@
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2755,32 +3844,46 @@
             "in": "path",
             "name": "subject",
             "required": true,
-            "schema": { "title": "Subject", "type": "string" }
+            "schema": {
+              "title": "Subject",
+              "type": "string"
+            }
           },
           {
             "in": "header",
             "name": "authorization",
             "required": true,
-            "schema": { "title": "Authorization", "type": "string" }
+            "schema": {
+              "title": "Authorization",
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/MembershipRoleRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/MembershipRoleRequest"
+              }
             }
           },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           },
           "422": {
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
               }
             },
             "description": "Validation Error"
@@ -2794,7 +3897,11 @@
         "operationId": "healthz_healthz_get",
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           }
         },
@@ -2806,7 +3913,11 @@
         "operationId": "metrics_metrics_get",
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           }
         },
@@ -2819,7 +3930,11 @@
         "operationId": "public_status_status_get",
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": {} } },
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
             "description": "Successful Response"
           }
         },

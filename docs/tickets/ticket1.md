@@ -64,6 +64,10 @@ A third `npm run verify` passed from a fresh private GitHub clone in
 `/tmp/agentconstruct-frontend-clone.5bFDa3/repo`, without the backend checkout. GitHub Actions jobs
 `verify` and `secrets` also passed on the draft PR.
 
+After backend PR #83 established the final boundary, the frontend snapshot was synchronized with
+its generated OpenAPI v1 contract, the development API default was corrected to port 8080, and the
+complete `npm run verify` gate passed again with the same 16 tests and zero audit findings.
+
 Visual QA used Chrome headless screenshots at desktop and narrow widths after the normal browser
 connector failed to initialize. The public page rendered its full content; responsive behavior also
 has CSS contract coverage. Live sign-in and authenticated API screens remain environment validation.
@@ -75,6 +79,6 @@ GitHub, AWS, infrastructure execution, or deployment. The backend remains author
 
 ## Follow-up
 
-After this frontend is independently verified, a separate backend PR will add explicit CORS and
-frontend-origin configuration, publish the API contract, remove `apps/web`, and update backend
-packaging and documentation.
+Backend PR #83 adds exact-origin CORS and frontend-origin configuration, publishes the API contract,
+removes `apps/web`, and updates backend packaging and documentation. Its live hosted configuration
+still depends on the future `pages.dev` hostname and production identity values.
