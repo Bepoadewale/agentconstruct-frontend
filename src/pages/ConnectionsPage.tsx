@@ -1,0 +1,190 @@
+import { useState } from 'react';
+import { useAuth } from '../auth/AuthContext';
+import type { CloudConnection, GitHubConnection } from '../api/contracts';
+import { AsyncRegion } from '../components/AsyncRegion';
+import { EmptyState } from '../components/EmptyState';
+import { StatusBadge } from '../components/StatusBadge';
+import { useAsync } from '../hooks/useAsync';
+
+export default function ConnectionsPage() {
+  const { api } = useAuth();
+  const state = useAsync(
+    async (signal) => ({
+      github: await api.request<GitHubConnection>('/api/v1/github/connection', { signal }),
+      cloud: await api.request<CloudConnection[]>('/api/v1/cloud-connections', { signal }),
+    }),
+    [api],
+  );
+  const [accountId, setAccountId] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function beginAwsConnection() {
+    setBusy(true);
+    setMessage(null);
+    try {
+      if (!/^\d{12}$/.test(accountId)) throw new Error('Enter a 12-digit AWS account ID.');
+      const connection = await api.request<CloudConnection>('/api/v1/cloud-connections', {
+        method: 'POST',
+        body: { display_name: `AWS account ${accountId}` },
+        retrySafe: false,
+      });
+      const setup = await api.request<{ quick_create_url: string }>(
+        `/api/v1/cloud-connections/${connection.id}/aws-quick-create`,
+        { method: 'POST', body: { account_id: accountId }, retrySafe: false },
+      );
+      window.open(setup.quick_create_url, '_blank', 'noopener,noreferrer');
+      setMessage(
+        'AWS opened a review page for a read-only discovery role. No workload resources were requested.',
+      );
+      state.reload();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Connection setup failed.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function disconnect(id: string) {
+    setBusy(true);
+    setMessage(null);
+    try {
+      await api.request(`/api/v1/cloud-connections/${id}`, { method: 'DELETE', retrySafe: false });
+      setMessage('Connection metadata disconnected.');
+      state.reload();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Disconnect failed.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="page">
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">Connections</p>
+          <h1>Authorized sources, explicit boundaries.</h1>
+          <p>Repositories and AWS accounts are connected through trusted backend integrations.</p>
+        </div>
+      </div>
+      {message ? (
+        <div className="notice" role="status">
+          {message}
+        </div>
+      ) : null}
+      <AsyncRegion
+        loading={state.loading}
+        error={state.error}
+        onRetry={state.reload}
+        label="connections"
+      >
+        {state.data ? (
+          <div className="two-column align-start">
+            <section className="panel">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">GitHub</p>
+                  <h2>Repository access</h2>
+                </div>
+                <StatusBadge state={state.data.github.execution} />
+              </div>
+              <p className="muted">
+                Repository discovery is read-only. Desired-state writes require a separate reviewed
+                backend capability.
+              </p>
+              {state.data.github.installations.length ? (
+                <div className="compact-list">
+                  {state.data.github.installations.map((item) => (
+                    <div key={item.id}>
+                      <span className="compact-mark">GH</span>
+                      <span>
+                        <b>{item.account_login}</b>
+                        <small>
+                          {item.account_type} · installation {item.id}
+                        </small>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No GitHub installation"
+                  message="Authorize the backend GitHub App before selecting repositories."
+                />
+              )}
+              {state.data.github.install_url ? (
+                <a
+                  className="button button-secondary"
+                  href={state.data.github.install_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Open GitHub authorization
+                </a>
+              ) : null}
+            </section>
+            <section className="panel">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">AWS</p>
+                  <h2>Customer-owned accounts</h2>
+                </div>
+              </div>
+              <p className="muted">
+                AgentConstruct never asks the browser for AWS access keys. Setup creates scoped role
+                metadata through AWS review.
+              </p>
+              <div className="inline-form">
+                <label>
+                  AWS account ID
+                  <input
+                    inputMode="numeric"
+                    maxLength={12}
+                    value={accountId}
+                    onChange={(event) => setAccountId(event.target.value.replace(/\D/g, ''))}
+                    placeholder="123456789012"
+                  />
+                </label>
+                <button
+                  className="button button-primary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void beginAwsConnection()}
+                >
+                  Review AWS setup
+                </button>
+              </div>
+              {state.data.cloud.length ? (
+                <div className="connection-list">
+                  {state.data.cloud.map((item) => (
+                    <article key={item.id}>
+                      <div>
+                        <b>{item.display_name}</b>
+                        <small>{item.account_id ?? 'Account setup pending'}</small>
+                      </div>
+                      <StatusBadge state={item.setup_state} />
+                      <button
+                        className="button button-quiet"
+                        disabled={busy}
+                        type="button"
+                        onClick={() => void disconnect(item.id)}
+                      >
+                        Disconnect
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No AWS connection"
+                  message="Local planning remains available without an AWS account."
+                />
+              )}
+            </section>
+          </div>
+        ) : null}
+      </AsyncRegion>
+    </div>
+  );
+}
