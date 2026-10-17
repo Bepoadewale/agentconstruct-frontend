@@ -1,38 +1,74 @@
 import { Link } from 'react-router-dom';
+import BrandMark from '../components/BrandMark';
 
 export default function HomePage() {
   return (
     <main className="public-page">
       <header className="public-header">
         <Link className="brand" to="/">
-          <span className="brand-mark">A</span>
+          <BrandMark />
           <span>AgentConstruct</span>
         </Link>
         <nav aria-label="Public navigation">
-          <a href="#how-it-works">How it works</a>
-          <Link className="button button-primary" to="/login">
-            Open workspace
+          <a className="header-workflow-link" href="#how-it-works">
+            How it works
+          </a>
+          <Link className="header-sign-in" to="/login">
+            Sign in
           </Link>
         </nav>
       </header>
       <section className="public-hero">
-        <p className="eyebrow">Governed infrastructure planning</p>
-        <h1>The simplest AWS architecture that meets the real requirement.</h1>
-        <p>
-          Turn application intent into a reviewable plan with resource choices, cost assumptions,
-          security controls, trade-offs, policy evidence, and a bounded path to execution.
-        </p>
-        <div className="hero-actions">
-          <Link className="button button-primary" to="/login">
-            Start planning
-          </Link>
-          <a className="button button-secondary" href="#how-it-works">
-            See the workflow
-          </a>
+        <div className="hero-copy">
+          <p className="eyebrow">Governed infrastructure planning</p>
+          <h1>The simplest AWS architecture for your actual requirements.</h1>
+          <p>
+            Turn application intent into a reviewable plan with clear resource choices, cost
+            assumptions, security controls, and policy evidence.
+          </p>
+          <div className="hero-actions">
+            <Link className="button button-primary" to="/login">
+              Open workspace
+            </Link>
+            <a className="button button-secondary" href="#how-it-works">
+              See how it works
+            </a>
+          </div>
         </div>
-        <p className="truth-note">
-          Plans remain plans until the governed backend confirms approval and execution.
-        </p>
+        <aside className="plan-preview" aria-label="Example infrastructure plan">
+          <div className="plan-preview-header">
+            <span>Example plan</span>
+            <span className="preview-badge">Reviewable</span>
+          </div>
+          <div className="plan-preview-title">
+            <span className="preview-icon">API</span>
+            <div>
+              <strong>Customer support API</strong>
+              <small>Staging and production</small>
+            </div>
+          </div>
+          <dl>
+            <div>
+              <dt>Selected shape</dt>
+              <dd>Right-sized managed compute</dd>
+            </div>
+            <div>
+              <dt>Cost view</dt>
+              <dd>Assumptions and trade-offs visible</dd>
+            </div>
+            <div>
+              <dt>Governance</dt>
+              <dd>Policy evidence attached</dd>
+            </div>
+          </dl>
+          <div className="preview-flow" aria-label="Intent becomes evidence, then a plan">
+            <span>Intent</span>
+            <i aria-hidden="true">→</i>
+            <span>Evidence</span>
+            <i aria-hidden="true">→</i>
+            <span>Plan</span>
+          </div>
+        </aside>
       </section>
       <section id="how-it-works" className="public-steps" aria-labelledby="how-heading">
         <div>
@@ -72,7 +108,7 @@ export default function HomePage() {
       </section>
       <footer className="public-footer">
         <span>AgentConstruct</span>
-        <span>AWS-first · provider-neutral contracts</span>
+        <span>Plan clearly. Govern safely.</span>
       </footer>
     </main>
   );
