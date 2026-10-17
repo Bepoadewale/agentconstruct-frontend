@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import BrandMark from '../components/BrandMark';
 import { config, oidcConfigured } from '../config';
 
 export default function LoginPage() {
@@ -7,62 +8,89 @@ export default function LoginPage() {
   if (profile) return <Navigate to="/overview" replace />;
   return (
     <main className="auth-page">
-      <section className="auth-card" aria-labelledby="login-heading">
-        <a className="brand" href="/">
-          <span className="brand-mark">A</span>
-          <span>AgentConstruct</span>
-        </a>
-        <p className="eyebrow">Secure workspace access</p>
-        <h1 id="login-heading">Sign in to your control plane.</h1>
-        <p>
-          Identity proves who you are. The backend still resolves workspace membership and role for
-          every request.
-        </p>
-        {error ? (
-          <div className="notice notice-error" role="alert">
-            {error}
+      <div className="auth-layout">
+        <section className="auth-context" aria-labelledby="auth-context-heading">
+          <a className="brand" href="/">
+            <BrandMark />
+            <span>AgentConstruct</span>
+          </a>
+          <div>
+            <p className="eyebrow">Governed by default</p>
+            <h1 id="auth-context-heading">Plan with evidence. Act with approval.</h1>
+            <p>
+              One workspace for architecture decisions, cost assumptions, policy review, and
+              independently observed outcomes.
+            </p>
           </div>
-        ) : null}
-        {config.authMode === 'oidc' ? (
-          <button
-            className="button button-primary button-wide"
-            type="button"
-            disabled={loading || !oidcConfigured}
-            onClick={() => void signIn()}
-          >
-            {loading ? 'Redirecting…' : 'Continue with identity provider'}
-          </button>
-        ) : null}
-        {config.localLoginEnabled ? (
-          <div className="fixture-login">
-            <span>Local development fixture</span>
+          <ul className="auth-principles" aria-label="Workspace safeguards">
+            <li>Backend-verified membership</li>
+            <li>Immutable approval history</li>
+            <li>No cloud credentials in the browser</li>
+          </ul>
+        </section>
+        <section className="auth-card" aria-labelledby="login-heading">
+          <a className="brand" href="/">
+            <BrandMark />
+            <span>AgentConstruct</span>
+          </a>
+          <p className="eyebrow">Secure workspace access</p>
+          <h1 id="login-heading">Sign in to your workspace.</h1>
+          <p>
+            Your identity is verified before the backend resolves workspace membership and role.
+          </p>
+          {error ? (
+            <div className="notice notice-error" role="alert">
+              {error}
+            </div>
+          ) : null}
+          {config.authMode === 'oidc' ? (
             <button
-              className="button button-primary"
+              className="button button-primary button-wide"
               type="button"
-              disabled={loading}
-              onClick={() => void localSignIn('founder')}
+              disabled={loading || !oidcConfigured}
+              aria-describedby={!oidcConfigured ? 'sign-in-status' : undefined}
+              onClick={() => void signIn()}
             >
-              Developer
+              {loading
+                ? 'Redirecting…'
+                : oidcConfigured
+                  ? 'Continue with Google Workspace'
+                  : 'Sign-in unavailable'}
             </button>
-            <button
-              className="button button-secondary"
-              type="button"
-              disabled={loading}
-              onClick={() => void localSignIn('administrator')}
-            >
-              Administrator
-            </button>
-          </div>
-        ) : null}
-        {!oidcConfigured && !config.localLoginEnabled ? (
-          <div className="notice" role="status">
-            This static frontend is ready, but a deployed identity provider has not been configured.
-          </div>
-        ) : null}
-        <small>
-          No AWS keys, GitHub secrets, or cloud credentials are accepted by this screen.
-        </small>
-      </section>
+          ) : null}
+          {config.localLoginEnabled ? (
+            <div className="fixture-login">
+              <span>Local development fixture</span>
+              <button
+                className="button button-primary"
+                type="button"
+                disabled={loading}
+                onClick={() => void localSignIn('founder')}
+              >
+                Developer
+              </button>
+              <button
+                className="button button-secondary"
+                type="button"
+                disabled={loading}
+                onClick={() => void localSignIn('administrator')}
+              >
+                Administrator
+              </button>
+            </div>
+          ) : null}
+          {!oidcConfigured && !config.localLoginEnabled ? (
+            <div id="sign-in-status" className="notice auth-status" role="status">
+              <strong>Workspace sign-in is not configured</strong>
+              <span>
+                The public site is online. Access will open after Google Workspace sign-in is
+                connected.
+              </span>
+            </div>
+          ) : null}
+          <small>No cloud credentials are accepted on this screen.</small>
+        </section>
+      </div>
     </main>
   );
 }

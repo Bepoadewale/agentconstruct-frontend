@@ -30,7 +30,7 @@ describe('application routes', () => {
       </MemoryRouter>,
     );
     expect(
-      await screen.findByRole('heading', { name: /sign in to your control plane/i }),
+      await screen.findByRole('heading', { name: /sign in to your workspace/i }),
     ).toBeInTheDocument();
   });
 
