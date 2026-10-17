@@ -1,32 +1,32 @@
 import { Link } from 'react-router-dom';
 import BrandMark from '../components/BrandMark';
 
-const decisions = [
+const outcomes = [
   {
-    number: '01',
-    label: 'Understand',
-    title: 'Read the workload, not a template',
-    text: 'Repository evidence and operating constraints shape the recommendation from the start.',
+    tone: 'orange',
+    label: 'Architecture',
+    title: 'The smallest viable stack',
+    text: 'Every service earns its place against the workload, budget, and operating model.',
   },
   {
-    number: '02',
-    label: 'Decide',
-    title: 'Choose the minimum viable shape',
-    text: 'Cost, risk, reliability, and complexity are considered together—not in separate spreadsheets.',
+    tone: 'green',
+    label: 'Governance',
+    title: 'A decision you can defend',
+    text: 'Evidence, policy results, assumptions, and approvals stay attached to the plan.',
   },
   {
-    number: '03',
-    label: 'Govern',
-    title: 'Make every action accountable',
-    text: 'The exact plan digest, policy evidence, and human decision travel as one durable record.',
+    tone: 'blue',
+    label: 'Cost',
+    title: 'Tradeoffs made visible',
+    text: 'Review estimated spend, complexity, and rejected alternatives before execution.',
   },
 ];
 
 const workflow = [
-  ['Connect', 'Authorize a repository and a scoped, backend-controlled AWS connection.'],
-  ['Describe', 'State the outcome, budget, data, reliability, and operating constraints.'],
-  ['Review', 'Interrogate the architecture, costs, assumptions, unknowns, and alternatives.'],
-  ['Approve', 'Authorize the exact plan digest, then compare execution with observed state.'],
+  ['01', 'Connect', 'Authorize your repository and AWS environment.'],
+  ['02', 'Describe', 'Set the outcome, limits, and operating constraints.'],
+  ['03', 'Review', 'Inspect the architecture, evidence, costs, and risks.'],
+  ['04', 'Approve', 'Authorize the exact plan before any governed action.'],
 ];
 
 function ArrowIcon() {
@@ -47,48 +47,41 @@ function CheckIcon() {
 
 export default function HomePage() {
   return (
-    <main className="public-page">
-      <header className="public-header">
-        <Link className="brand" to="/" aria-label="AgentConstruct home">
+    <main className="ac3-page">
+      <header className="ac3-header">
+        <Link className="ac3-brand" to="/" aria-label="AgentConstruct home">
           <BrandMark />
           <span>AgentConstruct</span>
         </Link>
         <nav aria-label="Public navigation">
           <a href="#product">Product</a>
-          <a className="header-workflow-link" href="#how-it-works">
-            How it works
-          </a>
-          <a className="header-value-link" href="#principles">
-            Principles
-          </a>
+          <a href="#workflow">How it works</a>
+          <a href="#security">Governance</a>
         </nav>
-        <Link className="header-sign-in" to="/login">
-          Open workspace <ArrowIcon />
+        <Link className="ac3-header-action" to="/login">
+          Sign in <ArrowIcon />
         </Link>
       </header>
 
-      <section className="public-hero" aria-labelledby="hero-heading">
-        <div className="hero-aura" aria-hidden="true" />
-        <div className="hero-copy">
-          <p className="hero-kicker">
-            <span aria-hidden="true" /> AI infrastructure decisions, governed end to end
+      <section className="ac3-hero" aria-labelledby="hero-heading">
+        <div className="ac3-hero-copy">
+          <p className="ac3-kicker">
+            <span /> AI infrastructure planning for AWS
           </p>
-          <h1 id="hero-heading">
-            Build the cloud you need. <em>Not the cloud you were sold.</em>
-          </h1>
-          <p className="hero-summary">
-            AgentConstruct turns application intent into the simplest viable AWS architecture—with
-            the cost, reasoning, security, and approval trail built in.
+          <h1 id="hero-heading">Cloud decisions, built on evidence.</h1>
+          <p className="ac3-hero-summary">
+            Turn your application requirements into a cost-conscious AWS plan your team can review,
+            approve, and trust.
           </p>
-          <div className="hero-actions">
-            <Link className="button button-primary" to="/login">
+          <div className="ac3-actions">
+            <Link className="ac3-button ac3-button-primary" to="/login">
               Open workspace <ArrowIcon />
             </Link>
-            <a className="button button-secondary" href="#product">
-              Watch the decision unfold
+            <a className="ac3-button ac3-button-secondary" href="#product">
+              See the product
             </a>
           </div>
-          <ul className="hero-principles" aria-label="Product principles">
+          <ul className="ac3-proof-list" aria-label="Product principles">
             <li>
               <CheckIcon /> Repository-aware
             </li>
@@ -102,195 +95,112 @@ export default function HomePage() {
         </div>
 
         <figure
-          className="hero-visual"
-          aria-label="Illustration of complexity becoming a governed architecture"
+          className="ac3-hero-product"
+          aria-label="Illustrative AgentConstruct decision brief"
         >
-          <img
-            src="/images/architecture-convergence.webp"
-            width="1944"
-            height="817"
-            alt=""
-            fetchPriority="high"
-          />
-          <figcaption className="visual-caption">
-            <span>Signal in</span>
-            <span>Decision intelligence</span>
-            <span>Governed plan out</span>
-          </figcaption>
-          <div className="intent-card floating-card">
-            <span className="card-overline">Application intent</span>
-            <strong>Private support API</strong>
-            <p>20 req/s · Restricted data · $1,500 ceiling</p>
-            <div className="intent-tags" aria-label="Intent constraints">
-              <span>99.9%</span>
-              <span>2 environments</span>
+          <div className="ac3-product-topbar">
+            <span>
+              <i /> Decision brief
+            </span>
+            <small>Evidence linked</small>
+          </div>
+          <div className="ac3-product-canvas">
+            <img
+              src="/images/architecture-convergence.webp"
+              width="1944"
+              height="817"
+              alt=""
+              fetchPriority="high"
+            />
+            <div className="ac3-plan-card">
+              <p>Recommended approach</p>
+              <h2>Managed compute. Private data. No cluster.</h2>
+              <div className="ac3-plan-route" aria-label="Illustrative architecture">
+                <span>Managed edge</span>
+                <i />
+                <span>Autoscaled API</span>
+                <i />
+                <span>Private store</span>
+              </div>
+            </div>
+            <div className="ac3-status-card">
+              <span>
+                <CheckIcon />
+              </span>
+              <div>
+                <small>Policy result</small>
+                <strong>Ready for review</strong>
+              </div>
             </div>
           </div>
-          <div className="approval-card floating-card">
-            <span className="approval-glow" aria-hidden="true" />
-            <div>
-              <span className="card-overline">Policy result</span>
-              <strong>Ready for review</strong>
-            </div>
-            <CheckIcon />
-          </div>
-          <div className="signal-line signal-line-one" aria-hidden="true" />
-          <div className="signal-line signal-line-two" aria-hidden="true" />
         </figure>
       </section>
 
-      <section className="public-proof-strip" aria-label="AgentConstruct product boundary">
-        <p>One decision record</p>
-        <div aria-hidden="true" />
-        <p>Intent → evidence → architecture → approval → observed outcome</p>
-        <div aria-hidden="true" />
-        <p>AWS-first</p>
-      </section>
-
-      <section id="product" className="decision-story" aria-labelledby="story-heading">
-        <div className="story-heading" data-reveal>
-          <p className="eyebrow">Decision intelligence for infrastructure</p>
-          <h2 id="story-heading">
-            Complexity enters.
-            <br />
-            <span>Clarity leaves.</span>
-          </h2>
-          <p>
-            Most tools start after the architecture decision. AgentConstruct starts where the costly
-            mistakes begin: deciding what the workload actually needs.
-          </p>
+      <section className="ac3-trust" aria-label="AgentConstruct product boundaries">
+        <div>
+          <strong>AWS-first</strong>
+          <span>Built for real workloads</span>
         </div>
-
-        <div className="decision-console" data-reveal>
-          <div className="console-bar">
-            <div className="console-dots" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
-            <span>agentconstruct / decision-brief</span>
-            <span className="console-live">
-              <i aria-hidden="true" /> Evidence linked
-            </span>
-          </div>
-          <div className="console-body">
-            <aside className="console-rail" aria-label="Decision progress">
-              <span className="complete">01</span>
-              <i aria-hidden="true" />
-              <span className="active">02</span>
-              <i aria-hidden="true" />
-              <span>03</span>
-              <i aria-hidden="true" />
-              <span>04</span>
-            </aside>
-            <div className="console-main">
-              <div className="console-title">
-                <div>
-                  <span className="card-overline">Recommended architecture</span>
-                  <h3>Managed compute. Private data. No cluster.</h3>
-                </div>
-                <span className="review-pill">Reviewable</span>
-              </div>
-              <div className="architecture-flow" aria-label="Illustrative architecture flow">
-                <div>
-                  <span className="architecture-icon">01</span>
-                  <small>Traffic</small>
-                  <strong>Managed edge</strong>
-                </div>
-                <span className="flow-beam" aria-hidden="true">
-                  <i />
-                </span>
-                <div>
-                  <span className="architecture-icon">02</span>
-                  <small>Compute</small>
-                  <strong>Autoscaled API</strong>
-                </div>
-                <span className="flow-beam" aria-hidden="true">
-                  <i />
-                </span>
-                <div>
-                  <span className="architecture-icon">03</span>
-                  <small>Data</small>
-                  <strong>Private store</strong>
-                </div>
-              </div>
-              <div className="console-insights">
-                <article>
-                  <span className="card-overline">Why this shape</span>
-                  <strong>Variable traffic without cluster operations</strong>
-                  <p>Rejects orchestration overhead the workload does not justify.</p>
-                </article>
-                <article>
-                  <span className="card-overline">Decision dimensions</span>
-                  <ul>
-                    <li>
-                      <span>Cost</span>
-                      <b>Within boundary</b>
-                    </li>
-                    <li>
-                      <span>Complexity</span>
-                      <b>Low</b>
-                    </li>
-                    <li>
-                      <span>Reliability</span>
-                      <b>Target met</b>
-                    </li>
-                  </ul>
-                </article>
-              </div>
-            </div>
-          </div>
+        <div>
+          <strong>Evidence-led</strong>
+          <span>Reasoning stays reviewable</span>
+        </div>
+        <div>
+          <strong>Governed</strong>
+          <span>Humans approve exact plans</span>
+        </div>
+        <div>
+          <strong>Cost-aware</strong>
+          <span>Complexity must earn its place</span>
         </div>
       </section>
 
-      <section id="principles" className="decision-principles" aria-labelledby="principles-heading">
-        <div className="principles-intro" data-reveal>
-          <p className="eyebrow">The AgentConstruct difference</p>
-          <h2 id="principles-heading">A better answer is not always a bigger stack.</h2>
-          <p>
-            The system is designed to make restraint legible—to show what was selected, what was
-            rejected, and why the simpler path still meets the requirement.
-          </p>
+      <section id="product" className="ac3-product" aria-labelledby="product-heading">
+        <div className="ac3-section-heading">
+          <p className="ac3-eyebrow">One clear decision record</p>
+          <h2 id="product-heading">From requirements to a reviewable plan.</h2>
+          <p>Understand what to build, why it fits, and what it should cost before execution.</p>
         </div>
-        <ol>
-          {decisions.map((decision) => (
-            <li key={decision.number} data-reveal>
-              <div>
-                <span>{decision.number}</span>
-                <small>{decision.label}</small>
-              </div>
-              <h3>{decision.title}</h3>
-              <p>{decision.text}</p>
-              <i aria-hidden="true">
-                <ArrowIcon />
-              </i>
-            </li>
+        <div className="ac3-outcomes">
+          {outcomes.map((outcome) => (
+            <article key={outcome.label} className={`ac3-outcome ac3-outcome-${outcome.tone}`}>
+              <span>{outcome.label}</span>
+              <h3>{outcome.title}</h3>
+              <p>{outcome.text}</p>
+            </article>
           ))}
-        </ol>
+        </div>
+        <div id="security" className="ac3-evidence-panel">
+          <div>
+            <p className="ac3-eyebrow">Built-in restraint</p>
+            <h3>Complex infrastructure is a decision, not a default.</h3>
+          </div>
+          <ul>
+            <li>
+              <span>Selected</span>
+              <strong>Managed services matched to the workload</strong>
+            </li>
+            <li>
+              <span>Rejected</span>
+              <strong>Cluster overhead without a proven need</strong>
+            </li>
+            <li>
+              <span>Recorded</span>
+              <strong>Cost, risk, policy, and human approval</strong>
+            </li>
+          </ul>
+        </div>
       </section>
 
-      <section id="how-it-works" className="public-steps" aria-labelledby="how-heading">
-        <div className="steps-orbit" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </div>
-        <div className="steps-heading" data-reveal>
-          <div>
-            <p className="eyebrow">From intent to accountable action</p>
-            <h2 id="how-heading">The shortest path to a decision you can defend.</h2>
-          </div>
-          <p>
-            No black-box recommendation. No invisible handoff. No deployment claim before evidence.
-          </p>
+      <section id="workflow" className="ac3-workflow" aria-labelledby="workflow-heading">
+        <div className="ac3-workflow-heading">
+          <p className="ac3-eyebrow">How it works</p>
+          <h2 id="workflow-heading">Four steps from intent to accountable action.</h2>
         </div>
         <ol>
-          {workflow.map(([title, text], index) => (
-            <li key={title} data-reveal>
-              <div>
-                <span>0{index + 1}</span>
-                {index < workflow.length - 1 && <i aria-hidden="true" />}
-              </div>
+          {workflow.map(([number, title, text]) => (
+            <li key={number}>
+              <span>{number}</span>
               <h3>{title}</h3>
               <p>{text}</p>
             </li>
@@ -298,24 +208,18 @@ export default function HomePage() {
         </ol>
       </section>
 
-      <section className="public-cta" aria-labelledby="cta-heading">
-        <div className="cta-glow" aria-hidden="true" />
-        <div data-reveal>
-          <p className="eyebrow">Start with the workload</p>
-          <h2 id="cta-heading">
-            Your next cloud decision deserves more than a generated template.
-          </h2>
+      <section className="ac3-cta" aria-labelledby="cta-heading">
+        <div>
+          <p className="ac3-eyebrow">Start with the workload</p>
+          <h2 id="cta-heading">Make your next AWS decision easier to trust.</h2>
         </div>
-        <div data-reveal>
-          <Link className="button button-primary" to="/login">
-            Enter AgentConstruct <ArrowIcon />
-          </Link>
-          <p>Repository evidence in. Reviewable AWS plan out.</p>
-        </div>
+        <Link className="ac3-button ac3-button-light" to="/login">
+          Enter AgentConstruct <ArrowIcon />
+        </Link>
       </section>
 
-      <footer className="public-footer">
-        <Link className="brand footer-brand" to="/">
+      <footer className="ac3-footer">
+        <Link className="ac3-brand" to="/">
           <BrandMark />
           <span>AgentConstruct</span>
         </Link>

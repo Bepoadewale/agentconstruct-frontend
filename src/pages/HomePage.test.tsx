@@ -12,22 +12,18 @@ describe('public product overview', () => {
       </MemoryRouter>,
     );
     expect(
-      screen.getByRole('heading', {
-        name: /build the cloud you need. not the cloud you were sold/i,
-      }),
+      screen.getByRole('heading', { name: /cloud decisions, built on evidence/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('figure', {
-        name: /illustration of complexity becoming a governed architecture/i,
-      }),
+      screen.getByRole('figure', { name: /illustrative agentconstruct decision brief/i }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Application intent')).toBeInTheDocument();
-    expect(screen.getByText(/complexity enters/i)).toBeInTheDocument();
+    expect(screen.getByText('Recommended approach')).toBeInTheDocument();
+    expect(screen.getByText(/from requirements to a reviewable plan/i)).toBeInTheDocument();
     expect(screen.queryByText(/customers trust/i)).not.toBeInTheDocument();
     for (const link of screen.getAllByRole('link', { name: /open workspace/i })) {
       expect(link).toHaveAttribute('href', '/login');
     }
-    expect(screen.getByRole('link', { name: /watch the decision unfold/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /see the product/i })).toHaveAttribute(
       'href',
       '#product',
     );

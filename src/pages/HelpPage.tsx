@@ -6,7 +6,7 @@ export default function HelpPage() {
       <div className="page-heading">
         <div>
           <p className="eyebrow">Help & updates</p>
-          <h1>Know what the product can—and cannot—do.</h1>
+          <h1>Know what the product can and cannot do.</h1>
           <p>Clear boundaries for planning, approval, execution, and evidence.</p>
         </div>
       </div>

@@ -2297,7 +2297,7 @@ label > small {
   }
 }
 
-/* Public experience — cinematic, product-led, and intentionally dependency-free. */
+/* Public experience: cinematic, product-led, and intentionally dependency-free. */
 .public-page {
   --public-bg: #07101f;
   --public-panel: #0c1729;

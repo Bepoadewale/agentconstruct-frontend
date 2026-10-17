@@ -103,8 +103,8 @@ export default function HistoryPage() {
             {(['revision', 'state', 'creator_subject', 'created_at'] as const).map((field) => (
               <div key={field}>
                 <small>{field.replaceAll('_', ' ')}</small>
-                <b>{String(compared[0]?.[field] ?? '—')}</b>
-                <b>{String(compared[1]?.[field] ?? '—')}</b>
+                <b>{String(compared[0]?.[field] ?? 'Not available')}</b>
+                <b>{String(compared[1]?.[field] ?? 'Not available')}</b>
               </div>
             ))}
           </div>

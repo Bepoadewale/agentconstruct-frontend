@@ -106,8 +106,8 @@ export default function PlanPage() {
             <div className="truth-banner">
               <strong>
                 {review.state === 'APPROVED'
-                  ? 'Approved—not deployed.'
-                  : 'This is a review record—not a deployment.'}
+                  ? 'Approved, not deployed.'
+                  : 'This is a review record, not a deployment.'}
               </strong>
               <span>
                 Infrastructure exists only when the backend reports independently observed
