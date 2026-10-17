@@ -3,6 +3,11 @@
 Private static React client for [AgentConstruct](https://github.com/Bepoadewale/AgentConstruct),
 the governed AWS infrastructure planning control plane.
 
+The verified static deployment is available at
+[agentconstruct-frontend.pages.dev](https://agentconstruct-frontend.pages.dev). Authenticated
+product workflows remain intentionally unavailable until the AWS API and OIDC settings are
+configured.
+
 This repository owns presentation, browser-safe input validation, route state, API consumption,
 and accessibility. The backend owns identity verification, memberships, tenant isolation, planning,
 pricing, policy, approvals, audit integrity, integrations, secrets, execution, and observed state.
