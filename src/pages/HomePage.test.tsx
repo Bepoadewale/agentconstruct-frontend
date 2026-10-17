@@ -13,21 +13,23 @@ describe('public product overview', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: /from application intent to an AWS architecture you can defend/i,
+        name: /build the cloud you need. not the cloud you were sold/i,
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('complementary', { name: /illustrative infrastructure decision/i }),
+      screen.getByRole('figure', {
+        name: /illustration of complexity becoming a governed architecture/i,
+      }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Illustrative decision brief')).toBeInTheDocument();
-    expect(screen.getByText(/infrastructure tools build/i)).toBeInTheDocument();
+    expect(screen.getByText('Application intent')).toBeInTheDocument();
+    expect(screen.getByText(/complexity enters/i)).toBeInTheDocument();
     expect(screen.queryByText(/customers trust/i)).not.toBeInTheDocument();
-    for (const link of screen.getAllByRole('link', { name: /workspace sign in/i })) {
+    for (const link of screen.getAllByRole('link', { name: /open workspace/i })) {
       expect(link).toHaveAttribute('href', '/login');
     }
-    expect(screen.getByRole('link', { name: /see the decision flow/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /watch the decision unfold/i })).toHaveAttribute(
       'href',
-      '#how-it-works',
+      '#product',
     );
   });
 
