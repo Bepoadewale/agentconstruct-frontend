@@ -1,114 +1,252 @@
 import { Link } from 'react-router-dom';
 import BrandMark from '../components/BrandMark';
 
+const outcomes = [
+  {
+    number: '01',
+    title: 'A right-sized architecture',
+    text: 'A clear recommendation shaped by the workload—not by a default service stack.',
+  },
+  {
+    number: '02',
+    title: 'The reasoning behind it',
+    text: 'Evidence, assumptions, unknowns, and rejected alternatives stay visible.',
+  },
+  {
+    number: '03',
+    title: 'A decision ready for review',
+    text: 'Cost, security, policy, and approval context travel with the plan.',
+  },
+];
+
+const workflow = [
+  {
+    number: '01',
+    title: 'Connect the evidence',
+    text: 'Authorize a repository and, when needed, a scoped backend-controlled AWS connection.',
+  },
+  {
+    number: '02',
+    title: 'Describe the outcome',
+    text: 'State the workload, budget, data, reliability, region, and operating constraints.',
+  },
+  {
+    number: '03',
+    title: 'Review the decision',
+    text: 'Inspect the selected resources, costs, trade-offs, unknowns, and policy evidence.',
+  },
+  {
+    number: '04',
+    title: 'Approve, then observe',
+    text: 'Govern enabled execution and compare the approved plan with independently observed state.',
+  },
+];
+
 export default function HomePage() {
   return (
     <main className="public-page">
       <header className="public-header">
-        <Link className="brand" to="/">
+        <Link className="brand" to="/" aria-label="AgentConstruct home">
           <BrandMark />
           <span>AgentConstruct</span>
         </Link>
         <nav aria-label="Public navigation">
+          <a className="header-value-link" href="#why-agentconstruct">
+            Why AgentConstruct
+          </a>
           <a className="header-workflow-link" href="#how-it-works">
             How it works
           </a>
           <Link className="header-sign-in" to="/login">
-            Sign in
+            Sign in <span aria-hidden="true">↗</span>
           </Link>
         </nav>
       </header>
-      <section className="public-hero">
+
+      <section className="public-hero" aria-labelledby="hero-heading">
         <div className="hero-copy">
-          <p className="eyebrow">Governed infrastructure planning</p>
-          <h1>The simplest AWS architecture for your actual requirements.</h1>
-          <p>
-            Turn application intent into a reviewable plan with clear resource choices, cost
-            assumptions, security controls, and policy evidence.
+          <p className="eyebrow">AWS infrastructure decision system</p>
+          <h1 id="hero-heading">
+            From application intent to an AWS architecture <em>you can defend.</em>
+          </h1>
+          <p className="hero-summary">
+            AgentConstruct recommends the simplest viable architecture, explains the cost and risk,
+            and puts every consequential action behind evidence, policy, and human approval.
           </p>
           <div className="hero-actions">
-            <Link className="button button-primary" to="/login">
-              Open workspace
-            </Link>
-            <a className="button button-secondary" href="#how-it-works">
-              See how it works
+            <a className="button button-primary" href="#how-it-works">
+              See the decision flow <span aria-hidden="true">↓</span>
             </a>
+            <Link className="button button-secondary" to="/login">
+              Workspace sign in
+            </Link>
           </div>
+          <ul className="hero-principles" aria-label="Product principles">
+            <li>AWS-first</li>
+            <li>Minimum necessary</li>
+            <li>Human approved</li>
+          </ul>
         </div>
-        <aside className="plan-preview" aria-label="Example infrastructure plan">
-          <div className="plan-preview-header">
-            <span>Example plan</span>
-            <span className="preview-badge">Reviewable</span>
+
+        <aside className="decision-preview" aria-label="Illustrative infrastructure decision">
+          <div className="decision-topline">
+            <span>Illustrative decision brief</span>
+            <span className="decision-state">
+              <i aria-hidden="true" /> Ready to review
+            </span>
           </div>
-          <div className="plan-preview-title">
-            <span className="preview-icon">API</span>
+          <div className="decision-heading">
             <div>
-              <strong>Customer support API</strong>
-              <small>Staging and production</small>
+              <small>Workload</small>
+              <strong>Customer support AI API</strong>
+            </div>
+            <span>Staging + production</span>
+          </div>
+
+          <div
+            className="decision-path"
+            aria-label="Repository evidence informs managed compute and private data"
+          >
+            <div>
+              <span className="node-symbol" aria-hidden="true">
+                ⌘
+              </span>
+              <small>Evidence</small>
+              <strong>Repository</strong>
+            </div>
+            <i aria-hidden="true">→</i>
+            <div className="decision-path-selected">
+              <span className="node-symbol" aria-hidden="true">
+                ◇
+              </span>
+              <small>Compute</small>
+              <strong>Managed</strong>
+            </div>
+            <i aria-hidden="true">→</i>
+            <div>
+              <span className="node-symbol" aria-hidden="true">
+                ▱
+              </span>
+              <small>Data</small>
+              <strong>Private</strong>
             </div>
           </div>
-          <dl>
+
+          <dl className="decision-details">
             <div>
-              <dt>Selected shape</dt>
-              <dd>Right-sized managed compute</dd>
+              <dt>Why this shape</dt>
+              <dd>Variable API traffic without cluster operations</dd>
             </div>
             <div>
-              <dt>Cost view</dt>
-              <dd>Assumptions and trade-offs visible</dd>
+              <dt>Cost boundary</dt>
+              <dd>Assumptions visible before approval</dd>
             </div>
             <div>
               <dt>Governance</dt>
-              <dd>Policy evidence attached</dd>
+              <dd>Policy result and plan digest attached</dd>
             </div>
           </dl>
-          <div className="preview-flow" aria-label="Intent becomes evidence, then a plan">
-            <span>Intent</span>
-            <i aria-hidden="true">→</i>
-            <span>Evidence</span>
-            <i aria-hidden="true">→</i>
-            <span>Plan</span>
+          <div className="decision-footer">
+            <span>Recommendation</span>
+            <strong>Use the least complex viable shape</strong>
           </div>
         </aside>
       </section>
-      <section id="how-it-works" className="public-steps" aria-labelledby="how-heading">
-        <div>
-          <p className="eyebrow">How it works</p>
-          <h2 id="how-heading">Evidence before infrastructure.</h2>
+
+      <section className="principle-strip" aria-label="AgentConstruct capabilities">
+        <p>
+          <span>01</span> Code-aware planning
+        </p>
+        <p>
+          <span>02</span> Cost and complexity together
+        </p>
+        <p>
+          <span>03</span> Policy-backed review
+        </p>
+        <p>
+          <span>04</span> Independently observed outcomes
+        </p>
+      </section>
+
+      <section id="why-agentconstruct" className="public-thesis" aria-labelledby="thesis-heading">
+        <div className="section-intro">
+          <p className="eyebrow">The missing layer</p>
+          <h2 id="thesis-heading">
+            Infrastructure tools build. AgentConstruct helps decide what is worth building.
+          </h2>
         </div>
-        <ol>
-          <li>
-            <span>01</span>
-            <h3>Connect</h3>
-            <p>Authorize a repository and a scoped, backend-controlled AWS connection.</p>
-          </li>
-          <li>
-            <span>02</span>
-            <h3>Plan</h3>
-            <p>
-              Describe the outcome; review the selected resources, costs, unknowns, and
-              alternatives.
-            </p>
-          </li>
-          <li>
-            <span>03</span>
-            <h3>Govern</h3>
-            <p>
-              Submit the immutable digest for policy-backed approval with a durable audit trail.
-            </p>
-          </li>
-          <li>
-            <span>04</span>
-            <h3>Observe</h3>
-            <p>
-              Track execution only where enabled and compare the plan with independently observed
-              state.
-            </p>
-          </li>
+        <div className="thesis-copy">
+          <p>
+            Cloud decisions are often buried in tickets, chat threads, and generated code. The
+            reasoning disappears while the operational burden remains.
+          </p>
+          <p>
+            AgentConstruct starts one step earlier: what does this workload actually need, which
+            architecture satisfies it with the least complexity, and what evidence supports that
+            decision?
+          </p>
+        </div>
+      </section>
+
+      <section className="outcome-section" aria-labelledby="outcome-heading">
+        <div className="outcome-lead">
+          <p className="eyebrow">One durable decision record</p>
+          <h2 id="outcome-heading">More than generated infrastructure.</h2>
+          <p>
+            Every recommendation is designed to remain understandable before approval and
+            accountable after execution.
+          </p>
+        </div>
+        <ol className="outcome-grid">
+          {outcomes.map((outcome) => (
+            <li key={outcome.number}>
+              <span>{outcome.number}</span>
+              <h3>{outcome.title}</h3>
+              <p>{outcome.text}</p>
+            </li>
+          ))}
         </ol>
       </section>
+
+      <section id="how-it-works" className="public-steps" aria-labelledby="how-heading">
+        <div className="steps-heading">
+          <div>
+            <p className="eyebrow">How it works</p>
+            <h2 id="how-heading">Evidence before infrastructure.</h2>
+          </div>
+          <p>One governed path from a workload requirement to an observable outcome.</p>
+        </div>
+        <ol>
+          {workflow.map((step) => (
+            <li key={step.number}>
+              <span>{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="public-cta" aria-labelledby="cta-heading">
+        <div>
+          <p className="eyebrow">A better cloud decision starts here</p>
+          <h2 id="cta-heading">Bring the workload. Leave with a decision your team can defend.</h2>
+        </div>
+        <div>
+          <Link className="button button-primary" to="/login">
+            Enter the workspace <span aria-hidden="true">→</span>
+          </Link>
+          <p>Repository evidence in. Reviewable AWS plan out.</p>
+        </div>
+      </section>
+
       <footer className="public-footer">
-        <span>AgentConstruct</span>
-        <span>Plan clearly. Govern safely.</span>
+        <Link className="brand footer-brand" to="/">
+          <BrandMark />
+          <span>AgentConstruct</span>
+        </Link>
+        <p>Plan the simplest viable cloud. Prove why.</p>
+        <Link to="/login">Workspace sign in</Link>
       </footer>
     </main>
   );
