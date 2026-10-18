@@ -20,6 +20,7 @@
     "check:static": "node scripts/check-static-build.mjs",
     "check:spa": "node scripts/check-spa-refresh.mjs",
     "check:contract": "node scripts/check-api-contract.mjs",
+    "check:pr-evidence": "node scripts/check-pr-evidence.mjs",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run check:contract && npm run build && npm run check:static && npm run check:spa && npm audit --audit-level=moderate"
   },
   "dependencies": {
