@@ -36,15 +36,15 @@ The UI, package metadata, browser storage keys, API headers, documentation, and 
 
 ## Acceptance status
 
-- In progress.
+- Met for the repository change. External GitHub and Cloudflare project renames are performed after merge.
 
 ## Tests / validation performed
 
-- Pending implementation.
+- A clean `npm ci` followed by one complete `npm run verify` cycle passed on 2026-10-18.
 
 ## Evidence files produced
 
-- `docs/test/test16.md` will record frontend validation.
+- `docs/test/test16.md`
 
 ## Boundaries
 
