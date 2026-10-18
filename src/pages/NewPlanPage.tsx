@@ -175,11 +175,12 @@ export default function NewPlanPage() {
           <h1>Start with the outcome.</h1>
           <p>
             AgentConstruct turns intent and explicit constraints into a reviewable cloud
-            architecture. It does not deploy during this step.
+            architecture. This step does not deploy. An approved plan can proceed to governed
+            deployment in the connected customer cloud.
           </p>
         </div>
         <span className="mode-pill">
-          <i /> Plan first
+          <i /> Plan before change
         </span>
       </div>
       <AsyncRegion

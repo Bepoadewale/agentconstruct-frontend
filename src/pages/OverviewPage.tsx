@@ -34,15 +34,15 @@ export default function OverviewPage() {
   const roleCopy = administrator
     ? {
         eyebrow: 'Administrator workspace',
-        title: 'Review what needs a decision.',
+        title: 'Govern the next cloud change.',
         description:
-          'Inspect evidence, resolve submitted plans, and keep every decision accountable.',
+          'Inspect evidence, approve exact plans, and track authorized deployment and outcomes.',
       }
     : {
         eyebrow: 'Developer workspace',
-        title: 'Move your next cloud decision forward.',
+        title: 'Move your cloud workload forward.',
         description:
-          'Turn a clear outcome into a costed, reviewable plan with the evidence attached.',
+          'Plan the simplest viable infrastructure, secure approval, deploy it, and track what runs.',
       };
 
   return (
@@ -133,7 +133,7 @@ export default function OverviewPage() {
                     message={
                       administrator
                         ? 'Submitted plans will appear here when an authorized decision is needed.'
-                        : 'Describe the outcome you need and create your first governed cloud plan.'
+                        : 'Describe the outcome you need and create your first governed deployment plan.'
                     }
                     action={
                       administrator ? undefined : { label: 'Create a plan', to: '/plans/new' }
@@ -146,7 +146,7 @@ export default function OverviewPage() {
                 <div className="section-heading">
                   <div>
                     <p className="eyebrow">Workspace readiness</p>
-                    <h2>Inputs for better decisions</h2>
+                    <h2>Inputs for safe execution</h2>
                   </div>
                 </div>
                 <div className="readiness-list">
@@ -201,8 +201,8 @@ export default function OverviewPage() {
                   </Link>
                 </div>
                 <p className="readiness-note">
-                  Connections provide context only. Privileged actions still require backend policy
-                  and approval.
+                  Connections provide context and a bounded execution path. Privileged changes still
+                  require backend policy and approval.
                 </p>
               </aside>
             </div>
@@ -212,7 +212,7 @@ export default function OverviewPage() {
                 <div className="section-heading">
                   <div>
                     <p className="eyebrow">Recent projects</p>
-                    <h2>Work in progress</h2>
+                    <h2>Cloud work in progress</h2>
                   </div>
                   <Link to="/history">History</Link>
                 </div>
@@ -231,7 +231,7 @@ export default function OverviewPage() {
                 ) : (
                   <EmptyState
                     title="No projects yet"
-                    message="Start with an outcome and repository to create your first governed plan."
+                    message="Start with an outcome and repository to create your first governed deployment plan."
                     action={{ label: 'Create a plan', to: '/plans/new' }}
                   />
                 )}
@@ -268,27 +268,27 @@ export default function OverviewPage() {
               <section className="onboarding panel workspace-onboarding">
                 <div>
                   <p className="eyebrow">Getting started</p>
-                  <h2>From repository to reviewable architecture</h2>
+                  <h2>From repository to governed deployment</h2>
                   <p>
-                    Connect only what is needed, state the constraints, then inspect the evidence
-                    before approval.
+                    Connect only what is needed, approve the exact change, then deploy and observe
+                    it through the governed backend.
                   </p>
                 </div>
                 <ol>
                   <li>
                     <span>1</span>
-                    <b>Connect code</b>
-                    <small>Choose an authorized repository</small>
+                    <b>Connect code and cloud</b>
+                    <small>Choose authorized source and target context</small>
                   </li>
                   <li>
                     <span>2</span>
-                    <b>Set constraints</b>
-                    <small>Budget, region, data, availability</small>
+                    <b>Plan and approve</b>
+                    <small>Review cost, security, unknowns, and trade-offs</small>
                   </li>
                   <li>
                     <span>3</span>
-                    <b>Review evidence</b>
-                    <small>Cost, security, unknowns, trade-offs</small>
+                    <b>Deploy and observe</b>
+                    <small>Track the authorized change and verified outcome</small>
                   </li>
                 </ol>
               </section>

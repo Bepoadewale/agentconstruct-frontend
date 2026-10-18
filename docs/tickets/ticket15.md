@@ -29,6 +29,7 @@ local fixtures and unexecuted changes, which must remain intact.
 - Present planning, approval, deployment, observation, and teardown as one governed lifecycle.
 - Preserve precise state labels so approval is never presented as deployment.
 - Keep unsupported live execution controls disabled or absent.
+- Prevent the expanded sign-in narrative from overflowing narrow screens.
 - Update copy-focused regression tests and documentation where needed.
 
 ## Acceptance criteria
@@ -37,17 +38,25 @@ local fixtures and unexecuted changes, which must remain intact.
 - The workflow continues through governed deployment and observed operation.
 - Developer and administrator dashboard copy reflects lifecycle ownership beyond planning.
 - Sign-in and help copy match the same product promise.
+- Sign-in remains contained and legible at a 390px mobile viewport.
 - Plan detail states remain truthful about actual backend-observed execution.
 - No unsupported cloud provider or deployment capability is presented as currently executed.
 - One clean frontend verification cycle passes.
 
 ## Acceptance status
 
-Pending implementation and validation.
+Complete. Public and authenticated product copy now presents planning, approval, customer-cloud
+deployment, and observed operation as one governed lifecycle without changing runtime claims.
 
 ## Tests / validation performed
 
-Pending implementation.
+- `npm ci && npm run verify`
+- 7 test files and 22 tests passed.
+- OpenAPI contract validation covered 35 frontend operations.
+- Static build inspection found 27 files, no Cloudflare Functions, no Worker runtime, no top-level
+  `404.html`, and no secret patterns.
+- Nested SPA refresh validation passed.
+- `npm audit --audit-level=moderate` found zero vulnerabilities.
 
 ## Evidence files produced
 

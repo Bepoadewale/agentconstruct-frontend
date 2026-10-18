@@ -33,15 +33,15 @@ export default function HelpPage() {
           <span className="feature-icon">03</span>
           <h2>Execution</h2>
           <p>
-            Approval does not mean deployment. Only backend-observed runs can claim infrastructure
-            changed.
+            After exact approval and readiness checks, the backend runs the bounded change in the
+            customer cloud. Only independently observed runs are shown as deployed.
           </p>
           <Link to="/activity">Inspect activity</Link>
         </article>
       </div>
       <section className="panel changelog">
         <p className="eyebrow">Current release</p>
-        <h2>Frontend separation</h2>
+        <h2>Governed cloud lifecycle</h2>
         <ul>
           <li>Static React application prepared for Cloudflare Pages Free.</li>
           <li>The versioned cloud backend remains the authority for protected operations.</li>
