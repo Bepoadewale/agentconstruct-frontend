@@ -174,9 +174,9 @@ export default function NewPlanPage() {
           <p className="eyebrow">New infrastructure plan</p>
           <h1>Start with the outcome.</h1>
           <p>
-            AgentConstruct turns intent and explicit constraints into a reviewable cloud
-            architecture. This step does not deploy. An approved plan can proceed to governed
-            deployment in the connected customer cloud.
+            davdeploy turns intent and explicit constraints into a reviewable cloud architecture.
+            This step does not deploy. An approved plan can proceed to governed deployment in the
+            connected customer cloud.
           </p>
         </div>
         <span className="mode-pill">
@@ -253,7 +253,7 @@ export default function NewPlanPage() {
               <div className="section-heading">
                 <div>
                   <p className="eyebrow">02 · Customer intent</p>
-                  <h2>What should AgentConstruct build?</h2>
+                  <h2>What should davdeploy build?</h2>
                 </div>
               </div>
               <label>

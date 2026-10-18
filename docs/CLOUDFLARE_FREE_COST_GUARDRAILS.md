@@ -1,6 +1,6 @@
 # Cloudflare Pages Free cost guardrails
 
-AgentConstruct uses Cloudflare only as a static asset host. The build requires no Functions,
+davdeploy uses Cloudflare only as a static asset host. The build requires no Functions,
 Workers, Workers AI, KV, D1, R2, Durable Objects, paid analytics, paid security feature, or paid
 network product.
 

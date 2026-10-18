@@ -52,7 +52,7 @@ export default function PlanPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `agentconstruct-plan-${review.id}.json`;
+    link.download = `davdeploy-plan-${review.id}.json`;
     link.click();
     URL.revokeObjectURL(url);
   }

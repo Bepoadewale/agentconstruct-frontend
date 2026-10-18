@@ -5,10 +5,10 @@
 The Git-integrated Cloudflare Pages project was created and its first production deployment
 completed successfully on October 17, 2026.
 
-- Project: `agentconstruct-frontend`
-- Repository: private `Bepoadewale/agentconstruct-frontend`
+- Project: `davdeploy-frontend`
+- Repository: private `Bepoadewale/davdeploy-frontend`
 - Production branch: `main`
-- Production URL: <https://agentconstruct-frontend.pages.dev>
+- Production URL: <https://davdeploy-frontend.pages.dev>
 - Build command: `npm run build`
 - Output directory: `dist`
 - Runtime: static assets only; no Pages Functions or Workers
@@ -28,8 +28,8 @@ workflows cannot operate without them.
 1. Sign in to Cloudflare and open **Workers & Pages**.
 2. Choose **Create application** → **Pages** → **Connect to Git**.
 3. Authorize the Cloudflare GitHub App for **only** the private
-   `Bepoadewale/agentconstruct-frontend` repository.
-4. Select `agentconstruct-frontend` and production branch `main`.
+   `Bepoadewale/davdeploy-frontend` repository.
+4. Select `davdeploy-frontend` and production branch `main`.
 5. Use framework preset **Vite** (or no preset with the same explicit values).
 6. Set build command to `npm run build`.
 7. Set build output directory to `dist`.

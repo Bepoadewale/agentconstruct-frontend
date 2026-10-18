@@ -1,11 +1,11 @@
-# AgentConstruct frontend
+# davdeploy frontend
 
-Private static React client for [AgentConstruct](https://github.com/Bepoadewale/AgentConstruct),
+Public static React client for [davdeploy](https://github.com/Bepoadewale/davdeploy),
 the governed control plane for planning, approving, deploying, and observing customer-cloud
 infrastructure.
 
 The verified static deployment is available at
-[agentconstruct-frontend.pages.dev](https://agentconstruct-frontend.pages.dev). Authenticated
+[davdeploy-frontend.pages.dev](https://davdeploy-frontend.pages.dev). Authenticated
 product workflows remain intentionally unavailable until the cloud API and OIDC settings are
 configured.
 
@@ -15,7 +15,7 @@ pricing, policy, approvals, audit integrity, integrations, secrets, execution, a
 
 ## Local development
 
-Requirements: Node.js 22+, npm 10+, and an AgentConstruct API on `http://127.0.0.1:8080`.
+Requirements: Node.js 22+, npm 10+, and a davdeploy API on `http://127.0.0.1:8080`.
 
 ```bash
 cp .env.example .env.local

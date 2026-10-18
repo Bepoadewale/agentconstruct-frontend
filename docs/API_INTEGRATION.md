@@ -2,7 +2,7 @@
 
 ## Base contract
 
-Set `VITE_API_BASE_URL` to the HTTPS origin of the deployed AgentConstruct API, with no trailing
+Set `VITE_API_BASE_URL` to the HTTPS origin of the deployed davdeploy API, with no trailing
 slash. Production intentionally has no localhost default. `src/api/client.ts` owns URL joining,
 bearer headers, JSON handling, timeouts, cancellation, safe retries, error normalization, and
 request/correlation ID capture.

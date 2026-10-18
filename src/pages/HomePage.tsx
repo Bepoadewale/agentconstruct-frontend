@@ -49,9 +49,9 @@ export default function HomePage() {
   return (
     <main className="ac3-page">
       <header className="ac3-header">
-        <Link className="ac3-brand" to="/" aria-label="AgentConstruct home">
+        <Link className="ac3-brand" to="/" aria-label="davdeploy home">
           <BrandMark />
-          <span>AgentConstruct</span>
+          <span>davdeploy</span>
         </Link>
         <nav aria-label="Public navigation">
           <a href="#product">Product</a>
@@ -94,10 +94,7 @@ export default function HomePage() {
           </ul>
         </div>
 
-        <figure
-          className="ac3-hero-product"
-          aria-label="Illustrative AgentConstruct decision brief"
-        >
+        <figure className="ac3-hero-product" aria-label="Illustrative davdeploy decision brief">
           <div className="ac3-product-topbar">
             <span>
               <i /> Decision brief
@@ -136,7 +133,7 @@ export default function HomePage() {
         </figure>
       </section>
 
-      <section className="ac3-trust" aria-label="AgentConstruct product boundaries">
+      <section className="ac3-trust" aria-label="davdeploy product boundaries">
         <div>
           <strong>Customer-cloud</strong>
           <span>Infrastructure stays in your account</span>
@@ -217,14 +214,14 @@ export default function HomePage() {
           <h2 id="cta-heading">Build and operate the right cloud infrastructure.</h2>
         </div>
         <Link className="ac3-button ac3-button-light" to="/login">
-          Enter AgentConstruct <ArrowIcon />
+          Enter davdeploy <ArrowIcon />
         </Link>
       </section>
 
       <footer className="ac3-footer">
         <Link className="ac3-brand" to="/">
           <BrandMark />
-          <span>AgentConstruct</span>
+          <span>davdeploy</span>
         </Link>
         <p>Plan simply. Deploy with proof.</p>
         <Link to="/login">Workspace sign in</Link>

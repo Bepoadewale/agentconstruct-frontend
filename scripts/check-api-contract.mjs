@@ -50,7 +50,7 @@ if (missing.length) {
       .join('\n')}`,
   );
 }
-if (document.info?.title !== 'AgentConstruct') throw new Error('Unexpected API title.');
+if (document.info?.title !== 'davdeploy') throw new Error('Unexpected API title.');
 if (!document.info?.version) throw new Error('API version is missing.');
 console.log(
   `Validated ${required.length} frontend operations against ${document.info.title} ${document.info.version}.`,
