@@ -16,8 +16,8 @@ The deterministic suite covers:
 - bundle file count/size, absence of Functions/Workers/server code/404, and credential patterns;
 - direct refresh of a nested `/plans/...` route against the built static application.
 
-Mocked tests prove browser behavior, not live Google/Cognito authentication, GitHub delivery, AWS
-role assumption, cloud deployment, or infrastructure correctness. Those require the separate
+Mocked tests prove browser behavior, not live Google/Cognito authentication, GitHub delivery, cloud
+role assumption, provider deployment, or infrastructure correctness. Those require the separate
 backend integration environment and are reported explicitly as live-environment validation.
 
 Each runnable PR records two clean `node_modules`/`dist` removal, `npm ci`, and `npm run verify`

@@ -15,8 +15,8 @@ export default function HelpPage() {
           <span className="feature-icon">01</span>
           <h2>Planning</h2>
           <p>
-            Connect authorized evidence, describe the outcome, and inspect the minimum-necessary AWS
-            recommendation.
+            Connect authorized evidence, describe the outcome, and inspect the minimum-necessary
+            cloud recommendation.
           </p>
           <Link to="/plans/new">Create a plan</Link>
         </article>
@@ -44,7 +44,7 @@ export default function HelpPage() {
         <h2>Frontend separation</h2>
         <ul>
           <li>Static React application prepared for Cloudflare Pages Free.</li>
-          <li>Versioned AWS backend remains the authority for all protected operations.</li>
+          <li>The versioned cloud backend remains the authority for protected operations.</li>
           <li>OIDC/PKCE seam supports future Google Workspace and Cognito configuration.</li>
           <li>Cloudflare compute, storage, and paid add-ons are not required.</li>
         </ul>

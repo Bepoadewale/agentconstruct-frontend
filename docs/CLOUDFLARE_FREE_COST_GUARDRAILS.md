@@ -18,7 +18,7 @@ file/asset violations, common credential patterns, or Node server runtime marker
 hashed assets are cacheable; `index.html` is not.
 
 The zero-dollar expectation applies only to eligible static Cloudflare Pages hosting within the
-Free-plan limits. It does not cover AWS resources, model/API tokens, Google Workspace, GitHub usage
+Free-plan limits. It does not cover cloud resources, model/API tokens, Google Workspace, GitHub usage
 beyond its allocation, Stripe fees, observability services, email delivery, support tooling, custom
 domain registration, taxes, or future Cloudflare products. Do not activate a paid Cloudflare feature
 without a separately reviewed commercial decision.

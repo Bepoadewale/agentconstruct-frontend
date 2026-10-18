@@ -24,7 +24,7 @@ describe('hosted workspace sign-in', () => {
 
     expect(screen.getByRole('heading', { name: /sign in to your workspace/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign-in unavailable' })).toBeDisabled();
-    expect(screen.getByText('Workspace sign-in is not configured')).toBeInTheDocument();
+    expect(screen.getByText('Workspace access is not configured')).toBeInTheDocument();
     expect(screen.getByText(/Google Workspace sign-in is connected/i)).toBeInTheDocument();
   });
 

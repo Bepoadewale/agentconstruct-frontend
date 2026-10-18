@@ -13,14 +13,15 @@ and execution.
   Workers, KV, D1, R2, Durable Objects, Workers AI, or another paid Cloudflare dependency.
 - The browser may present and validate input, but it never authorizes tenant access, roles,
   approvals, pricing, infrastructure choices, secret access, or execution.
-- Never place OAuth client secrets, AWS credentials, GitHub App credentials, model keys,
+- Never place OAuth client secrets, cloud provider credentials, GitHub App credentials, model keys,
   private tokens, customer data, or long-lived secrets in source, public environment values,
   logs, localStorage, or a bundle.
 - Call only the documented versioned backend API through `src/api/client.ts`.
 - Do not add authoritative infrastructure selection or cost calculations to the client.
 - Label simulated, local, planned, approved, and observed states truthfully. Approval is not
   deployment.
-- Keep AWS as the only operational cloud shown until the backend supports another provider.
+- Present only provider capabilities returned by the backend as operational. Keep general product
+  positioning provider-neutral.
 - Retain Prometheus and Grafana as the intended product monitoring experience.
 
 ## Product and design rules

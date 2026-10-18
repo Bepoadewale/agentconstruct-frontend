@@ -1,11 +1,11 @@
 # AgentConstruct frontend
 
 Private static React client for [AgentConstruct](https://github.com/Bepoadewale/AgentConstruct),
-the governed AWS infrastructure planning control plane.
+the governed cloud infrastructure planning control plane.
 
 The verified static deployment is available at
 [agentconstruct-frontend.pages.dev](https://agentconstruct-frontend.pages.dev). Authenticated
-product workflows remain intentionally unavailable until the AWS API and OIDC settings are
+product workflows remain intentionally unavailable until the cloud API and OIDC settings are
 configured.
 
 This repository owns presentation, browser-safe input validation, route state, API consumption,

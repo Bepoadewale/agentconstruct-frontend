@@ -58,7 +58,7 @@ export default function OverviewPage() {
                 <small>In this workspace</small>
               </article>
               <article>
-                <span>AWS connections</span>
+                <span>Cloud connections</span>
                 <strong>{state.data.dashboard.cloud_connections.length}</strong>
                 <small>Scoped metadata links</small>
               </article>

@@ -38,7 +38,7 @@ const initialForm: FormState = {
   availability: '99.9%',
   workload: 'AI API',
   prompt:
-    'Deploy this AI API in AWS. Keep customer data private. Support 20 requests per second and peak at 100 requests per second. Create staging and production. Enable monitoring and Slack alerts.',
+    'Deploy this AI API in the cloud. Keep customer data private. Support 20 requests per second and peak at 100 requests per second. Create staging and production. Enable monitoring and Slack alerts.',
 };
 
 function slug(): string {
@@ -174,8 +174,8 @@ export default function NewPlanPage() {
           <p className="eyebrow">New infrastructure plan</p>
           <h1>Start with the outcome.</h1>
           <p>
-            AgentConstruct turns intent and explicit constraints into a reviewable AWS architecture.
-            It does not deploy during this step.
+            AgentConstruct turns intent and explicit constraints into a reviewable cloud
+            architecture. It does not deploy during this step.
           </p>
         </div>
         <span className="mode-pill">
@@ -230,12 +230,12 @@ export default function NewPlanPage() {
                   </select>
                 </label>
                 <label className="span-two">
-                  AWS target
+                  Cloud target
                   <select
                     value={form.cloudConnectionId}
                     onChange={(event) => update('cloudConnectionId', event.target.value)}
                   >
-                    <option value="">Local planning only · no AWS account</option>
+                    <option value="">Local planning only · no cloud account</option>
                     {state.data.cloud.map((item) => (
                       <option value={item.id} key={item.id}>
                         {item.display_name} · {item.setup_state}
@@ -339,7 +339,7 @@ export default function NewPlanPage() {
               <button className="button button-primary" type="submit" disabled={busy}>
                 {busy ? 'Building review…' : 'Analyze and create plan'}
               </button>
-              <span>Creates a draft review record. No AWS resources are created.</span>
+              <span>Creates a draft review record. No cloud resources are created.</span>
             </div>
           </form>
         ) : null}

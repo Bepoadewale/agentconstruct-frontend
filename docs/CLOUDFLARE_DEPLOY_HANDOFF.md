@@ -14,12 +14,12 @@ completed successfully on October 17, 2026.
 - Runtime: static assets only; no Pages Functions or Workers
 - Automatic production and preview deployments: enabled
 
-The public shell is live. The API and OIDC variables below remain unset until their AWS-backed
+The public shell is live. The API and OIDC variables below remain unset until their cloud-backed
 values exist, so authenticated workflows fail closed rather than using placeholder services.
 
 ## Before starting
 
-Obtain the deployed AWS API HTTPS origin and complete the backend's exact-origin CORS and identity
+Obtain the deployed cloud API HTTPS origin and complete the backend's exact-origin CORS and identity
 callback configuration. The static site can build without these values, but authenticated live
 workflows cannot operate without them.
 
@@ -41,7 +41,7 @@ workflows cannot operate without them.
    - `VITE_OIDC_CLIENT_ID=<public-client-id>`
    - `VITE_OIDC_REDIRECT_URI=https://<assigned-pages-host>/auth/callback`
    - `VITE_OIDC_POST_LOGOUT_REDIRECT_URI=https://<assigned-pages-host>/`
-10. Do not add secrets, AWS credentials, GitHub secrets, a Cloudflare API token, Functions, or a
+10. Do not add secrets, cloud credentials, GitHub secrets, a Cloudflare API token, Functions, or a
     Worker binding.
 11. Deploy and wait for the dashboard to report a successful build. Use the hostname Cloudflare
     actually allocates; do not guess it in advance.
@@ -54,7 +54,7 @@ configuration is available.
 
 1. Open the assigned HTTPS `*.pages.dev` URL and confirm the public overview renders.
 2. Open `/login` and complete the configured identity flow.
-3. Confirm `/overview` loads the signed-in workspace from the AWS API.
+3. Confirm `/overview` loads the signed-in workspace from the cloud API.
 4. Refresh `/history` directly and confirm the SPA remains loaded.
 5. Confirm an unauthorized role cannot approve a plan and a backend 403 is shown safely.
 6. Open browser developer tools: confirm API calls use the configured HTTPS API, no secret appears

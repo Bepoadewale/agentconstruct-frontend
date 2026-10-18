@@ -3,7 +3,7 @@
 ## Scope
 
 Record the actual Cloudflare Pages Free project, production hostname, verified static-hosting
-properties, and the remaining AWS API/OIDC configuration boundary.
+properties, and the remaining cloud API/OIDC configuration boundary.
 
 ## Acceptance criteria
 
@@ -16,7 +16,7 @@ properties, and the remaining AWS API/OIDC configuration boundary.
 
 ## Boundaries
 
-This change documents external state only. It does not deploy AWS resources, invent identity
+This change documents external state only. It does not deploy cloud resources, invent identity
 configuration, or move backend responsibilities into Cloudflare.
 
 ## Validation
@@ -26,7 +26,7 @@ configuration, or move backend responsibilities into Cloudflare.
 - `/`, `/login`, `/overview`, `/plans/new`, `/history`, `/activity`, `/connections`, `/settings`,
   and `/help`: HTTP 200.
 - Root and nested-route HTML hashes match, confirming SPA fallback.
-- Deployed bundles contain no matched Cloudflare token, private-key, AWS secret-key, GitHub token,
+- Deployed bundles contain no matched Cloudflare token, private key, cloud secret key, GitHub token,
   or localhost endpoint patterns.
 - Largest deployed asset: 221,714 bytes, below the 25 MiB Pages limit.
 

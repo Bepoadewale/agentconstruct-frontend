@@ -345,7 +345,7 @@ function ApprovedActions({
     <div className="approved-actions">
       <div className="notice">
         <strong>Bounded local actions</strong>
-        <span>These create evidence or fixture runs. They do not imply an AWS deployment.</span>
+        <span>These create evidence or fixture runs. They do not imply a cloud deployment.</span>
       </div>
       <button
         className="button button-secondary"
@@ -406,7 +406,7 @@ function ApprovedActions({
                   require_reviewed_pr: false,
                   runtime_identity_configured: false,
                 },
-                'Readiness preflight recorded. No AWS call occurred.',
+                'Readiness preflight recorded. No provider call occurred.',
               )
             }
           >
@@ -448,7 +448,7 @@ function ApprovedActions({
                   mode: 'GUARDED_CLOUD_EXECUTION',
                   confirmation: null,
                 },
-                'Guarded run request recorded. The backend did not execute AWS changes.',
+                'Guarded run request recorded. The backend did not execute cloud changes.',
               )
             }
           >
