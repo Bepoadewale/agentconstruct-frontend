@@ -49,7 +49,11 @@ for (const pattern of secretPatterns) {
     throw new Error(`Potential credential pattern found in static output: ${pattern}`);
 }
 
-if (/node:fs|node:http|express|fastify|__dirname/.test(bundle)) {
+if (
+  /node:fs|node:http|__dirname|require\(["'](?:express|fastify)["']\)|from["'](?:express|fastify)["']/.test(
+    bundle,
+  )
+) {
   throw new Error('A server-side Node.js runtime marker was found in the browser output.');
 }
 

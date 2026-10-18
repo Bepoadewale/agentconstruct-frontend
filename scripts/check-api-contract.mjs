@@ -7,6 +7,7 @@ const document = JSON.parse(
 const required = [
   ['post', '/api/v1/auth/local-login'],
   ['get', '/api/v1/me'],
+  ['post', '/api/v1/onboarding'],
   ['get', '/api/v1/dashboard'],
   ['get', '/api/v1/workspace/members'],
   ['post', '/api/v1/workspace/invitations'],

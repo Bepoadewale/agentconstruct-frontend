@@ -10,7 +10,7 @@ authenticated HTTPS `/api/v1` requests.
 Browser on pages.dev or app.<future-domain>
   -> static HTML/CSS/route-split JavaScript from Cloudflare Pages Free
   -> bearer-authenticated HTTPS requests
-Cloud-hosted AgentConstruct API
+AWS API Gateway and Lambda AgentConstruct API
   -> trusted identity verification and server membership
   -> tenant/RBAC/policy/planning/cost/approval/audit
   -> governed source-control and cloud integrations
@@ -24,7 +24,8 @@ button guards improve usability only; the API repeats every security-relevant de
 ## Application structure
 
 - `src/api`: typed browser contract and the only HTTP client.
-- `src/auth`: memory-only bearer session and OIDC authorization-code/PKCE adapter.
+- `src/auth`: memory-only Cognito ID-token session, Google authorization-code/PKCE adapter, and
+  lazy-loaded email OTP adapter.
 - `src/layout`: authenticated shell and navigation.
 - `src/pages`: lazy route bundles for public, planning, review, connections, activity, and settings.
 - `src/components`: accessible shared presentation primitives.
@@ -43,7 +44,7 @@ or Cloudflare AI dependency. Without production configuration the public shell s
 sign-in clearly reports that integration setup is required.
 
 Public browser configuration uses `VITE_*` values. These are never secret. The API base URL and
-OIDC issuer/client/redirect values differ by environment; the future custom domain requires only
+OIDC issuer/client/redirect and Cognito region values differ by environment; the future custom domain requires only
 configuration and allowlist changes, not an architecture change.
 
 ## Provider evolution

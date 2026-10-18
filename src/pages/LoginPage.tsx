@@ -1,7 +1,9 @@
+import { useState, type FormEvent } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import type { EmailOtpChallenge } from '../auth/cognitoEmail';
 import BrandMark from '../components/BrandMark';
-import { config, oidcConfigured } from '../config';
+import { config, emailOtpConfigured, oidcConfigured } from '../config';
 
 function CheckIcon() {
   return (
@@ -12,8 +14,33 @@ function CheckIcon() {
 }
 
 export default function LoginPage() {
-  const { profile, loading, error, signIn, localSignIn } = useAuth();
+  const {
+    profile,
+    loading,
+    error,
+    signInWithGoogle,
+    startEmailSignIn,
+    verifyEmailCode,
+    localSignIn,
+  } = useAuth();
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [challenge, setChallenge] = useState<EmailOtpChallenge | null>(null);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
   if (profile) return <Navigate to="/overview" replace />;
+
+  async function submitEmail(event: FormEvent) {
+    event.preventDefault();
+    setEmailStatus(null);
+    const result = challenge
+      ? await verifyEmailCode(challenge, code)
+      : await startEmailSignIn(email);
+    if (result?.status === 'CHALLENGE') {
+      setChallenge(result.challenge);
+      setCode('');
+      setEmailStatus(result.message);
+    }
+  }
 
   return (
     <main className="auth-page auth-page-v2">
@@ -73,19 +100,89 @@ export default function LoginPage() {
           ) : null}
 
           {config.authMode === 'oidc' ? (
-            <button
-              className="button button-primary button-wide auth-button-v2"
-              type="button"
-              disabled={loading || !oidcConfigured}
-              aria-describedby={!oidcConfigured ? 'sign-in-status' : undefined}
-              onClick={() => void signIn()}
-            >
-              {loading
-                ? 'Redirecting…'
-                : oidcConfigured
-                  ? 'Continue with Google Workspace'
-                  : 'Sign-in unavailable'}
-            </button>
+            <div className="hosted-auth-options">
+              <button
+                className="button button-secondary button-wide auth-button-v2 google-button"
+                type="button"
+                disabled={loading || !oidcConfigured}
+                aria-describedby={!oidcConfigured ? 'sign-in-status' : undefined}
+                onClick={() => void signInWithGoogle()}
+              >
+                <span className="google-mark" aria-hidden="true">
+                  G
+                </span>
+                {loading ? 'Connecting…' : 'Continue with Google'}
+              </button>
+
+              <div className="auth-divider" aria-hidden="true">
+                <span>or</span>
+              </div>
+
+              <form className="email-auth-form" onSubmit={(event) => void submitEmail(event)}>
+                {challenge ? (
+                  <>
+                    <label htmlFor="email-code">Email verification code</label>
+                    <input
+                      id="email-code"
+                      name="code"
+                      autoComplete="one-time-code"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      minLength={6}
+                      maxLength={8}
+                      required
+                      value={code}
+                      onChange={(event) => setCode(event.target.value)}
+                    />
+                    <small>Code sent to {challenge.email}</small>
+                  </>
+                ) : (
+                  <>
+                    <label htmlFor="email">Work email</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="you@company.com"
+                    />
+                  </>
+                )}
+                <button
+                  className="button button-primary button-wide auth-button-v2"
+                  type="submit"
+                  disabled={loading || !emailOtpConfigured}
+                >
+                  {loading
+                    ? 'Checking…'
+                    : challenge
+                      ? 'Verify and continue'
+                      : 'Continue with email'}
+                </button>
+                {challenge ? (
+                  <button
+                    className="auth-text-button"
+                    type="button"
+                    disabled={loading}
+                    onClick={() => {
+                      setChallenge(null);
+                      setCode('');
+                      setEmailStatus(null);
+                    }}
+                  >
+                    Use a different email
+                  </button>
+                ) : null}
+              </form>
+              {emailStatus ? (
+                <p className="auth-email-status" role="status">
+                  {emailStatus}
+                </p>
+              ) : null}
+            </div>
           ) : null}
 
           {config.localLoginEnabled ? (
@@ -110,7 +207,7 @@ export default function LoginPage() {
             </div>
           ) : null}
 
-          {!oidcConfigured && !config.localLoginEnabled ? (
+          {!oidcConfigured && !emailOtpConfigured && !config.localLoginEnabled ? (
             <div id="sign-in-status" className="notice auth-status auth-status-v2" role="status">
               <span className="auth-status-mark-v2" aria-hidden="true">
                 i
@@ -118,8 +215,7 @@ export default function LoginPage() {
               <span>
                 <strong>Workspace access is not configured</strong>
                 <small>
-                  The public site is online. Access will open after Google Workspace sign-in is
-                  connected.
+                  The public site is online. Access will open after Cognito is connected.
                 </small>
               </span>
             </div>

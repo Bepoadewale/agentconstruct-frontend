@@ -37,11 +37,23 @@ and execution.
 
 ## Development workflow
 
-- Do not push directly to `main`. Every change, including documentation, uses a focused branch
-  and a GitHub pull request.
-- Open a draft PR before substantive implementation. Each PR must have
-  `docs/tickets/ticket<PR_NUMBER>.md` with scope, criteria, validation, boundaries, and outcome.
-- Before review, run `npm ci`, `npm run format:check`, `npm run lint`, `npm run typecheck`,
-  `npm test`, `npm run build`, and `npm run check:static`.
-- Runnable changes require two clean validation cycles recorded in the PR ticket. Merge only
-  after required checks pass and review feedback is resolved; delete merged branches.
+- Do not push directly to `main`; use a focused branch and reviewable PR.
+- Every repository change, including documentation, configuration, tests, and cleanup, must be
+  made on a focused branch and merged through a GitHub pull request. `main` changes only through
+  a reviewed PR whose required checks pass.
+- Open a draft PR before substantive implementation whenever GitHub permits it. If an initial
+  commit is required, use the smallest possible bootstrap commit, open the draft PR, then add the
+  PR-numbered ticket before further substantive work.
+- Every PR must include `docs/tickets/ticket<PR_NUMBER>.md` with the goal, current state,
+  references, planned work, acceptance criteria and status, validation, evidence, boundaries,
+  and follow-up work. CI must reject a PR without its matching ticket.
+- Every runnable PR must include `docs/test/test<PR_NUMBER>.md` with the exact clean test cycle,
+  result, execution boundary, and known limitations. Documentation-only PRs must state why no
+  runtime evidence file is required in their ticket.
+- Before review, start from a clean dependency install and run one complete `npm run verify`
+  cycle. Record it in both the ticket and runtime evidence file.
+- Treat a direct commit or push to `main` as a process incident. Stop, disclose it in the PR
+  record, and do not rewrite shared history unless the repository owner explicitly directs it.
+- Merge only after the ticket and evidence are current, required checks pass, review feedback is
+  resolved, and the merge is clean. Delete the merged branch unless a documented reason requires
+  retaining it.
