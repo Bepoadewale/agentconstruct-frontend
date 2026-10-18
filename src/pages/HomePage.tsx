@@ -12,21 +12,21 @@ const outcomes = [
     tone: 'green',
     label: 'Governance',
     title: 'A decision you can defend',
-    text: 'Evidence, policy results, assumptions, and approvals stay attached to the plan.',
+    text: 'Evidence, policy results, approvals, and observed outcomes stay attached to the change.',
   },
   {
     tone: 'blue',
     label: 'Cost',
     title: 'Tradeoffs made visible',
-    text: 'Review estimated spend, complexity, and rejected alternatives before execution.',
+    text: 'Review estimated spend, complexity, and rejected alternatives before anything changes.',
   },
 ];
 
 const workflow = [
   ['01', 'Connect', 'Authorize your repository and cloud environment.'],
-  ['02', 'Describe', 'Set the outcome, limits, and operating constraints.'],
-  ['03', 'Review', 'Inspect the architecture, evidence, costs, and risks.'],
-  ['04', 'Approve', 'Authorize the exact plan before any governed action.'],
+  ['02', 'Plan', 'Set the outcome and compare the simplest viable architectures.'],
+  ['03', 'Approve', 'Review the evidence, costs, risks, and exact proposed change.'],
+  ['04', 'Deploy and operate', 'Run the approved change in your cloud and observe the result.'],
 ];
 
 function ArrowIcon() {
@@ -66,12 +66,12 @@ export default function HomePage() {
       <section className="ac3-hero" aria-labelledby="hero-heading">
         <div className="ac3-hero-copy">
           <p className="ac3-kicker">
-            <span /> AI infrastructure planning for cloud workloads
+            <span /> Governed infrastructure for your cloud
           </p>
           <h1 id="hero-heading">Cloud decisions, built on evidence.</h1>
           <p className="ac3-hero-summary">
-            Turn your application requirements into a cost-conscious cloud plan your team can
-            review, approve, and trust.
+            Plan, approve, deploy, and operate the simplest viable infrastructure in your cloud,
+            with every decision and change tied to evidence.
           </p>
           <div className="ac3-actions">
             <Link className="ac3-button ac3-button-primary" to="/login">
@@ -138,8 +138,8 @@ export default function HomePage() {
 
       <section className="ac3-trust" aria-label="AgentConstruct product boundaries">
         <div>
-          <strong>Cloud-ready</strong>
-          <span>Built for real workloads</span>
+          <strong>Customer-cloud</strong>
+          <span>Infrastructure stays in your account</span>
         </div>
         <div>
           <strong>Evidence-led</strong>
@@ -158,8 +158,11 @@ export default function HomePage() {
       <section id="product" className="ac3-product" aria-labelledby="product-heading">
         <div className="ac3-section-heading">
           <p className="ac3-eyebrow">One clear decision record</p>
-          <h2 id="product-heading">From requirements to a reviewable plan.</h2>
-          <p>Understand what to build, why it fits, and what it should cost before execution.</p>
+          <h2 id="product-heading">From requirements to running infrastructure.</h2>
+          <p>
+            Understand what to build, approve the exact change, deploy it in your cloud, and keep
+            the observed result tied to the decision.
+          </p>
         </div>
         <div className="ac3-outcomes">
           {outcomes.map((outcome) => (
@@ -186,7 +189,7 @@ export default function HomePage() {
             </li>
             <li>
               <span>Recorded</span>
-              <strong>Cost, risk, policy, and human approval</strong>
+              <strong>Cost, risk, policy, approval, and observed outcome</strong>
             </li>
           </ul>
         </div>
@@ -195,7 +198,7 @@ export default function HomePage() {
       <section id="workflow" className="ac3-workflow" aria-labelledby="workflow-heading">
         <div className="ac3-workflow-heading">
           <p className="ac3-eyebrow">How it works</p>
-          <h2 id="workflow-heading">Four steps from intent to accountable action.</h2>
+          <h2 id="workflow-heading">Four steps from intent to governed operation.</h2>
         </div>
         <ol>
           {workflow.map(([number, title, text]) => (
@@ -211,7 +214,7 @@ export default function HomePage() {
       <section className="ac3-cta" aria-labelledby="cta-heading">
         <div>
           <p className="ac3-eyebrow">Start with the workload</p>
-          <h2 id="cta-heading">Make your next cloud decision easier to trust.</h2>
+          <h2 id="cta-heading">Build and operate the right cloud infrastructure.</h2>
         </div>
         <Link className="ac3-button ac3-button-light" to="/login">
           Enter AgentConstruct <ArrowIcon />
@@ -223,7 +226,7 @@ export default function HomePage() {
           <BrandMark />
           <span>AgentConstruct</span>
         </Link>
-        <p>Plan the simplest viable cloud. Prove why.</p>
+        <p>Plan simply. Deploy with proof.</p>
         <Link to="/login">Workspace sign in</Link>
       </footer>
     </main>

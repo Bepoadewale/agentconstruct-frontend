@@ -55,9 +55,12 @@ export default function LoginPage() {
       <div className="auth-layout auth-layout-v2">
         <section className="auth-context auth-context-v2" aria-labelledby="auth-context-heading">
           <div>
-            <p className="auth-eyebrow-v2">Governed cloud decisions</p>
-            <h1 id="auth-context-heading">Plan with evidence. Move with confidence.</h1>
-            <p>Bring architecture, cost, policy, and approval into one accountable workspace.</p>
+            <p className="auth-eyebrow-v2">Governed customer-cloud infrastructure</p>
+            <h1 id="auth-context-heading">Plan with evidence. Deploy with control.</h1>
+            <p>
+              Bring architecture, cost, policy, approval, deployment, and observed state into one
+              accountable workspace.
+            </p>
           </div>
 
           <div className="auth-decision-v2" aria-label="Workspace decision record">
@@ -68,11 +71,11 @@ export default function LoginPage() {
             <div className="auth-decision-flow-v2">
               <span>Intent</span>
               <i />
-              <span>Evidence</span>
+              <span>Approval</span>
               <i />
-              <span>Plan</span>
+              <span>Customer cloud</span>
             </div>
-            <p>Every recommendation keeps its assumptions, tradeoffs, and approval history.</p>
+            <p>Every change keeps its assumptions, tradeoffs, approval, and observed outcome.</p>
           </div>
 
           <ul className="auth-principles auth-principles-v2" aria-label="Workspace safeguards">

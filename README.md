@@ -1,7 +1,8 @@
 # AgentConstruct frontend
 
 Private static React client for [AgentConstruct](https://github.com/Bepoadewale/AgentConstruct),
-the governed cloud infrastructure planning control plane.
+the governed control plane for planning, approving, deploying, and observing customer-cloud
+infrastructure.
 
 The verified static deployment is available at
 [agentconstruct-frontend.pages.dev](https://agentconstruct-frontend.pages.dev). Authenticated

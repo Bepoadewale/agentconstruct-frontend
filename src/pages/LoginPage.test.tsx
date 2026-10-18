@@ -25,6 +25,10 @@ describe('hosted workspace sign-in', () => {
     );
 
     expect(screen.getByRole('heading', { name: /sign in to your workspace/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /plan with evidence. deploy with control/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/deployment, and observed state/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Continue with Google' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Continue with email' })).toBeDisabled();
     expect(screen.getByText('Workspace access is not configured')).toBeInTheDocument();
