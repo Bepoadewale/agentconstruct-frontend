@@ -132,8 +132,8 @@ export default function ConnectionsPage() {
                 </div>
               </div>
               <p className="muted">
-                AgentConstruct never asks the browser for provider access keys. Setup creates scoped
-                role metadata through provider review.
+                davdeploy never asks the browser for provider access keys. Setup creates scoped role
+                metadata through provider review.
               </p>
               <div className="inline-form">
                 <label>

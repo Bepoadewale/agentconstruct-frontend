@@ -1,6 +1,6 @@
 # Frontend extraction migration audit
 
-Date: 2026-10-16. Source: private `Bepoadewale/AgentConstruct` at
+Date: 2026-10-16. Source: private `Bepoadewale/davdeploy` at
 `7dc5c3324a4a8b3dc4a347a3d1cc06fa9d2a2dc9`.
 
 ## Existing architecture
@@ -22,13 +22,13 @@ services enforce organization, role, exact digest, policy, approval, and executi
 | Frontend-only          | `apps/web/index.html`, `app.js`, `styles.css`                                                        | Rebuild in React/TypeScript, test independently, then remove from backend            |
 | Frontend-only rules    | `docs/product/UI_DESIGN_SYSTEM.md`, browser portions of `docs/identity-browser-boundary.md`, ADR-009 | Move/adapt into frontend `AGENTS.md` and docs; supersede ADR-009 in backend          |
 | Frontend tests         | `scripts/frontend-*-contract.sh`, browser portion of `scripts/browser-contract.sh`                   | Replace with component, accessibility, API-mock, and static-output tests             |
-| Backend-only           | `apps/api`, `services`, `integrations`, database models/migrations, workers, CLI/MCP                 | Retain in `AgentConstruct`                                                           |
+| Backend-only           | `apps/api`, `services`, `integrations`, database models/migrations, workers, CLI/MCP                 | Retain in `davdeploy`                                                                |
 | Backend-authoritative  | tenant/RBAC, policy, approvals, planning, cost, execution, secrets, audit                            | Retain and test in backend; never duplicate as client authority                      |
 | Backend infrastructure | Docker, Compose backend services, Terraform/Kubernetes/GitOps, provider adapters, observability      | Retain; remove only web-copy packaging after migration validation                    |
 | Shared contract        | FastAPI `/api/v1` routes and Pydantic request/response shapes                                        | Publish a versioned OpenAPI snapshot; commit frontend types/client; add drift checks |
 | Cross-cutting          | CI, README, environment examples, security docs                                                      | Split into repository-specific workflows and documentation                           |
 | Frontend assets        | No runtime image/icon imports in the old UI                                                          | Do not copy backend architecture diagrams or provider documentation assets           |
-| Obsolete after cutover | FastAPI static mount, `AGENTCONSTRUCT_WEB_ROOT`, old UI cache rules                                  | Remove only in the second-stage backend PR                                           |
+| Obsolete after cutover | FastAPI static mount, `DAVDEPLOY_WEB_ROOT`, old UI cache rules                                       | Remove only in the second-stage backend PR                                           |
 | Unclear/empty          | `packages/*`, `services/*` placeholder directories                                                   | Leave in backend; they contain no frontend runtime dependency                        |
 
 ## Implemented browser flows found

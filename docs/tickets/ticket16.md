@@ -1,14 +1,15 @@
 # ticket16
+
 PR: #16
 Branch: feat/davdeploy-rebrand
 
 ## Problem / goal
 
-Rename the static frontend and its repository-facing configuration from AgentConstruct to davdeploy, while preserving Cloudflare Pages Free compatibility and the secure backend boundary.
+Rename the static frontend and its repository-facing configuration from davdeploy to davdeploy, while preserving Cloudflare Pages Free compatibility and the secure backend boundary.
 
 ## Current repo state
 
-The UI, package metadata, browser storage keys, API headers, documentation, and Cloudflare handoff material use the former AgentConstruct name. The repository is on a focused branch with draft PR #16.
+The UI, package metadata, browser storage keys, API headers, documentation, and Cloudflare handoff material use the former davdeploy name. The repository is on a focused branch with draft PR #16.
 
 ## Research / references used
 

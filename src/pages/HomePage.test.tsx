@@ -15,7 +15,7 @@ describe('public product overview', () => {
       screen.getByRole('heading', { name: /cloud decisions, built on evidence/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('figure', { name: /illustrative agentconstruct decision brief/i }),
+      screen.getByRole('figure', { name: /illustrative davdeploy decision brief/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('Recommended approach')).toBeInTheDocument();
     expect(screen.getByText(/from requirements to running infrastructure/i)).toBeInTheDocument();

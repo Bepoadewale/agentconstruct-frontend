@@ -61,8 +61,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const pendingInvitation = useCallback(() => {
     const fromUrl = new URLSearchParams(window.location.search).get('invite');
-    if (fromUrl) window.sessionStorage.setItem('agentconstruct.invitation', fromUrl);
-    return fromUrl ?? window.sessionStorage.getItem('agentconstruct.invitation');
+    if (fromUrl) window.sessionStorage.setItem('davdeploy.invitation', fromUrl);
+    return fromUrl ?? window.sessionStorage.getItem('davdeploy.invitation');
   }, []);
 
   const adoptToken = useCallback(
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
             retrySafe: false,
           });
           setProfile(nextProfile);
-          window.sessionStorage.removeItem('agentconstruct.invitation');
+          window.sessionStorage.removeItem('davdeploy.invitation');
           return;
         }
         tokenRef.current = null;

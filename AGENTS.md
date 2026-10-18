@@ -1,9 +1,9 @@
-# AgentConstruct frontend guide
+# davdeploy frontend guide
 
 ## Scope
 
-This repository owns the static React browser client for AgentConstruct. The private
-`Bepoadewale/AgentConstruct` repository owns the API, identity verification, tenant
+This repository owns the static React browser client for davdeploy. The private
+`Bepoadewale/davdeploy` repository owns the API, identity verification, tenant
 authorization, planning, pricing, policy, approvals, audit integrity, cloud integrations,
 and execution.
 
