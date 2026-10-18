@@ -1,4 +1,4 @@
-# Ticket 9 — Investor-grade public landing page
+# Ticket 9: Investor-grade public landing page
 
 ## Scope
 

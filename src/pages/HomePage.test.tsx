@@ -19,6 +19,8 @@ describe('public product overview', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Recommended approach')).toBeInTheDocument();
     expect(screen.getByText(/from requirements to a reviewable plan/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI infrastructure planning for cloud workloads/i)).toBeInTheDocument();
+    expect(screen.queryByText(/AWS/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/customers trust/i)).not.toBeInTheDocument();
     for (const link of screen.getAllByRole('link', { name: /open workspace/i })) {
       expect(link).toHaveAttribute('href', '/login');

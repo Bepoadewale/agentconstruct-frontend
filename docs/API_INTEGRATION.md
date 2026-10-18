@@ -19,7 +19,7 @@ The client uses existing backend routes:
 - workspace: dashboard, members, invitations, usage, subscription, API credentials, support, and
   data lifecycle under `/api/v1`;
 - GitHub: connection, installations, repositories, and branches;
-- AWS: cloud connections, Quick Create, verification metadata, and disconnect;
+- cloud providers: connection onboarding, verification metadata, and disconnect;
 - planning: projects, repository discovery, intents, deployment plans, and customer reviews;
 - governance: submit, exact-digest decisions, revisions, comments, desired-state publications,
   readiness preflights, Terraform plan-only evidence, guarded run requests, and local dry-runs;
@@ -44,7 +44,7 @@ retains it for support diagnostics without logging tokens or request bodies.
 
 ## Backend requirements
 
-The AWS API must allow only the exact production and preview origins chosen by the operator, permit
+The cloud API must allow only the exact production and preview origins chosen by the operator, permit
 `Authorization` and `Content-Type`, answer OPTIONS, and expose request ID/version headers as needed.
 Do not configure wildcard credentialed CORS. Preview origins should not receive production tenant
 data unless explicitly allowlisted and protected by the same identity policy.

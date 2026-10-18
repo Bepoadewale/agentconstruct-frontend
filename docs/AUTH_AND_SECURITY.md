@@ -31,7 +31,7 @@ cannot turn this development control into an authorization bypass.
 - `_headers` denies framing, objects, sensitive device APIs, mixed content, and third-party scripts.
 - The bundle contains public configuration only; secrets and provider credentials remain backend
   secret-manager values.
-- AWS and GitHub connection screens exchange metadata and reviewed URLs, never provider credentials.
+- Cloud and GitHub connection screens exchange metadata and reviewed URLs, never provider credentials.
 - Mutations are not automatically retried. Destructive lifecycle requests require confirmation and
   remain backend-controlled workflows.
 - Bearer authentication avoids cookie-based CSRF. If a future deployment moves to cookies, it must

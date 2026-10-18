@@ -1,4 +1,4 @@
-# Ticket 10 — Immersive public product experience
+# Ticket 10: Immersive public product experience
 
 ## Scope
 
@@ -25,7 +25,7 @@ original imagery, layered product UI, and purposeful motion.
 
 ## Validation
 
-- Cycle 1: `npm run verify` passed — 18 tests, contract validation, production build, static-hosting
+- Cycle 1: `npm run verify` passed: 18 tests, contract validation, production build, static-hosting
   checks, SPA refresh check, and dependency audit with zero vulnerabilities.
 - Cycle 2: `npm run verify` passed with the same clean result.
 - Responsive browser screenshots reviewed at 1440×1100, 768×1024, and compact 500×1000

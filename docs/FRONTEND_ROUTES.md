@@ -10,7 +10,7 @@
 | `/plans/:revisionId` | Authenticated, server scoped | Immutable plan, evidence, decisions, and bounded follow-up actions |
 | `/history`           | Authenticated                | Search, state filter, project grouping, and metadata comparison    |
 | `/activity`          | Authenticated                | Date-grouped audit evidence with inspectable details               |
-| `/connections`       | Authenticated                | GitHub read-only discovery and AWS role onboarding metadata        |
+| `/connections`       | Authenticated                | GitHub discovery and cloud role onboarding metadata                |
 | `/settings`          | Authenticated                | Membership, usage, entitlements, API credentials, privacy, support |
 | `/help`              | Authenticated                | Product boundaries and current capabilities                        |
 

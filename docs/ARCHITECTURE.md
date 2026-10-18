@@ -2,7 +2,7 @@
 
 ## Ownership
 
-`agentconstruct-frontend` is a static React/TypeScript application. `AgentConstruct` is the AWS
+`agentconstruct-frontend` is a static React/TypeScript application. `AgentConstruct` is the cloud
 backend and authoritative control plane. They release independently and communicate through
 authenticated HTTPS `/api/v1` requests.
 
@@ -10,10 +10,10 @@ authenticated HTTPS `/api/v1` requests.
 Browser on pages.dev or app.<future-domain>
   -> static HTML/CSS/route-split JavaScript from Cloudflare Pages Free
   -> bearer-authenticated HTTPS requests
-AWS-hosted AgentConstruct API
+Cloud-hosted AgentConstruct API
   -> trusted identity verification and server membership
   -> tenant/RBAC/policy/planning/cost/approval/audit
-  -> governed GitHub and AWS integrations
+  -> governed source-control and cloud integrations
   -> isolated jobs, execution, observation, and persistence
 ```
 
@@ -48,7 +48,7 @@ configuration and allowlist changes, not an architecture change.
 
 ## Provider evolution
 
-The UI renders backend plan records rather than embedding AWS selection logic. AWS is the only
-operational provider presented today. Future provider support can add server capabilities and typed
-contract fields without moving authority into this client. REST, CLI, and MCP remain peer clients of
-the same backend.
+The UI renders backend plan records rather than embedding provider selection logic. Operational
+providers and capabilities come from the backend. New provider adapters can add server capabilities
+and typed contract fields without moving authority into this client. REST, CLI, and MCP remain peer
+clients of the same backend.

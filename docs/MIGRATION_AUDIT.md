@@ -24,10 +24,10 @@ services enforce organization, role, exact digest, policy, approval, and executi
 | Frontend tests         | `scripts/frontend-*-contract.sh`, browser portion of `scripts/browser-contract.sh`                   | Replace with component, accessibility, API-mock, and static-output tests             |
 | Backend-only           | `apps/api`, `services`, `integrations`, database models/migrations, workers, CLI/MCP                 | Retain in `AgentConstruct`                                                           |
 | Backend-authoritative  | tenant/RBAC, policy, approvals, planning, cost, execution, secrets, audit                            | Retain and test in backend; never duplicate as client authority                      |
-| Backend infrastructure | Docker, Compose backend services, AWS/Terraform/Kubernetes/GitOps, observability                     | Retain; remove only web-copy packaging after migration validation                    |
+| Backend infrastructure | Docker, Compose backend services, Terraform/Kubernetes/GitOps, provider adapters, observability      | Retain; remove only web-copy packaging after migration validation                    |
 | Shared contract        | FastAPI `/api/v1` routes and Pydantic request/response shapes                                        | Publish a versioned OpenAPI snapshot; commit frontend types/client; add drift checks |
 | Cross-cutting          | CI, README, environment examples, security docs                                                      | Split into repository-specific workflows and documentation                           |
-| Frontend assets        | No runtime image/icon imports in the old UI                                                          | Do not copy backend architecture diagrams or AWS documentation assets                |
+| Frontend assets        | No runtime image/icon imports in the old UI                                                          | Do not copy backend architecture diagrams or provider documentation assets           |
 | Obsolete after cutover | FastAPI static mount, `AGENTCONSTRUCT_WEB_ROOT`, old UI cache rules                                  | Remove only in the second-stage backend PR                                           |
 | Unclear/empty          | `packages/*`, `services/*` placeholder directories                                                   | Leave in backend; they contain no frontend runtime dependency                        |
 
@@ -37,7 +37,7 @@ services enforce organization, role, exact digest, policy, approval, and executi
 - Workspace dashboard, administrator review queue, recent projects/activity, history filtering,
   revision comparison, immutable plan detail, and audit evidence.
 - GitHub App installation/repository/branch discovery and project repository disconnect.
-- AWS connection metadata, Quick Create handoff, verification-job polling, inventory status, and
+- Cloud connection metadata, reviewed setup handoff, verification-job polling, inventory status, and
   disconnect. No credentials are handled by the browser.
 - Project creation, repository discovery, natural-language intent, interpreted workload,
   architecture generation, customer review creation, submission, approval, rejection, revision,

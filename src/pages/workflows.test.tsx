@@ -27,7 +27,7 @@ const review = {
   content: {
     summary: { selected_profile: 'App Runner', why: 'Lowest-complexity viable profile' },
     resource_breakdown: [
-      { name: 'Application', service: 'AWS App Runner', purpose: 'Managed compute' },
+      { name: 'Application', service: 'Managed application runtime', purpose: 'Managed compute' },
     ],
     security: ['Private customer data'],
     cost_estimate: { monthly_low: 20, monthly_high: 50, assumptions: ['Fixture estimate'] },

@@ -23,7 +23,7 @@ const outcomes = [
 ];
 
 const workflow = [
-  ['01', 'Connect', 'Authorize your repository and AWS environment.'],
+  ['01', 'Connect', 'Authorize your repository and cloud environment.'],
   ['02', 'Describe', 'Set the outcome, limits, and operating constraints.'],
   ['03', 'Review', 'Inspect the architecture, evidence, costs, and risks.'],
   ['04', 'Approve', 'Authorize the exact plan before any governed action.'],
@@ -66,12 +66,12 @@ export default function HomePage() {
       <section className="ac3-hero" aria-labelledby="hero-heading">
         <div className="ac3-hero-copy">
           <p className="ac3-kicker">
-            <span /> AI infrastructure planning for AWS
+            <span /> AI infrastructure planning for cloud workloads
           </p>
           <h1 id="hero-heading">Cloud decisions, built on evidence.</h1>
           <p className="ac3-hero-summary">
-            Turn your application requirements into a cost-conscious AWS plan your team can review,
-            approve, and trust.
+            Turn your application requirements into a cost-conscious cloud plan your team can
+            review, approve, and trust.
           </p>
           <div className="ac3-actions">
             <Link className="ac3-button ac3-button-primary" to="/login">
@@ -138,7 +138,7 @@ export default function HomePage() {
 
       <section className="ac3-trust" aria-label="AgentConstruct product boundaries">
         <div>
-          <strong>AWS-first</strong>
+          <strong>Cloud-ready</strong>
           <span>Built for real workloads</span>
         </div>
         <div>
@@ -211,7 +211,7 @@ export default function HomePage() {
       <section className="ac3-cta" aria-labelledby="cta-heading">
         <div>
           <p className="ac3-eyebrow">Start with the workload</p>
-          <h2 id="cta-heading">Make your next AWS decision easier to trust.</h2>
+          <h2 id="cta-heading">Make your next cloud decision easier to trust.</h2>
         </div>
         <Link className="ac3-button ac3-button-light" to="/login">
           Enter AgentConstruct <ArrowIcon />

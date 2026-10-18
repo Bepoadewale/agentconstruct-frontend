@@ -19,14 +19,14 @@ export default function ConnectionsPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function beginAwsConnection() {
+  async function beginCloudConnection() {
     setBusy(true);
     setMessage(null);
     try {
-      if (!/^\d{12}$/.test(accountId)) throw new Error('Enter a 12-digit AWS account ID.');
+      if (!/^\d{12}$/.test(accountId)) throw new Error('Enter a 12-digit cloud account ID.');
       const connection = await api.request<CloudConnection>('/api/v1/cloud-connections', {
         method: 'POST',
-        body: { display_name: `AWS account ${accountId}` },
+        body: { display_name: `Cloud account ${accountId}` },
         retrySafe: false,
       });
       const setup = await api.request<{ quick_create_url: string }>(
@@ -35,7 +35,7 @@ export default function ConnectionsPage() {
       );
       window.open(setup.quick_create_url, '_blank', 'noopener,noreferrer');
       setMessage(
-        'AWS opened a review page for a read-only discovery role. No workload resources were requested.',
+        'The provider opened a review page for a read-only discovery role. No workload resources were requested.',
       );
       state.reload();
     } catch (error) {
@@ -65,7 +65,7 @@ export default function ConnectionsPage() {
         <div>
           <p className="eyebrow">Connections</p>
           <h1>Authorized sources, explicit boundaries.</h1>
-          <p>Repositories and AWS accounts are connected through trusted backend integrations.</p>
+          <p>Repositories and cloud accounts are connected through trusted backend integrations.</p>
         </div>
       </div>
       {message ? (
@@ -127,17 +127,17 @@ export default function ConnectionsPage() {
             <section className="panel">
               <div className="section-heading">
                 <div>
-                  <p className="eyebrow">AWS</p>
-                  <h2>Customer-owned accounts</h2>
+                  <p className="eyebrow">Cloud</p>
+                  <h2>Customer-owned environments</h2>
                 </div>
               </div>
               <p className="muted">
-                AgentConstruct never asks the browser for AWS access keys. Setup creates scoped role
-                metadata through AWS review.
+                AgentConstruct never asks the browser for provider access keys. Setup creates scoped
+                role metadata through provider review.
               </p>
               <div className="inline-form">
                 <label>
-                  AWS account ID
+                  Cloud account ID
                   <input
                     inputMode="numeric"
                     maxLength={12}
@@ -150,9 +150,9 @@ export default function ConnectionsPage() {
                   className="button button-primary"
                   type="button"
                   disabled={busy}
-                  onClick={() => void beginAwsConnection()}
+                  onClick={() => void beginCloudConnection()}
                 >
-                  Review AWS setup
+                  Review cloud setup
                 </button>
               </div>
               {state.data.cloud.length ? (
@@ -177,8 +177,8 @@ export default function ConnectionsPage() {
                 </div>
               ) : (
                 <EmptyState
-                  title="No AWS connection"
-                  message="Local planning remains available without an AWS account."
+                  title="No cloud connection"
+                  message="Local planning remains available without a connected cloud account."
                 />
               )}
             </section>

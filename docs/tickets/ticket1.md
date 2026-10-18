@@ -74,8 +74,8 @@ has CSS contract coverage. Live sign-in and authenticated API screens remain env
 
 ## Boundaries
 
-No AWS or Cloudflare resource will be created. Mocked browser tests do not prove live OAuth,
-GitHub, AWS, infrastructure execution, or deployment. The backend remains authoritative.
+No cloud or Cloudflare resource will be created. Mocked browser tests do not prove live OAuth,
+GitHub, provider integration, infrastructure execution, or deployment. The backend remains authoritative.
 
 ## Follow-up
 
