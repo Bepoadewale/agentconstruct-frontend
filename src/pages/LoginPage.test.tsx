@@ -9,7 +9,9 @@ vi.mock('../auth/AuthContext', () => ({
     profile: null,
     loading: false,
     error: null,
-    signIn: vi.fn(),
+    signInWithGoogle: vi.fn(),
+    startEmailSignIn: vi.fn(),
+    verifyEmailCode: vi.fn(),
     localSignIn: vi.fn(),
   }),
 }));
@@ -23,9 +25,10 @@ describe('hosted workspace sign-in', () => {
     );
 
     expect(screen.getByRole('heading', { name: /sign in to your workspace/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Sign-in unavailable' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Continue with Google' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Continue with email' })).toBeDisabled();
     expect(screen.getByText('Workspace access is not configured')).toBeInTheDocument();
-    expect(screen.getByText(/Google Workspace sign-in is connected/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cognito is connected/i)).toBeInTheDocument();
   });
 
   it('has no automatically detectable WCAG 2.2 A/AA violations', async () => {

@@ -41,6 +41,8 @@ workflows cannot operate without them.
    - `VITE_OIDC_CLIENT_ID=<public-client-id>`
    - `VITE_OIDC_REDIRECT_URI=https://<assigned-pages-host>/auth/callback`
    - `VITE_OIDC_POST_LOGOUT_REDIRECT_URI=https://<assigned-pages-host>/`
+   - `VITE_COGNITO_REGION=<aws-region>`
+   - `VITE_COGNITO_USER_POOL_CLIENT_ID=<same-public-client-id>`
 10. Do not add secrets, cloud credentials, GitHub secrets, a Cloudflare API token, Functions, or a
     Worker binding.
 11. Deploy and wait for the dashboard to report a successful build. Use the hostname Cloudflare
@@ -53,7 +55,7 @@ and direct refreshes for every core route. Repeat the authenticated checks after
 configuration is available.
 
 1. Open the assigned HTTPS `*.pages.dev` URL and confirm the public overview renders.
-2. Open `/login` and complete the configured identity flow.
+2. Open `/login` and complete Google sign-in, then repeat with email OTP.
 3. Confirm `/overview` loads the signed-in workspace from the cloud API.
 4. Refresh `/history` directly and confirm the SPA remains loaded.
 5. Confirm an unauthorized role cannot approve a plan and a backend 403 is shown safely.

@@ -1,0 +1,129 @@
+import {
+  CognitoIdentityProviderClient,
+  ConfirmSignUpCommand,
+  InitiateAuthCommand,
+  RespondToAuthChallengeCommand,
+  SignUpCommand,
+} from '@aws-sdk/client-cognito-identity-provider';
+
+export interface EmailOtpChallenge {
+  email: string;
+  kind: 'SIGN_IN' | 'SIGN_UP';
+  session?: string;
+}
+
+export type EmailAuthResult =
+  | { status: 'CHALLENGE'; challenge: EmailOtpChallenge; message: string }
+  | { status: 'AUTHENTICATED'; identityToken: string };
+
+function client(region: string) {
+  return new CognitoIdentityProviderClient({ region });
+}
+
+function identityToken(result: { AuthenticationResult?: { IdToken?: string } }) {
+  return result.AuthenticationResult?.IdToken;
+}
+
+function isMissingUser(error: unknown) {
+  return error instanceof Error && error.name === 'UserNotFoundException';
+}
+
+function requireOtpChallenge(
+  email: string,
+  response: { ChallengeName?: string; Session?: string },
+): EmailAuthResult {
+  if (response.ChallengeName !== 'EMAIL_OTP' || !response.Session) {
+    throw new Error('Cognito did not return the expected email code challenge.');
+  }
+  return {
+    status: 'CHALLENGE',
+    challenge: { email, kind: 'SIGN_IN', session: response.Session },
+    message: 'Enter the code sent to your email.',
+  };
+}
+
+export async function startEmailAuthentication(
+  region: string,
+  clientId: string,
+  email: string,
+): Promise<EmailAuthResult> {
+  const normalizedEmail = email.trim().toLowerCase();
+  try {
+    const response = await client(region).send(
+      new InitiateAuthCommand({
+        AuthFlow: 'USER_AUTH',
+        ClientId: clientId,
+        AuthParameters: {
+          USERNAME: normalizedEmail,
+          PREFERRED_CHALLENGE: 'EMAIL_OTP',
+        },
+      }),
+    );
+    const token = identityToken(response);
+    return token
+      ? { status: 'AUTHENTICATED', identityToken: token }
+      : requireOtpChallenge(normalizedEmail, response);
+  } catch (error) {
+    if (!isMissingUser(error)) throw error;
+    await client(region).send(
+      new SignUpCommand({
+        ClientId: clientId,
+        Username: normalizedEmail,
+        UserAttributes: [{ Name: 'email', Value: normalizedEmail }],
+      }),
+    );
+    return {
+      status: 'CHALLENGE',
+      challenge: { email: normalizedEmail, kind: 'SIGN_UP' },
+      message: 'Enter the code sent to your email to create your workspace.',
+    };
+  }
+}
+
+export async function verifyEmailChallenge(
+  region: string,
+  clientId: string,
+  challenge: EmailOtpChallenge,
+  code: string,
+): Promise<EmailAuthResult> {
+  const cognito = client(region);
+  if (challenge.kind === 'SIGN_UP') {
+    const confirmation = await cognito.send(
+      new ConfirmSignUpCommand({
+        ClientId: clientId,
+        Username: challenge.email,
+        ConfirmationCode: code.trim(),
+      }),
+    );
+    const response = await cognito.send(
+      new InitiateAuthCommand({
+        AuthFlow: 'USER_AUTH',
+        ClientId: clientId,
+        Session: confirmation.Session,
+        AuthParameters: {
+          USERNAME: challenge.email,
+          PREFERRED_CHALLENGE: 'EMAIL_OTP',
+        },
+      }),
+    );
+    const token = identityToken(response);
+    return token
+      ? { status: 'AUTHENTICATED', identityToken: token }
+      : requireOtpChallenge(challenge.email, response);
+  }
+
+  const response = await cognito.send(
+    new RespondToAuthChallengeCommand({
+      ChallengeName: 'EMAIL_OTP',
+      ClientId: clientId,
+      Session: challenge.session,
+      ChallengeResponses: {
+        USERNAME: challenge.email,
+        EMAIL_OTP_CODE: code.trim(),
+      },
+    }),
+  );
+  const token = identityToken(response);
+  if (!token) throw new Error('Cognito did not return an identity token.');
+  return { status: 'AUTHENTICATED', identityToken: token };
+}

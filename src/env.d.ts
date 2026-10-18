@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_OIDC_CLIENT_ID?: string;
   readonly VITE_OIDC_REDIRECT_URI?: string;
   readonly VITE_OIDC_POST_LOGOUT_REDIRECT_URI?: string;
+  readonly VITE_COGNITO_REGION?: string;
+  readonly VITE_COGNITO_USER_POOL_CLIENT_ID?: string;
 }
 
 interface ImportMeta {

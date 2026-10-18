@@ -2,21 +2,24 @@
 
 ## Hosted identity
 
-Hosted mode uses an external OIDC provider with authorization code and PKCE through `oidc-client-ts`.
-Configure an exact authority, public client ID, callback URL, and logout URL. No client secret belongs
-in a browser application.
+Hosted mode uses Amazon Cognito as the central identity broker. Google sign-in uses authorization
+code and PKCE through `oidc-client-ts`. Email sign-in uses Cognito's passwordless `EMAIL_OTP`
+challenge through the public user-pool client. Configure the exact Cognito issuer, region, public
+client ID, callback URL, and logout URL. No client secret belongs in a browser application.
 
-Only transient authorization state is stored in `sessionStorage`; the returned access token is held
+Only transient authorization state is stored in `sessionStorage`; the returned Cognito ID token is held
 in memory. A refresh signs the browser out unless the identity provider can establish a new session.
 This reduces token persistence and XSS impact at the cost of session convenience. Never move a
 long-lived token to localStorage.
 
-After sign-in, `/api/v1/me` resolves the server-owned workspace membership and role. Identity-token
+After sign-in, `/api/v1/me` resolves the server-owned workspace membership and role. A verified new
+identity can call `/api/v1/onboarding`; the backend creates a personal workspace or accepts a
+matching invitation. Identity-token
 organization, email, or role claims are not treated as authorization. The backend must verify issuer,
 audience, signature, expiry, server membership, tenant scope, and operation-specific policy.
 
-Google Workspace may be the internal identity issuer and Cognito the customer issuer as documented
-by the backend. Live providers are not configured or proven by this repository.
+Google is federated through Cognito, so both sign-in methods produce the same trusted issuer and
+backend membership lookup. Live providers are not configured or proven by this repository.
 
 ## Local fixture
 

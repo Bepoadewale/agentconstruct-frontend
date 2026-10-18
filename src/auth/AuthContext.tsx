@@ -13,9 +13,10 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
-import { ApiClient } from '../api/client';
+import { ApiClient, ApiError } from '../api/client';
 import type { WorkspaceProfile } from '../api/contracts';
-import { config, oidcConfigured } from '../config';
+import { config, emailOtpConfigured, oidcConfigured } from '../config';
+import type { EmailAuthResult, EmailOtpChallenge } from './cognitoEmail';
 
 interface AuthState {
   profile: WorkspaceProfile | null;
@@ -23,7 +24,9 @@ interface AuthState {
   loading: boolean;
   error: string | null;
   api: ApiClient;
-  signIn: () => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  startEmailSignIn: (email: string) => Promise<EmailAuthResult | null>;
+  verifyEmailCode: (challenge: EmailOtpChallenge, code: string) => Promise<EmailAuthResult | null>;
   localSignIn: (username: 'founder' | 'administrator') => Promise<void>;
   completeCallback: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -56,30 +59,103 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const manager = useMemo(createUserManager, []);
   const api = useMemo(() => new ApiClient(() => tokenRef.current), []);
 
+  const pendingInvitation = useCallback(() => {
+    const fromUrl = new URLSearchParams(window.location.search).get('invite');
+    if (fromUrl) window.sessionStorage.setItem('agentconstruct.invitation', fromUrl);
+    return fromUrl ?? window.sessionStorage.getItem('agentconstruct.invitation');
+  }, []);
+
   const adoptToken = useCallback(
-    async (accessToken: string) => {
+    async (accessToken: string, identityName = 'My workspace') => {
       tokenRef.current = accessToken;
       setToken(accessToken);
       try {
         const nextProfile = await api.request<WorkspaceProfile>('/api/v1/me');
         setProfile(nextProfile);
       } catch (requestError) {
+        if (requestError instanceof ApiError && requestError.status === 403) {
+          const nextProfile = await api.request<WorkspaceProfile>('/api/v1/onboarding', {
+            method: 'POST',
+            body: {
+              workspace_name: identityName.split('@')[0] || 'My workspace',
+              invitation_token: pendingInvitation() || undefined,
+            },
+            retrySafe: false,
+          });
+          setProfile(nextProfile);
+          window.sessionStorage.removeItem('agentconstruct.invitation');
+          return;
+        }
         tokenRef.current = null;
         setToken(null);
         throw requestError;
       }
     },
-    [api],
+    [api, pendingInvitation],
   );
 
-  const signIn = useCallback(async () => {
+  const signInWithGoogle = useCallback(async () => {
     setError(null);
     if (!manager) {
       setError('Hosted sign-in is not configured for this deployment.');
       return;
     }
-    await manager.signinRedirect();
-  }, [manager]);
+    pendingInvitation();
+    await manager.signinRedirect({ extraQueryParams: { identity_provider: 'Google' } });
+  }, [manager, pendingInvitation]);
+
+  const startEmailSignIn = useCallback(
+    async (email: string) => {
+      setLoading(true);
+      setError(null);
+      try {
+        if (!emailOtpConfigured) throw new Error('Email code sign-in is not configured.');
+        const { startEmailAuthentication } = await import('./cognitoEmail');
+        const result = await startEmailAuthentication(
+          config.cognito.region,
+          config.cognito.clientId,
+          email,
+        );
+        if (result.status === 'AUTHENTICATED') await adoptToken(result.identityToken, email);
+        return result;
+      } catch (requestError) {
+        setError(requestError instanceof Error ? requestError.message : 'Email sign-in failed.');
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [adoptToken],
+  );
+
+  const verifyEmailCode = useCallback(
+    async (challenge: EmailOtpChallenge, code: string) => {
+      setLoading(true);
+      setError(null);
+      try {
+        if (!emailOtpConfigured) throw new Error('Email code sign-in is not configured.');
+        const { verifyEmailChallenge } = await import('./cognitoEmail');
+        const result = await verifyEmailChallenge(
+          config.cognito.region,
+          config.cognito.clientId,
+          challenge,
+          code,
+        );
+        if (result.status === 'AUTHENTICATED') {
+          await adoptToken(result.identityToken, challenge.email);
+        }
+        return result;
+      } catch (requestError) {
+        setError(
+          requestError instanceof Error ? requestError.message : 'Code verification failed.',
+        );
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [adoptToken],
+  );
 
   const localSignIn = useCallback(
     async (username: 'founder' | 'administrator') => {
@@ -109,7 +185,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     try {
       if (!manager) throw new Error('Hosted sign-in is not configured.');
       const user = await manager.signinRedirectCallback();
-      await adoptToken(user.access_token);
+      if (!user.id_token) throw new Error('Cognito did not return an identity token.');
+      await adoptToken(user.id_token, String(user.profile.email ?? 'My workspace'));
     } catch (callbackError) {
       setError(callbackError instanceof Error ? callbackError.message : 'Sign-in callback failed.');
       throw callbackError;
@@ -123,12 +200,39 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(null);
     setProfile(null);
     setError(null);
-    if (manager) await manager.clearStaleState();
+    if (manager) {
+      await manager.removeUser();
+      await manager.clearStaleState();
+    }
   }, [manager]);
 
   const value = useMemo<AuthState>(
-    () => ({ profile, token, loading, error, api, signIn, localSignIn, completeCallback, signOut }),
-    [api, completeCallback, error, loading, localSignIn, profile, signIn, signOut, token],
+    () => ({
+      profile,
+      token,
+      loading,
+      error,
+      api,
+      signInWithGoogle,
+      startEmailSignIn,
+      verifyEmailCode,
+      localSignIn,
+      completeCallback,
+      signOut,
+    }),
+    [
+      api,
+      completeCallback,
+      error,
+      loading,
+      localSignIn,
+      profile,
+      signInWithGoogle,
+      signOut,
+      startEmailSignIn,
+      token,
+      verifyEmailCode,
+    ],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

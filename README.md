@@ -23,7 +23,7 @@ npm run dev
 ```
 
 The example enables the backend's explicit local fixture login for development only. Hosted builds
-should use `VITE_AUTH_MODE=oidc` and the OIDC values documented in
+should use `VITE_AUTH_MODE=oidc` and the Cognito/OIDC values documented in
 [Auth and security](docs/AUTH_AND_SECURITY.md).
 
 ## Verification

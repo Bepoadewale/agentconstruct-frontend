@@ -15,7 +15,8 @@ explicit idempotency key, but the backend remains responsible for idempotent sem
 
 The client uses existing backend routes:
 
-- identity: `POST /api/v1/auth/local-login` (development only), `GET /api/v1/me`;
+- identity: `POST /api/v1/auth/local-login` (development only), `GET /api/v1/me`, and
+  `POST /api/v1/onboarding` for a provider-verified identity without an existing membership;
 - workspace: dashboard, members, invitations, usage, subscription, API credentials, support, and
   data lifecycle under `/api/v1`;
 - GitHub: connection, installations, repositories, and branches;
