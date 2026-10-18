@@ -1,3 +1,4 @@
+import axe from 'axe-core';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -67,13 +68,44 @@ describe('application routes', () => {
         ]);
       return Promise.reject(new Error(`Unexpected ${path}`));
     });
+    const { container } = render(
+      <MemoryRouter initialEntries={['/overview']}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      await screen.findByRole('heading', { name: /review what needs a decision/i }),
+    ).toBeInTheDocument();
+    expect(await screen.findByText('Plans requiring a decision')).toBeInTheDocument();
+    expect(screen.getByText('Support API')).toBeInTheDocument();
+    const result = await axe.run(container, {
+      runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] },
+    });
+    expect(result.violations).toEqual([]);
+  });
+
+  it('prioritizes plan continuity for a developer workspace', async () => {
+    auth.profile = {
+      user: { subject: 'developer', role: 'developer' },
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+    };
+    auth.api.request.mockResolvedValue({
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+      projects: [],
+      cloud_connections: [],
+      plans: [],
+      recent_activity: [],
+    });
     render(
       <MemoryRouter initialEntries={['/overview']}>
         <App />
       </MemoryRouter>,
     );
-    expect(await screen.findByText('Plans requiring a decision')).toBeInTheDocument();
-    expect(screen.getByText('Support API')).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: /move your next cloud decision forward/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Continue where you left off')).toBeInTheDocument();
+    expect(screen.queryByText('Plans requiring a decision')).not.toBeInTheDocument();
   });
 
   it('does not offer approval controls to a developer', async () => {
