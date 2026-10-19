@@ -3,9 +3,10 @@
 Date: 2026-10-19
 Execution type: Clean local frontend verification with deterministic mocked services
 
-## Clean cycle
+## Commands executed
 
-The branch is verified from a clean dependency install with `npm run verify`.
+- `npm ci`
+- `npm run verify`
 
 ## Result
 

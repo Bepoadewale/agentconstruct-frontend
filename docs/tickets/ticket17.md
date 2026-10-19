@@ -3,24 +3,24 @@
 PR: #17
 Branch: `fix/truthful-google-signin`
 
-## Goal
+## Problem / goal
 
 Keep production email OTP available while preventing the Google button from appearing operational
 until the Google identity provider is actually configured in Cognito.
 
-## Current state
+## Current repo state
 
 The login page enables Google whenever the common Cognito issuer and client ID exist, even when
 the backend has intentionally left Google federation disabled.
 
-## References
+## Research / references used
 
 - `src/config.ts`
 - `src/pages/LoginPage.tsx`
 - `docs/AUTH_AND_SECURITY.md`
 - Backend `GOOGLE_IDENTITY_PROVIDER_ENABLED` production setting
 
-## Planned work
+## Work planned for the PR
 
 - Add a public boolean configuration value for Google sign-in availability.
 - Render the Google action only when both Cognito OIDC and Google federation are configured.
@@ -39,7 +39,7 @@ the backend has intentionally left Google federation disabled.
 Met. Google sign-in now requires an explicit public enablement flag plus complete OIDC settings,
 while email OTP remains separately configured.
 
-## Validation
+## Tests / validation performed
 
 - Clean `npm ci`: 289 packages audited, 0 vulnerabilities.
 - `npm run verify`: formatting, lint, typecheck, 22 tests, API contract check, production build,
@@ -47,7 +47,7 @@ while email OTP remains separately configured.
 - Static output: 27 files, largest asset 225,412 bytes, no Functions, Worker runtime, top-level
   `404.html`, or detected secret pattern.
 
-## Evidence
+## Evidence files produced
 
 - `docs/test/test17.md`
 
@@ -55,6 +55,6 @@ while email OTP remains separately configured.
 
 This frontend change does not create Google OAuth credentials, modify Cognito, or authorize users.
 
-## Follow-up
+## Follow-up work
 
 Set the public flag to true only after the Google identity provider is configured and live-tested.
