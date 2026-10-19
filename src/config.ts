@@ -8,6 +8,7 @@ export const config = Object.freeze({
   apiBaseUrl: configuredApiBaseUrl || (import.meta.env.DEV ? 'http://127.0.0.1:8080' : ''),
   apiConfigured: Boolean(configuredApiBaseUrl || import.meta.env.DEV),
   authMode: (import.meta.env.VITE_AUTH_MODE ?? 'oidc') as AuthMode,
+  googleSignInEnabled: import.meta.env.VITE_GOOGLE_SIGN_IN_ENABLED?.toLowerCase() === 'true',
   localLoginEnabled:
     import.meta.env.DEV && import.meta.env.VITE_ENABLE_LOCAL_LOGIN?.toLowerCase() === 'true',
   oidc: {
@@ -29,6 +30,7 @@ export const config = Object.freeze({
 
 export const oidcConfigured = Boolean(config.oidc.authority && config.oidc.clientId);
 export const emailOtpConfigured = Boolean(config.cognito.region && config.cognito.clientId);
+export const googleSignInConfigured = Boolean(config.googleSignInEnabled && oidcConfigured);
 
 export function publicConfigurationIssues(): string[] {
   const issues: string[] = [];

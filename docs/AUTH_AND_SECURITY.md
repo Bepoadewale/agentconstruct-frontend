@@ -7,6 +7,9 @@ code and PKCE through `oidc-client-ts`. Email sign-in uses Cognito's passwordles
 challenge through the public user-pool client. Configure the exact Cognito issuer, region, public
 client ID, callback URL, and logout URL. No client secret belongs in a browser application.
 
+Google is shown only when `VITE_GOOGLE_SIGN_IN_ENABLED=true` and the OIDC values are complete.
+Keep it false until the Google provider is configured in Cognito. Email OTP remains independent.
+
 Only transient authorization state is stored in `sessionStorage`; the returned Cognito ID token is held
 in memory. A refresh signs the browser out unless the identity provider can establish a new session.
 This reduces token persistence and XSS impact at the cost of session convenience. Never move a

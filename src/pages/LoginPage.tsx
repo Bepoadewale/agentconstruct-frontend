@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import type { EmailOtpChallenge } from '../auth/cognitoEmail';
 import BrandMark from '../components/BrandMark';
-import { config, emailOtpConfigured, oidcConfigured } from '../config';
+import { config, emailOtpConfigured, googleSignInConfigured } from '../config';
 
 function CheckIcon() {
   return (
@@ -104,22 +104,25 @@ export default function LoginPage() {
 
           {config.authMode === 'oidc' ? (
             <div className="hosted-auth-options">
-              <button
-                className="button button-secondary button-wide auth-button-v2 google-button"
-                type="button"
-                disabled={loading || !oidcConfigured}
-                aria-describedby={!oidcConfigured ? 'sign-in-status' : undefined}
-                onClick={() => void signInWithGoogle()}
-              >
-                <span className="google-mark" aria-hidden="true">
-                  G
-                </span>
-                {loading ? 'Connecting…' : 'Continue with Google'}
-              </button>
+              {googleSignInConfigured ? (
+                <>
+                  <button
+                    className="button button-secondary button-wide auth-button-v2 google-button"
+                    type="button"
+                    disabled={loading}
+                    onClick={() => void signInWithGoogle()}
+                  >
+                    <span className="google-mark" aria-hidden="true">
+                      G
+                    </span>
+                    {loading ? 'Connecting…' : 'Continue with Google'}
+                  </button>
 
-              <div className="auth-divider" aria-hidden="true">
-                <span>or</span>
-              </div>
+                  <div className="auth-divider" aria-hidden="true">
+                    <span>or</span>
+                  </div>
+                </>
+              ) : null}
 
               <form className="email-auth-form" onSubmit={(event) => void submitEmail(event)}>
                 {challenge ? (
@@ -210,7 +213,7 @@ export default function LoginPage() {
             </div>
           ) : null}
 
-          {!oidcConfigured && !emailOtpConfigured && !config.localLoginEnabled ? (
+          {!googleSignInConfigured && !emailOtpConfigured && !config.localLoginEnabled ? (
             <div id="sign-in-status" className="notice auth-status auth-status-v2" role="status">
               <span className="auth-status-mark-v2" aria-hidden="true">
                 i
