@@ -37,6 +37,7 @@ workflows cannot operate without them.
 9. Add production environment variables:
    - `VITE_API_BASE_URL=https://<deployed-api-host>`
    - `VITE_AUTH_MODE=oidc`
+   - `VITE_GOOGLE_SIGN_IN_ENABLED=false` until Google federation is configured and verified
    - `VITE_OIDC_AUTHORITY=https://<trusted-issuer>`
    - `VITE_OIDC_CLIENT_ID=<public-client-id>`
    - `VITE_OIDC_REDIRECT_URI=https://<assigned-pages-host>/auth/callback`
@@ -55,7 +56,8 @@ and direct refreshes for every core route. Repeat the authenticated checks after
 configuration is available.
 
 1. Open the assigned HTTPS `*.pages.dev` URL and confirm the public overview renders.
-2. Open `/login` and complete Google sign-in, then repeat with email OTP.
+2. Open `/login` and complete email OTP sign-in. If Google federation is enabled, repeat with
+   Google sign-in.
 3. Confirm `/overview` loads the signed-in workspace from the cloud API.
 4. Refresh `/history` directly and confirm the SPA remains loaded.
 5. Confirm an unauthorized role cannot approve a plan and a backend 403 is shown safely.

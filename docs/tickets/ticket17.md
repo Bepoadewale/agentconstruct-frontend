@@ -36,11 +36,16 @@ the backend has intentionally left Google federation disabled.
 
 ## Acceptance status
 
-Pending implementation and validation.
+Met. Google sign-in now requires an explicit public enablement flag plus complete OIDC settings,
+while email OTP remains separately configured.
 
 ## Validation
 
-Pending.
+- Clean `npm ci`: 289 packages audited, 0 vulnerabilities.
+- `npm run verify`: formatting, lint, typecheck, 22 tests, API contract check, production build,
+  static-hosting inspection, nested-route refresh, and dependency audit all passed.
+- Static output: 27 files, largest asset 225,412 bytes, no Functions, Worker runtime, top-level
+  `404.html`, or detected secret pattern.
 
 ## Evidence
 
