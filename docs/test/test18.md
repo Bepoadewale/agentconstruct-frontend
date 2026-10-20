@@ -2,7 +2,7 @@
 
 Date: 2026-10-20
 Execution type: Local static configuration and frontend verification
-Commit: Pending final PR commit
+Commit: `3a0b32cda0527f57852aa99783e21f3b169d95ae`
 
 ## Commands executed
 
@@ -24,8 +24,9 @@ Commit: Pending final PR commit
 ## Execution boundary
 
 This validation used the existing local dependency installation. Required PR CI independently
-runs `npm ci` and the full suite on a fresh GitHub runner. No Cloudflare, AWS, authentication, or
-customer infrastructure was changed.
+ran `npm ci` and the full suite on a fresh GitHub runner in run `39472954740`. No AWS,
+authentication, or customer infrastructure was changed. Cloudflare created its normal isolated
+preview deployment for the PR; the production deployment was not changed.
 
 ## Known limitations
 

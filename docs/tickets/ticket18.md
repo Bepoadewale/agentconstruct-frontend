@@ -53,6 +53,8 @@ The public-configuration guard, documentation, and risk-based validation policy 
 - Searched tracked non-evidence files for the Cloudflare token prefix: no matches.
 - A clean local install was not required because this is a static validation-policy change. CI
   performs `npm ci` and the complete verification suite on a fresh runner.
+- GitHub Actions run `39472954740`: PR evidence, clean verification, and secret scanning passed.
+- The Cloudflare Pages preview deployment check passed.
 
 ## Evidence files produced
 
@@ -64,4 +66,4 @@ This PR does not change live Cloudflare configuration, authentication behavior, 
 
 ## Follow-up work
 
-Required PR CI remains pending.
+None.
