@@ -1,6 +1,7 @@
 # Testing
 
-`npm run verify` is the review gate. It runs formatting, lint, strict types, Vitest with coverage,
+Required GitHub CI is the merge gate. On a fresh runner, it installs the lockfile and runs
+`npm run verify`: formatting, lint, strict types, Vitest with coverage,
 backend OpenAPI operation compatibility, production build, static-output inspection, nested SPA
 refresh, and npm vulnerability audit.
 
@@ -20,5 +21,8 @@ Mocked tests prove browser behavior, not live Google/Cognito authentication, Git
 role assumption, provider deployment, or infrastructure correctness. Those require the separate
 backend integration environment and are reported explicitly as live-environment validation.
 
-Each runnable PR records two clean `node_modules`/`dist` removal, `npm ci`, and `npm run verify`
-cycles in its PR-numbered ticket. CI repeats the same checks from a clean GitHub runner.
+Every runnable PR records focused local validation in its PR-numbered evidence. Releases and
+changes affecting dependencies, build/bootstrap behavior, authentication/session handling, API
+contracts, routing, static hosting, or runtime security controls also record one clean local
+`npm ci` and `npm run verify` cycle. CI runs the complete suite from a fresh GitHub runner on every
+PR.

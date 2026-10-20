@@ -50,8 +50,14 @@ and execution.
 - Every runnable PR must include `docs/test/test<PR_NUMBER>.md` with the exact clean test cycle,
   result, execution boundary, and known limitations. Documentation-only PRs must state why no
   runtime evidence file is required in their ticket.
-- Before review, start from a clean dependency install and run one complete `npm run verify`
-  cycle. Record it in both the ticket and runtime evidence file.
+- Run focused local tests for every runnable change and record the commands and results. Required
+  GitHub CI is the merge gate and runs `npm ci` plus the complete verification suite on a fresh
+  runner for every PR.
+- Run one clean local `npm ci` and `npm run verify` cycle for releases and changes affecting
+  dependencies, build/bootstrap behavior, authentication/session handling, API contracts, routing,
+  static-hosting behavior, or runtime security controls. A reviewer may require it for another
+  high-risk change. Documentation-only, static validation policy, and narrowly scoped presentation
+  changes do not require a local clean cycle.
 - Treat a direct commit or push to `main` as a process incident. Stop, disclose it in the PR
   record, and do not rewrite shared history unless the repository owner explicitly directs it.
 - Merge only after the ticket and evidence are current, required checks pass, review feedback is
