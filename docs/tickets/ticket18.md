@@ -38,16 +38,25 @@ verification cycle for every runnable PR regardless of risk.
 
 ## Acceptance status
 
-In progress.
+Complete locally. The value-free GitHub audit found no configured Actions variables or secrets.
+The public-configuration guard, documentation, and risk-based validation policy are implemented.
 
 ## Tests / validation performed
 
-Pending.
+- `npm run check:public-env`: passed for 10 classified public `VITE_*` names.
+- `npm run verify`: passed formatting, lint, strict types, 22 tests, API contract compatibility,
+  public-configuration validation, production build, static inspection, nested-route refresh, and
+  dependency audit with zero vulnerabilities.
+- Production output contained 27 static files; the largest asset was 225,412 bytes. No Functions,
+  Worker runtime, top-level `404.html`, or secret pattern was detected.
+- `git diff --check`: passed.
+- Searched tracked non-evidence files for the Cloudflare token prefix: no matches.
+- A clean local install was not required because this is a static validation-policy change. CI
+  performs `npm ci` and the complete verification suite on a fresh runner.
 
 ## Evidence files produced
 
-No runtime evidence file is required because this PR changes documentation and static validation
-only.
+- `docs/test/test18.md`
 
 ## Boundaries
 
@@ -55,4 +64,4 @@ This PR does not change live Cloudflare configuration, authentication behavior, 
 
 ## Follow-up work
 
-Pending implementation and CI.
+Required PR CI remains pending.

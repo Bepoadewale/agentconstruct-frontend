@@ -46,3 +46,6 @@ cannot turn this development control into an authorization bypass.
 The CSP currently allows HTTPS API/identity connections. Once the final API and identity origins are
 known, tighten `connect-src` to those exact hosts and validate sign-in at both `pages.dev` and the
 future custom domain.
+
+See `docs/CONFIGURATION_SECURITY.md` for the enforced boundary between public `VITE_*` values,
+GitHub Actions configuration, and confidential backend/provider credentials.
