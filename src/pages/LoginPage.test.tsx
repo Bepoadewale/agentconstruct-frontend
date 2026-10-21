@@ -1,5 +1,6 @@
 import axe from 'axe-core';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import LoginPage from './LoginPage';
@@ -11,6 +12,7 @@ vi.mock('../auth/AuthContext', () => ({
     error: null,
     signInWithGoogle: vi.fn(),
     startEmailSignIn: vi.fn(),
+    startEmailSignUp: vi.fn(),
     verifyEmailCode: vi.fn(),
     localSignIn: vi.fn(),
   }),
@@ -33,9 +35,26 @@ describe('hosted workspace sign-in', () => {
       screen.getByRole('img', { name: /policy and approval checkpoint/i }),
     ).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Continue with Google' })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Continue with email' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sign in with email' })).toBeDisabled();
     expect(screen.getByText('Workspace access is not configured')).toBeInTheDocument();
     expect(screen.getByText(/Cognito is connected/i)).toBeInTheDocument();
+  });
+
+  it('presents explicit sign-in and account-creation paths', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>,
+    );
+
+    const signIn = screen.getByRole('button', { name: 'Sign in' });
+    const createAccount = screen.getByRole('button', { name: 'Create account' });
+    expect(signIn).toHaveAttribute('aria-pressed', 'true');
+    await user.click(createAccount);
+    expect(createAccount).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('heading', { name: 'Create your workspace.' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Create account' })).toHaveLength(2);
   });
 
   it('has no automatically detectable WCAG 2.2 A/AA violations', async () => {

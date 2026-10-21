@@ -21,10 +21,12 @@ export default function LoginPage() {
     error,
     signInWithGoogle,
     startEmailSignIn,
+    startEmailSignUp,
     verifyEmailCode,
     localSignIn,
   } = useAuth();
   const [email, setEmail] = useState('');
+  const [mode, setMode] = useState<'sign-in' | 'create-account'>('sign-in');
   const [code, setCode] = useState('');
   const [challenge, setChallenge] = useState<EmailOtpChallenge | null>(null);
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
@@ -35,7 +37,9 @@ export default function LoginPage() {
     setEmailStatus(null);
     const result = challenge
       ? await verifyEmailCode(challenge, code)
-      : await startEmailSignIn(email);
+      : mode === 'create-account'
+        ? await startEmailSignUp(email)
+        : await startEmailSignIn(email);
     if (result?.status === 'CHALLENGE') {
       setChallenge(result.challenge);
       setCode('');
@@ -91,8 +95,14 @@ export default function LoginPage() {
 
         <section className="auth-card auth-card-v2" aria-labelledby="login-heading">
           <p className="auth-eyebrow-v2">Secure workspace access</p>
-          <h1 id="login-heading">Sign in to your workspace.</h1>
-          <p>Your identity is verified before membership and permissions are resolved.</p>
+          <h1 id="login-heading">
+            {mode === 'sign-in' ? 'Sign in to your workspace.' : 'Create your workspace.'}
+          </h1>
+          <p>
+            {mode === 'sign-in'
+              ? 'Your identity is verified before membership and permissions are resolved.'
+              : 'Verify your work email to create your account and first governed workspace.'}
+          </p>
 
           {error ? (
             <div className="notice notice-error" role="alert">
@@ -102,6 +112,34 @@ export default function LoginPage() {
 
           {config.authMode === 'oidc' ? (
             <div className="hosted-auth-options">
+              <div className="auth-mode-switch" aria-label="Account access">
+                <button
+                  type="button"
+                  aria-pressed={mode === 'sign-in'}
+                  className={mode === 'sign-in' ? 'is-active' : ''}
+                  onClick={() => {
+                    setMode('sign-in');
+                    setChallenge(null);
+                    setCode('');
+                    setEmailStatus(null);
+                  }}
+                >
+                  Sign in
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={mode === 'create-account'}
+                  className={mode === 'create-account' ? 'is-active' : ''}
+                  onClick={() => {
+                    setMode('create-account');
+                    setChallenge(null);
+                    setCode('');
+                    setEmailStatus(null);
+                  }}
+                >
+                  Create account
+                </button>
+              </div>
               {googleSignInConfigured ? (
                 <>
                   <button
@@ -164,7 +202,9 @@ export default function LoginPage() {
                     ? 'Checking…'
                     : challenge
                       ? 'Verify and continue'
-                      : 'Continue with email'}
+                      : mode === 'create-account'
+                        ? 'Create account'
+                        : 'Sign in with email'}
                 </button>
                 {challenge ? (
                   <button
