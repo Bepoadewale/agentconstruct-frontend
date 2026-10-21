@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import type { EmailOtpChallenge } from '../auth/cognitoEmail';
 import BrandMark from '../components/BrandMark';
+import { ProductVisual } from '../components/ProductVisual';
 import { config, emailOtpConfigured, googleSignInConfigured } from '../config';
 
 function CheckIcon() {
@@ -57,10 +58,7 @@ export default function LoginPage() {
           <div>
             <p className="auth-eyebrow-v2">Governed customer-cloud infrastructure</p>
             <h1 id="auth-context-heading">Plan with evidence. Deploy with control.</h1>
-            <p>
-              Bring architecture, cost, policy, approval, deployment, and observed state into one
-              accountable workspace.
-            </p>
+            <p>One accountable path from architecture to observed state.</p>
           </div>
 
           <div className="auth-decision-v2" aria-label="Workspace decision record">
@@ -75,7 +73,7 @@ export default function LoginPage() {
               <i />
               <span>Customer cloud</span>
             </div>
-            <p>Every change keeps its assumptions, tradeoffs, approval, and observed outcome.</p>
+            <ProductVisual kind="governance" compact />
           </div>
 
           <ul className="auth-principles auth-principles-v2" aria-label="Workspace safeguards">

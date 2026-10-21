@@ -1,32 +1,36 @@
 import { Link } from 'react-router-dom';
 import BrandMark from '../components/BrandMark';
+import { ProductVisual } from '../components/ProductVisual';
 
 const outcomes = [
   {
     tone: 'orange',
     label: 'Architecture',
-    title: 'The smallest viable stack',
-    text: 'Every service earns its place against the workload, budget, and operating model.',
+    title: 'Only what you need',
+    text: 'Architecture matched to workload and budget.',
+    visual: 'architecture' as const,
   },
   {
     tone: 'green',
     label: 'Governance',
-    title: 'A decision you can defend',
-    text: 'Evidence, policy results, approvals, and observed outcomes stay attached to the change.',
+    title: 'Decisions with proof',
+    text: 'Evidence and approvals stay attached.',
+    visual: 'governance' as const,
   },
   {
     tone: 'blue',
     label: 'Cost',
-    title: 'Tradeoffs made visible',
-    text: 'Review estimated spend, complexity, and rejected alternatives before anything changes.',
+    title: 'Tradeoffs in view',
+    text: 'See spend, risk, and complexity early.',
+    visual: 'cost' as const,
   },
 ];
 
 const workflow = [
-  ['01', 'Connect', 'Authorize your repository and cloud environment.'],
-  ['02', 'Plan', 'Set the outcome and compare the simplest viable architectures.'],
-  ['03', 'Approve', 'Review the evidence, costs, risks, and exact proposed change.'],
-  ['04', 'Deploy and operate', 'Run the approved change in your cloud and observe the result.'],
+  ['01', 'Connect', 'Code and cloud context.'],
+  ['02', 'Plan', 'The simplest viable architecture.'],
+  ['03', 'Approve', 'Evidence, cost, and exact change.'],
+  ['04', 'Deploy', 'Governed execution in your cloud.'],
 ];
 
 function ArrowIcon() {
@@ -70,8 +74,7 @@ export default function HomePage() {
           </p>
           <h1 id="hero-heading">Cloud decisions, built on evidence.</h1>
           <p className="ac3-hero-summary">
-            Plan, approve, deploy, and operate the simplest viable infrastructure in your cloud,
-            with every decision and change tied to evidence.
+            Plan, approve, and deploy the right infrastructure in your cloud.
           </p>
           <div className="ac3-actions">
             <Link className="ac3-button ac3-button-primary" to="/login">
@@ -155,15 +158,13 @@ export default function HomePage() {
       <section id="product" className="ac3-product" aria-labelledby="product-heading">
         <div className="ac3-section-heading">
           <p className="ac3-eyebrow">One clear decision record</p>
-          <h2 id="product-heading">From requirements to running infrastructure.</h2>
-          <p>
-            Understand what to build, approve the exact change, deploy it in your cloud, and keep
-            the observed result tied to the decision.
-          </p>
+          <h2 id="product-heading">From intent to running infrastructure.</h2>
+          <p>One clear path from evidence to operation.</p>
         </div>
         <div className="ac3-outcomes">
           {outcomes.map((outcome) => (
             <article key={outcome.label} className={`ac3-outcome ac3-outcome-${outcome.tone}`}>
+              <ProductVisual kind={outcome.visual} compact />
               <span>{outcome.label}</span>
               <h3>{outcome.title}</h3>
               <p>{outcome.text}</p>
@@ -173,7 +174,7 @@ export default function HomePage() {
         <div id="security" className="ac3-evidence-panel">
           <div>
             <p className="ac3-eyebrow">Built-in restraint</p>
-            <h3>Complex infrastructure is a decision, not a default.</h3>
+            <h3>Complexity must earn its place.</h3>
           </div>
           <ul>
             <li>
@@ -195,7 +196,7 @@ export default function HomePage() {
       <section id="workflow" className="ac3-workflow" aria-labelledby="workflow-heading">
         <div className="ac3-workflow-heading">
           <p className="ac3-eyebrow">How it works</p>
-          <h2 id="workflow-heading">Four steps from intent to governed operation.</h2>
+          <h2 id="workflow-heading">A visible path to production.</h2>
         </div>
         <ol>
           {workflow.map(([number, title, text]) => (

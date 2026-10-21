@@ -12,6 +12,7 @@ import type {
 } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 interface FormState {
@@ -169,16 +170,13 @@ export default function NewPlanPage() {
 
   return (
     <div className="page narrow-page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">New infrastructure plan</p>
           <h1>Start with the outcome.</h1>
-          <p>
-            davdeploy turns intent and explicit constraints into a reviewable cloud architecture.
-            This step does not deploy. An approved plan can proceed to governed deployment in the
-            connected customer cloud.
-          </p>
+          <p>Describe the outcome. Review the architecture before anything changes.</p>
         </div>
+        <ProductVisual kind="plan" />
         <span className="mode-pill">
           <i /> Plan before change
         </span>

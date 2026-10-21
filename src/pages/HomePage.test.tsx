@@ -18,9 +18,12 @@ describe('public product overview', () => {
       screen.getByRole('figure', { name: /illustrative davdeploy decision brief/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('Recommended approach')).toBeInTheDocument();
-    expect(screen.getByText(/from requirements to running infrastructure/i)).toBeInTheDocument();
+    expect(screen.getByText(/from intent to running infrastructure/i)).toBeInTheDocument();
     expect(screen.getByText(/governed infrastructure for your cloud/i)).toBeInTheDocument();
-    expect(screen.getByText(/plan, approve, deploy, and operate/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/plan, approve, and deploy the right infrastructure/i),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /simple cloud architecture/i })).toBeInTheDocument();
     expect(screen.getByText(/infrastructure stays in your account/i)).toBeInTheDocument();
     expect(screen.queryByText(/AWS/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/customers trust/i)).not.toBeInTheDocument();

@@ -5,6 +5,7 @@ import type { CustomerPlanRevision } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { ReadableData, RawData } from '../components/ReadableData';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 type MutationBody = Record<string, unknown> | undefined;
@@ -79,12 +80,13 @@ export default function PlanPage() {
       >
         {review ? (
           <>
-            <div className="page-heading">
+            <div className="page-heading visual-page-heading plan-visual-heading">
               <div>
                 <p className="eyebrow">Infrastructure plan · revision {review.revision}</p>
                 <h1>{review.title ?? review.content.summary.selected_profile}</h1>
                 <p>{review.content.summary.why}</p>
               </div>
+              <ProductVisual kind="architecture" />
               <div className="heading-actions">
                 <StatusBadge state={review.state} />
                 <button className="button button-secondary" type="button" onClick={exportSummary}>
