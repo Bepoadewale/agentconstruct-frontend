@@ -93,6 +93,66 @@ describe('customer workflows', () => {
     );
   });
 
+  it('verifies and plans from a customer-selected public repository', async () => {
+    auth.profile.user.role = 'administrator';
+    auth.api.request.mockImplementation((path: string) => {
+      if (path === '/api/v1/github/connection')
+        return Promise.resolve({ execution: 'SIMULATED', installations: [] });
+      if (path === '/api/v1/cloud-connections') return Promise.resolve([]);
+      if (path.startsWith('/api/v1/github/public-repository?'))
+        return Promise.resolve({
+          full_name: 'Bepoadewale/ai-platform-control-plane',
+          html_url: 'https://github.com/Bepoadewale/ai-platform-control-plane',
+          default_branch: 'main',
+          branches: ['main'],
+          execution: 'EXECUTED_PUBLIC_READ_ONLY',
+        });
+      if (path === '/api/v1/projects')
+        return Promise.resolve({ id: 'public-project', name: 'public-project' });
+      if (path.endsWith('/repository-discovery')) return Promise.resolve({ evidence: [] });
+      if (path === '/api/v1/intents') return Promise.resolve({ id: 'public-intent' });
+      if (path === '/api/v1/intents/public-intent/plans')
+        return Promise.resolve({
+          id: 'public-deployment-plan',
+          selected_architecture: { profile: 'AWS Lambda API', components: [] },
+        });
+      if (path === '/api/v1/deployment-plans/public-deployment-plan/customer-review')
+        return Promise.resolve({ ...review, state: 'DRAFT' });
+      return Promise.reject(new Error(`Unexpected ${path}`));
+    });
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<NewPlanPage />} />
+          <Route path="/plans/:revisionId" element={<div>Public review opened</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await user.click(await screen.findByRole('button', { name: 'Public GitHub URL' }));
+    await user.type(
+      screen.getByRole('textbox', { name: 'Public GitHub repository' }),
+      'https://github.com/Bepoadewale/ai-platform-control-plane',
+    );
+    await user.click(screen.getByRole('button', { name: 'Check repository' }));
+    expect(
+      await screen.findByText('Bepoadewale/ai-platform-control-plane verified read-only'),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /analyze and create plan/i }));
+
+    expect(await screen.findByText('Public review opened')).toBeInTheDocument();
+    expect(auth.api.request).toHaveBeenCalledWith(
+      '/api/v1/projects',
+      expect.objectContaining({
+        body: expect.objectContaining({
+          repository_url: 'https://github.com/Bepoadewale/ai-platform-control-plane',
+          repository_branch: 'main',
+        }),
+      }),
+    );
+  });
+
   it('submits an exact-digest administrator approval and reports backend success', async () => {
     auth.profile.user.role = 'administrator';
     auth.api.request.mockImplementation((path: string, options?: { method?: string }) => {

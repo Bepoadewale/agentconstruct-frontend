@@ -1413,6 +1413,71 @@ label > small {
   display: grid;
   gap: 12px;
 }
+
+.repository-source-switch {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  display: inline-grid;
+  gap: 0.25rem;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1rem;
+  padding: 0.25rem;
+}
+
+.repository-source-switch button {
+  background: transparent;
+  border: 0;
+  border-radius: 0.55rem;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+}
+
+.repository-source-switch button.is-active {
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgb(25 30 27 / 10%);
+  color: var(--ink);
+}
+
+.repository-source-switch button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  outline-offset: 1px;
+}
+
+.repository-url-control {
+  align-items: stretch;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.repository-url-control .button {
+  white-space: nowrap;
+}
+
+.form-field {
+  display: grid;
+  gap: 6px;
+}
+
+.form-field > small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .repository-source-switch,
+  .repository-url-control {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
 .form-grid {
   display: grid;
   gap: 12px;
