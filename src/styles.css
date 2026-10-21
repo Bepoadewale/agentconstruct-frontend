@@ -1741,6 +1741,36 @@ label > small {
   gap: 9px;
   margin-top: 14px;
 }
+.invitation-list {
+  display: grid;
+  gap: 0;
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.invitation-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+.invitation-row b,
+.invitation-row small {
+  display: block;
+}
+.invitation-row small {
+  color: var(--muted);
+  font-size: 10px;
+}
+.invitation-actions {
+  display: flex;
+  gap: 4px;
+}
+.invitation-actions .button {
+  min-height: 34px;
+  padding: 7px 9px;
+}
 .settings-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2033,6 +2063,12 @@ label > small {
   .comment-form,
   .inline-form {
     grid-template-columns: 1fr;
+  }
+  .invitation-row {
+    grid-template-columns: 1fr auto;
+  }
+  .invitation-actions {
+    grid-column: 1 / -1;
   }
   .comment-form label {
     grid-column: auto;

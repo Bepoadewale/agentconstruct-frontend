@@ -1,6 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { useAuth } from '../auth/AuthContext';
-import type { Subscription, UsageSummary, WorkspaceMember } from '../api/contracts';
+import type {
+  Subscription,
+  UsageSummary,
+  WorkspaceInvitation,
+  WorkspaceMember,
+} from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { ReadableData } from '../components/ReadableData';
 import { StatusBadge } from '../components/StatusBadge';
@@ -9,13 +14,17 @@ import { useAsync } from '../hooks/useAsync';
 
 export default function SettingsPage() {
   const { api, profile } = useAuth();
+  const admin = profile?.user.role === 'administrator';
   const state = useAsync(
     async (signal) => ({
       members: await api.request<WorkspaceMember[]>('/api/v1/workspace/members', { signal }),
+      invitations: admin
+        ? await api.request<WorkspaceInvitation[]>('/api/v1/workspace/invitations', { signal })
+        : [],
       usage: await api.request<UsageSummary>('/api/v1/usage', { signal }),
       subscription: await api.request<Subscription>('/api/v1/billing/subscription', { signal }),
     }),
-    [api],
+    [admin, api],
   );
   const [email, setEmail] = useState('');
   const [supportSubject, setSupportSubject] = useState('');
@@ -24,7 +33,6 @@ export default function SettingsPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const admin = profile?.user.role === 'administrator';
 
   async function action(task: () => Promise<unknown>, success: string) {
     setBusy(true);
@@ -50,9 +58,31 @@ export default function SettingsPage() {
           retrySafe: false,
           body: { email, role: 'developer' },
         }),
-      'Invitation recorded. Delivery depends on the configured backend email provider.',
+      'Invitation sent by email.',
     );
     setEmail('');
+  }
+
+  async function resendInvitation(invitationId: string) {
+    await action(
+      () =>
+        api.request(`/api/v1/workspace/invitations/${invitationId}/resend`, {
+          method: 'POST',
+          retrySafe: false,
+        }),
+      'Invitation email sent again.',
+    );
+  }
+
+  async function cancelInvitation(invitationId: string) {
+    await action(
+      () =>
+        api.request(`/api/v1/workspace/invitations/${invitationId}/cancel`, {
+          method: 'POST',
+          retrySafe: false,
+        }),
+      'Invitation cancelled.',
+    );
   }
 
   async function createCredential() {
@@ -143,20 +173,62 @@ export default function SettingsPage() {
                 ))}
               </div>
               {admin ? (
-                <form className="inline-form" onSubmit={(event) => void invite(event)}>
-                  <label>
-                    Invite developer
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      required
-                    />
-                  </label>
-                  <button className="button button-secondary" disabled={busy} type="submit">
-                    Create invitation
-                  </button>
-                </form>
+                <>
+                  <form className="inline-form" onSubmit={(event) => void invite(event)}>
+                    <label>
+                      Invite developer
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder="teammate@company.com"
+                        required
+                      />
+                    </label>
+                    <button className="button button-secondary" disabled={busy} type="submit">
+                      Send invitation
+                    </button>
+                  </form>
+                  <div className="invitation-list" aria-label="Workspace invitations">
+                    {state.data.invitations.length ? (
+                      state.data.invitations.map((invitation) => (
+                        <div className="invitation-row" key={invitation.id}>
+                          <span>
+                            <b>{invitation.email}</b>
+                            <small>
+                              {invitation.delivery_state.toLowerCase()} · sent{' '}
+                              {invitation.send_count}{' '}
+                              {invitation.send_count === 1 ? 'time' : 'times'}
+                            </small>
+                          </span>
+                          <StatusBadge state={invitation.state} />
+                          {invitation.state === 'PENDING' ? (
+                            <div className="invitation-actions">
+                              <button
+                                className="button button-quiet"
+                                disabled={busy}
+                                type="button"
+                                onClick={() => void resendInvitation(invitation.id)}
+                              >
+                                Resend
+                              </button>
+                              <button
+                                className="button button-quiet"
+                                disabled={busy}
+                                type="button"
+                                onClick={() => void cancelInvitation(invitation.id)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                      ))
+                    ) : (
+                      <p className="muted">No invitations yet.</p>
+                    )}
+                  </div>
+                </>
               ) : (
                 <p className="muted">Only administrators can change workspace membership.</p>
               )}

@@ -226,4 +226,53 @@ describe('customer workflows', () => {
     expect(screen.queryByLabelText(/card number/i)).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /request deletion/i })).toBeDisabled();
   });
+
+  it('lets administrators inspect, resend, and cancel email invitations', async () => {
+    auth.profile.user.role = 'administrator';
+    const requests: Array<{ path: string; method?: string }> = [];
+    auth.api.request.mockImplementation((path: string, options?: { method?: string }) => {
+      requests.push({ path, method: options?.method });
+      if (path.endsWith('/members'))
+        return Promise.resolve([{ subject: 'administrator', role: 'administrator' }]);
+      if (path === '/api/v1/workspace/invitations')
+        return Promise.resolve([
+          {
+            id: 'invite-1',
+            email: 'invitee@example.com',
+            role: 'developer',
+            state: 'PENDING',
+            delivery_state: 'SENT',
+            send_count: 1,
+            expires_at: '2026-10-28T12:00:00Z',
+          },
+        ]);
+      if (path.endsWith('/usage')) return Promise.resolve({});
+      if (path.endsWith('/subscription'))
+        return Promise.resolve({ plan_name: 'private-beta', state: 'ACTIVE', limits: {} });
+      if (path.endsWith('/resend') || path.endsWith('/cancel')) return Promise.resolve({});
+      return Promise.reject(new Error(`Unexpected ${path}`));
+    });
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <SettingsPage />
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByText('invitee@example.com')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Resend' }));
+    await waitFor(() =>
+      expect(requests).toContainEqual({
+        path: '/api/v1/workspace/invitations/invite-1/resend',
+        method: 'POST',
+      }),
+    );
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await waitFor(() =>
+      expect(requests).toContainEqual({
+        path: '/api/v1/workspace/invitations/invite-1/cancel',
+        method: 'POST',
+      }),
+    );
+  });
 });
