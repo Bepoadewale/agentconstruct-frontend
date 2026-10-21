@@ -5,6 +5,7 @@ import type { DashboardResponse, PlanSummary } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { EmptyState } from '../components/EmptyState';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 export default function HistoryPage() {
@@ -37,12 +38,13 @@ export default function HistoryPage() {
 
   return (
     <div className="page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">Plan history</p>
-          <h1>Every draft, decision, and revision.</h1>
-          <p>Immutable records grouped by stable backend project identifiers.</p>
+          <h1>Every decision, in context.</h1>
+          <p>Compare revisions and trace what changed.</p>
         </div>
+        <ProductVisual kind="history" />
         <Link className="button button-primary" to="/plans/new">
           Create plan
         </Link>

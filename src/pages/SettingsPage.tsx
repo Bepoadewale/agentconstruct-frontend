@@ -4,6 +4,7 @@ import type { Subscription, UsageSummary, WorkspaceMember } from '../api/contrac
 import { AsyncRegion } from '../components/AsyncRegion';
 import { ReadableData } from '../components/ReadableData';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 export default function SettingsPage() {
@@ -97,12 +98,13 @@ export default function SettingsPage() {
 
   return (
     <div className="page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">Workspace settings</p>
-          <h1>Access, usage, and customer controls.</h1>
-          <p>Frontend controls request changes; the backend authorizes and audits them.</p>
+          <h1>Your workspace, under control.</h1>
+          <p>Members, usage, access, and data.</p>
         </div>
+        <ProductVisual kind="settings" />
       </div>
       {message ? (
         <div className="notice notice-success" role="status">

@@ -4,6 +4,7 @@ import type { AuditEvent } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { EmptyState } from '../components/EmptyState';
 import { RawData } from '../components/ReadableData';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 export default function ActivityPage() {
@@ -30,12 +31,13 @@ export default function ActivityPage() {
   }, {});
   return (
     <div className="page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">Audit activity</p>
-          <h1>What happened, and who initiated it.</h1>
-          <p>A chronological view of planning, connection, approval, and execution evidence.</p>
+          <h1>Every action leaves a trail.</h1>
+          <p>Actors, decisions, and execution in time.</p>
         </div>
+        <ProductVisual kind="activity" />
         <button className="button button-secondary" type="button" onClick={state.reload}>
           Refresh
         </button>

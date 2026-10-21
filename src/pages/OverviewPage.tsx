@@ -4,6 +4,7 @@ import type { CustomerPlanRevision, DashboardResponse } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { EmptyState } from '../components/EmptyState';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 function formatDate(value?: string) {
@@ -35,24 +36,23 @@ export default function OverviewPage() {
     ? {
         eyebrow: 'Administrator workspace',
         title: 'Govern the next cloud change.',
-        description:
-          'Inspect evidence, approve exact plans, and track authorized deployment and outcomes.',
+        description: 'Review evidence. Approve exact changes. Track outcomes.',
       }
     : {
         eyebrow: 'Developer workspace',
         title: 'Move your cloud workload forward.',
-        description:
-          'Plan the simplest viable infrastructure, secure approval, deploy it, and track what runs.',
+        description: 'Plan, approve, deploy, and observe.',
       };
 
   return (
     <div className="page workspace-overview">
-      <header className="page-heading workspace-overview-heading">
+      <header className="page-heading workspace-overview-heading visual-page-heading">
         <div>
           <p className="eyebrow">{roleCopy.eyebrow}</p>
           <h1>{roleCopy.title}</h1>
           <p>{roleCopy.description}</p>
         </div>
+        <ProductVisual kind="overview" />
         <Link className="button button-primary" to="/plans/new">
           <span aria-hidden="true">+</span> Create plan
         </Link>
@@ -201,8 +201,7 @@ export default function OverviewPage() {
                   </Link>
                 </div>
                 <p className="readiness-note">
-                  Connections provide context and a bounded execution path. Privileged changes still
-                  require backend policy and approval.
+                  Policy and approval protect every privileged change.
                 </p>
               </aside>
             </div>
@@ -269,10 +268,7 @@ export default function OverviewPage() {
                 <div>
                   <p className="eyebrow">Getting started</p>
                   <h2>From repository to governed deployment</h2>
-                  <p>
-                    Connect only what is needed, approve the exact change, then deploy and observe
-                    it through the governed backend.
-                  </p>
+                  <p>Connect, approve, deploy, observe.</p>
                 </div>
                 <ol>
                   <li>

@@ -6,6 +6,7 @@ import { AuthProvider } from './auth/AuthContext';
 import './styles.css';
 import './public-v3.css';
 import './dashboard-v2.css';
+import './visual-story.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

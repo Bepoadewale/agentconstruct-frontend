@@ -4,6 +4,7 @@ import type { CloudConnection, GitHubConnection } from '../api/contracts';
 import { AsyncRegion } from '../components/AsyncRegion';
 import { EmptyState } from '../components/EmptyState';
 import { StatusBadge } from '../components/StatusBadge';
+import { ProductVisual } from '../components/ProductVisual';
 import { useAsync } from '../hooks/useAsync';
 
 export default function ConnectionsPage() {
@@ -61,12 +62,13 @@ export default function ConnectionsPage() {
 
   return (
     <div className="page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">Connections</p>
-          <h1>Authorized sources, explicit boundaries.</h1>
-          <p>Repositories and cloud accounts are connected through trusted backend integrations.</p>
+          <h1>Connect only what you trust.</h1>
+          <p>Scoped access to code and customer-owned cloud.</p>
         </div>
+        <ProductVisual kind="connections" />
       </div>
       {message ? (
         <div className="notice" role="status">

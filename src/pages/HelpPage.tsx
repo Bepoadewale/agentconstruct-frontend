@@ -1,41 +1,34 @@
 import { Link } from 'react-router-dom';
+import { ProductVisual } from '../components/ProductVisual';
 
 export default function HelpPage() {
   return (
     <div className="page">
-      <div className="page-heading">
+      <div className="page-heading visual-page-heading">
         <div>
           <p className="eyebrow">Help & updates</p>
-          <h1>Know what the product can and cannot do.</h1>
-          <p>Clear boundaries for planning, approval, execution, and evidence.</p>
+          <h1>Plan. Approve. Deploy.</h1>
+          <p>The product lifecycle at a glance.</p>
         </div>
+        <ProductVisual kind="help" />
       </div>
       <div className="help-grid">
         <article className="panel">
           <span className="feature-icon">01</span>
           <h2>Planning</h2>
-          <p>
-            Connect authorized evidence, describe the outcome, and inspect the minimum-necessary
-            cloud recommendation.
-          </p>
+          <p>Connect evidence and get the minimum viable architecture.</p>
           <Link to="/plans/new">Create a plan</Link>
         </article>
         <article className="panel">
           <span className="feature-icon">02</span>
           <h2>Governance</h2>
-          <p>
-            Submitted revisions are immutable. The server validates role, tenant, policy, state, and
-            exact digest.
-          </p>
+          <p>Review an immutable plan with server-enforced policy.</p>
           <Link to="/history">Review history</Link>
         </article>
         <article className="panel">
           <span className="feature-icon">03</span>
           <h2>Execution</h2>
-          <p>
-            After exact approval and readiness checks, the backend runs the bounded change in the
-            customer cloud. Only independently observed runs are shown as deployed.
-          </p>
+          <p>Run the approved change and verify the observed result.</p>
           <Link to="/activity">Inspect activity</Link>
         </article>
       </div>
