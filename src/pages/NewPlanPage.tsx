@@ -17,6 +17,7 @@ import { useAsync } from '../hooks/useAsync';
 
 interface FormState {
   repository: string;
+  publicRepository: string;
   branch: string;
   cloudConnectionId: string;
   region: string;
@@ -30,6 +31,7 @@ interface FormState {
 
 const initialForm: FormState = {
   repository: '',
+  publicRepository: '',
   branch: '',
   cloudConnectionId: '',
   region: 'us-east-1',
@@ -51,6 +53,8 @@ export default function NewPlanPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(initialForm);
   const [repositories, setRepositories] = useState<GitHubRepository[]>([]);
+  const [repositorySource, setRepositorySource] = useState<'authorized' | 'public'>('authorized');
+  const [publicRepository, setPublicRepository] = useState<GitHubRepository | null>(null);
   const [branches, setBranches] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState('');
@@ -118,12 +122,32 @@ export default function NewPlanPage() {
   const update = (field: keyof FormState, value: string) =>
     setForm((current) => ({ ...current, [field]: value }));
 
+  async function inspectPublicRepository() {
+    setBusy(true);
+    setError(null);
+    setPublicRepository(null);
+    try {
+      const result = await api.request<GitHubRepository & { branches: string[] }>(
+        `/api/v1/github/public-repository?repository_url=${encodeURIComponent(form.publicRepository.trim())}`,
+      );
+      setPublicRepository(result);
+      setBranches(result.branches);
+      setForm((current) => ({ ...current, branch: result.default_branch }));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Public repository check failed.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function submit(event: FormEvent) {
     event.preventDefault();
     setBusy(true);
     setError(null);
     try {
-      if (!form.repository || !form.branch)
+      const selectedRepository =
+        repositorySource === 'public' ? publicRepository?.html_url : form.repository;
+      if (!selectedRepository || !form.branch)
         throw new Error('Choose an authorized repository and branch.');
       if (form.prompt.trim().length < 20)
         throw new Error('Describe the intended outcome in at least 20 characters.');
@@ -131,7 +155,7 @@ export default function NewPlanPage() {
       const project = await api.request<ProjectSummary>('/api/v1/projects', {
         method: 'POST',
         retrySafe: false,
-        body: { name: slug(), repository_url: form.repository, repository_branch: form.branch },
+        body: { name: slug(), repository_url: selectedRepository, repository_branch: form.branch },
       });
       setProgress('Collecting repository evidence…');
       await api.request(`/api/v1/projects/${project.id}/repository-discovery`);
@@ -144,7 +168,7 @@ export default function NewPlanPage() {
         body: {
           project_id: project.id,
           prompt: `${form.prompt.trim()}${constraints}`,
-          source_repository: form.repository,
+          source_repository: selectedRepository,
           cloud_connection_id: form.cloudConnectionId || null,
           idempotency_key: newIdempotencyKey(),
         },
@@ -199,22 +223,88 @@ export default function NewPlanPage() {
                   <StatusBadge state={state.data.github.execution} />
                 ) : null}
               </div>
+              <div className="repository-source-switch" aria-label="Repository access method">
+                <button
+                  type="button"
+                  className={repositorySource === 'authorized' ? 'is-active' : ''}
+                  aria-pressed={repositorySource === 'authorized'}
+                  onClick={() => {
+                    setRepositorySource('authorized');
+                    setBranches(repository ? [repository.default_branch] : []);
+                    setForm((current) => ({
+                      ...current,
+                      branch: repository?.default_branch ?? '',
+                    }));
+                  }}
+                >
+                  Connected repositories
+                </button>
+                <button
+                  type="button"
+                  className={repositorySource === 'public' ? 'is-active' : ''}
+                  aria-pressed={repositorySource === 'public'}
+                  onClick={() => {
+                    setRepositorySource('public');
+                    setBranches(publicRepository ? [publicRepository.default_branch] : []);
+                    setForm((current) => ({
+                      ...current,
+                      branch: publicRepository?.default_branch ?? '',
+                    }));
+                  }}
+                >
+                  Public GitHub URL
+                </button>
+              </div>
               <div className="form-grid two">
-                <label>
-                  GitHub repository
-                  <select
-                    value={form.repository}
-                    onChange={(event) => update('repository', event.target.value)}
-                    required
-                  >
-                    <option value="">Choose repository</option>
-                    {repositories.map((item) => (
-                      <option value={item.html_url} key={item.full_name}>
-                        {item.full_name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                {repositorySource === 'authorized' ? (
+                  <label>
+                    GitHub repository
+                    <select
+                      value={form.repository}
+                      onChange={(event) => update('repository', event.target.value)}
+                      required
+                    >
+                      <option value="">Choose repository</option>
+                      {repositories.map((item) => (
+                        <option value={item.html_url} key={item.full_name}>
+                          {item.full_name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : (
+                  <div className="form-field">
+                    <label htmlFor="public-repository-url">Public GitHub repository</label>
+                    <span className="repository-url-control">
+                      <input
+                        id="public-repository-url"
+                        type="url"
+                        value={form.publicRepository}
+                        onChange={(event) => {
+                          update('publicRepository', event.target.value);
+                          setPublicRepository(null);
+                          setBranches([]);
+                          update('branch', '');
+                        }}
+                        placeholder="https://github.com/owner/repository"
+                        required
+                      />
+                      <button
+                        className="button button-secondary"
+                        type="button"
+                        disabled={busy || !form.publicRepository.trim()}
+                        onClick={() => void inspectPublicRepository()}
+                      >
+                        Check repository
+                      </button>
+                    </span>
+                    <small>
+                      {publicRepository
+                        ? `${publicRepository.full_name} verified read-only`
+                        : 'Only public metadata and bounded manifest files are read.'}
+                    </small>
+                  </div>
+                )}
                 <label>
                   Branch
                   <select
