@@ -1295,10 +1295,16 @@
   background: color-mix(in srgb, #fff 92%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--ink) 17%, transparent);
   border-radius: 0.7rem;
-  color: var(--ink);
+  color: var(--auth-ink);
+  caret-color: var(--auth-orange);
   font: inherit;
   min-height: 3rem;
   padding: 0 0.9rem;
+}
+
+.email-auth-form input::placeholder {
+  color: #7a817a;
+  opacity: 1;
 }
 
 .email-auth-form input:focus-visible {

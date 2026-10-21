@@ -6,6 +6,18 @@ export interface WorkspaceProfile {
   workspace: { id: string; name: string; organization_id?: string };
 }
 
+export interface WorkspaceInvitation {
+  id: string;
+  email: string;
+  role: Role;
+  state: 'PENDING' | 'ACCEPTED' | 'CANCELLED' | string;
+  delivery_state: 'PENDING' | 'SENT' | 'FAILED' | string;
+  delivery_provider?: string | null;
+  send_count: number;
+  last_sent_at?: string | null;
+  expires_at: string;
+}
+
 export interface ProjectSummary {
   id: string;
   name: string;
