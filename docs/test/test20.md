@@ -4,7 +4,7 @@
 
 Visual storytelling and copy-density improvements across public and authenticated frontend routes.
 
-## Exact test cycle
+## Commands executed
 
 - `npm run verify`
 - Headless Chrome screenshots at 1440 x 1000, 500 x 900, and 390 x 844 for `/`
