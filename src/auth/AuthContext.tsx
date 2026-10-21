@@ -26,6 +26,7 @@ interface AuthState {
   api: ApiClient;
   signInWithGoogle: () => Promise<void>;
   startEmailSignIn: (email: string) => Promise<EmailAuthResult | null>;
+  startEmailSignUp: (email: string) => Promise<EmailAuthResult | null>;
   verifyEmailCode: (challenge: EmailOtpChallenge, code: string) => Promise<EmailAuthResult | null>;
   localSignIn: (username: 'founder' | 'administrator') => Promise<void>;
   completeCallback: () => Promise<void>;
@@ -110,8 +111,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setError(null);
       try {
         if (!emailOtpConfigured) throw new Error('Email code sign-in is not configured.');
-        const { startEmailAuthentication } = await import('./cognitoEmail');
-        const result = await startEmailAuthentication(
+        const { startEmailSignIn: beginEmailSignIn } = await import('./cognitoEmail');
+        const result = await beginEmailSignIn(
           config.cognito.region,
           config.cognito.clientId,
           email,
@@ -127,6 +128,21 @@ export function AuthProvider({ children }: PropsWithChildren) {
     },
     [adoptToken],
   );
+
+  const startEmailSignUp = useCallback(async (email: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      if (!emailOtpConfigured) throw new Error('Email account creation is not configured.');
+      const { startEmailSignUp: beginEmailSignUp } = await import('./cognitoEmail');
+      return await beginEmailSignUp(config.cognito.region, config.cognito.clientId, email);
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : 'Account creation failed.');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const verifyEmailCode = useCallback(
     async (challenge: EmailOtpChallenge, code: string) => {
@@ -215,6 +231,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       api,
       signInWithGoogle,
       startEmailSignIn,
+      startEmailSignUp,
       verifyEmailCode,
       localSignIn,
       completeCallback,
@@ -230,6 +247,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       signInWithGoogle,
       signOut,
       startEmailSignIn,
+      startEmailSignUp,
       token,
       verifyEmailCode,
     ],

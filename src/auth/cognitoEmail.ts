@@ -28,6 +28,10 @@ function isMissingUser(error: unknown) {
   return error instanceof Error && error.name === 'UserNotFoundException';
 }
 
+function isExistingUser(error: unknown) {
+  return error instanceof Error && error.name === 'UsernameExistsException';
+}
+
 function requireOtpChallenge(
   email: string,
   response: { ChallengeName?: string; Session?: string },
@@ -42,7 +46,7 @@ function requireOtpChallenge(
   };
 }
 
-export async function startEmailAuthentication(
+export async function startEmailSignIn(
   region: string,
   clientId: string,
   email: string,
@@ -64,7 +68,20 @@ export async function startEmailAuthentication(
       ? { status: 'AUTHENTICATED', identityToken: token }
       : requireOtpChallenge(normalizedEmail, response);
   } catch (error) {
-    if (!isMissingUser(error)) throw error;
+    if (isMissingUser(error)) {
+      throw new Error('No account exists for this email. Create an account first.');
+    }
+    throw error;
+  }
+}
+
+export async function startEmailSignUp(
+  region: string,
+  clientId: string,
+  email: string,
+): Promise<EmailAuthResult> {
+  const normalizedEmail = email.trim().toLowerCase();
+  try {
     await client(region).send(
       new SignUpCommand({
         ClientId: clientId,
@@ -77,6 +94,11 @@ export async function startEmailAuthentication(
       challenge: { email: normalizedEmail, kind: 'SIGN_UP' },
       message: 'Enter the code sent to your email to create your workspace.',
     };
+  } catch (error) {
+    if (isExistingUser(error)) {
+      throw new Error('An account already exists for this email. Sign in instead.');
+    }
+    throw error;
   }
 }
 

@@ -1210,6 +1210,39 @@
   margin-top: 1.5rem;
 }
 
+.auth-mode-switch {
+  background: #ebe8df;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-radius: 0.75rem;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.25rem;
+}
+
+.auth-mode-switch button {
+  background: transparent;
+  border: 0;
+  border-radius: 0.55rem;
+  color: var(--auth-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  min-height: 2.65rem;
+}
+
+.auth-mode-switch button.is-active {
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(25 30 27 / 10%);
+  color: var(--auth-ink);
+}
+
+.auth-mode-switch button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  outline-offset: 1px;
+}
+
 .google-button {
   background: #fff;
   border-color: color-mix(in srgb, var(--ink) 20%, transparent);
