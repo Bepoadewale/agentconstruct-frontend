@@ -35,6 +35,10 @@ export default function LoginPage() {
   async function submitEmail(event: FormEvent) {
     event.preventDefault();
     setEmailStatus(null);
+    if (challenge) {
+      setEmailStatus('Verifying your code and preparing the workspace…');
+      void import('./OverviewPage');
+    }
     const result = challenge
       ? await verifyEmailCode(challenge, code)
       : mode === 'create-account'

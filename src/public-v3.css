@@ -976,6 +976,7 @@
   --auth-line: #dcd9cf;
   --auth-orange: #ec6b2d;
   --auth-green: #1d795e;
+  color-scheme: light;
   background: var(--auth-canvas);
   color: var(--auth-ink);
   display: block;
@@ -1292,14 +1293,24 @@
 }
 
 .email-auth-form input {
-  background: color-mix(in srgb, #fff 92%, var(--surface));
+  -webkit-text-fill-color: #172019;
+  background: #fffefa;
   border: 1px solid color-mix(in srgb, var(--ink) 17%, transparent);
   border-radius: 0.7rem;
-  color: var(--auth-ink);
+  color: #172019;
   caret-color: var(--auth-orange);
   font: inherit;
   min-height: 3rem;
   padding: 0 0.9rem;
+}
+
+.email-auth-form input:-webkit-autofill,
+.email-auth-form input:-webkit-autofill:hover,
+.email-auth-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #172019 !important;
+  box-shadow: 0 0 0 1000px #fffefa inset !important;
+  caret-color: #ec6b2d;
+  transition: background-color 9999s ease-out 0s;
 }
 
 .email-auth-form input::placeholder {

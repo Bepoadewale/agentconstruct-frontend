@@ -1295,6 +1295,15 @@ textarea {
   resize: vertical;
   line-height: 1.55;
 }
+.planning-requirements {
+  padding-top: 22px;
+}
+.compact-section-heading {
+  margin-bottom: 14px;
+}
+.compact-section-heading h3 {
+  margin: 2px 0 4px;
+}
 label > small {
   font-weight: 500;
 }

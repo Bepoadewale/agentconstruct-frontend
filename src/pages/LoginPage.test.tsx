@@ -1,4 +1,6 @@
 import axe from 'axe-core';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -67,5 +69,12 @@ describe('hosted workspace sign-in', () => {
       runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] },
     });
     expect(result.violations).toEqual([]);
+  });
+
+  it('keeps typed and autofilled email values readable on the light sign-in field', () => {
+    const css = readFileSync(resolve(process.cwd(), 'src/public-v3.css'), 'utf8');
+    expect(css).toContain('-webkit-text-fill-color: #172019;');
+    expect(css).toContain('.email-auth-form input:-webkit-autofill');
+    expect(css).toContain('box-shadow: 0 0 0 1000px #fffefa inset !important;');
   });
 });
