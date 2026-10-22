@@ -86,6 +86,53 @@ describe('application routes', () => {
     expect(result.violations).toEqual([]);
   });
 
+  it('starts independent administrator overview requests together', async () => {
+    auth.profile = {
+      user: { subject: 'admin', role: 'administrator' },
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+    };
+    let resolveDashboard: (value: unknown) => void = () => undefined;
+    let resolveQueue: (value: unknown) => void = () => undefined;
+    auth.api.request.mockImplementation((path: string) => {
+      if (path === '/api/v1/dashboard')
+        return new Promise((resolve) => {
+          resolveDashboard = resolve;
+        });
+      if (path.includes('/admin/customer-plan-revisions'))
+        return new Promise((resolve) => {
+          resolveQueue = resolve;
+        });
+      return Promise.reject(new Error(`Unexpected ${path}`));
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/overview']}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => {
+      expect(auth.api.request).toHaveBeenCalledWith(
+        '/api/v1/dashboard',
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
+      );
+      expect(auth.api.request).toHaveBeenCalledWith(
+        '/api/v1/admin/customer-plan-revisions?state=SUBMITTED',
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
+      );
+    });
+
+    resolveDashboard({
+      workspace: { id: 'workspace-1', name: 'Founder workspace' },
+      projects: [],
+      cloud_connections: [],
+      plans: [],
+      recent_activity: [],
+    });
+    resolveQueue([]);
+    expect(await screen.findByText('Plans requiring a decision')).toBeInTheDocument();
+  });
+
   it('prioritizes plan continuity for a developer workspace', async () => {
     auth.profile = {
       user: { subject: 'developer', role: 'developer' },

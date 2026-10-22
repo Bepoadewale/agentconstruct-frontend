@@ -88,9 +88,32 @@ describe('customer workflows', () => {
         body: expect.objectContaining({
           project_id: 'project-1',
           source_repository: 'https://github.com/example/support-api',
+          prompt: expect.stringContaining('average_rps=5; peak_rps=20'),
         }),
       }),
     );
+  });
+
+  it('collects visible customer-friendly material requirements', async () => {
+    auth.api.request.mockImplementation((path: string) => {
+      if (path === '/api/v1/github/connection')
+        return Promise.resolve({ execution: 'SIMULATED', installations: [] });
+      if (path === '/api/v1/cloud-connections') return Promise.resolve([]);
+      return Promise.resolve([]);
+    });
+
+    render(
+      <MemoryRouter>
+        <NewPlanPage />
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByRole('heading', { name: 'Choose the closest fit' })).toBeVisible();
+    expect(screen.getByRole('combobox', { name: /expected usage/i })).toHaveValue('5');
+    expect(screen.getByRole('combobox', { name: /peak pattern/i })).toHaveValue('4');
+    expect(screen.getByRole('combobox', { name: /monthly budget/i })).toHaveValue('500');
+    expect(screen.getByRole('combobox', { name: /product type/i })).toHaveValue('AI API');
+    expect(screen.getByText(/no traffic forecast is required/i)).toBeInTheDocument();
   });
 
   it('verifies and plans from a customer-selected public repository', async () => {

@@ -26,6 +26,8 @@ interface FormState {
   environment: string;
   availability: string;
   workload: string;
+  averageRps: string;
+  peakMultiplier: string;
   prompt: string;
 }
 
@@ -36,12 +38,14 @@ const initialForm: FormState = {
   cloudConnectionId: '',
   region: 'us-east-1',
   dataClassification: 'restricted',
-  budget: '1500',
-  environment: 'staging,production',
+  budget: '500',
+  environment: 'production',
   availability: '99.9%',
   workload: 'AI API',
+  averageRps: '5',
+  peakMultiplier: '4',
   prompt:
-    'Deploy this AI API in the cloud. Keep customer data private. Support 20 requests per second and peak at 100 requests per second. Create staging and production. Enable monitoring and Slack alerts.',
+    'Deploy this product in the cloud. Keep customer data private. Enable monitoring and operational alerts.',
 };
 
 function slug(): string {
@@ -151,6 +155,10 @@ export default function NewPlanPage() {
         throw new Error('Choose an authorized repository and branch.');
       if (form.prompt.trim().length < 20)
         throw new Error('Describe the intended outcome in at least 20 characters.');
+      const averageRps = Number(form.averageRps);
+      const peakRps = averageRps * Number(form.peakMultiplier);
+      if (!averageRps || !peakRps)
+        throw new Error('Choose the expected traffic level and peak pattern.');
       setProgress('Creating tenant-scoped project…');
       const project = await api.request<ProjectSummary>('/api/v1/projects', {
         method: 'POST',
@@ -160,7 +168,7 @@ export default function NewPlanPage() {
       setProgress('Collecting repository evidence…');
       await api.request(`/api/v1/projects/${project.id}/repository-discovery`);
       setProgress('Interpreting constraints…');
-      const constraints = `\n\nExplicit constraints: region=${form.region}; data=${form.dataClassification}; monthly budget USD=${form.budget}; environments=${form.environment}; availability=${form.availability}; workload=${form.workload}.`;
+      const constraints = `\n\nExplicit constraints: region=${form.region}; data=${form.dataClassification}; monthly budget USD=${form.budget}; environments=${form.environment}; availability=${form.availability}; workload=${form.workload}; average_rps=${averageRps}; peak_rps=${peakRps}.`;
       const intent = await api.request<{ id: string }>('/api/v1/intents', {
         method: 'POST',
         retrySafe: false,
@@ -353,65 +361,125 @@ export default function NewPlanPage() {
                   required
                 />
               </label>
-              <details className="advanced">
-                <summary>Planning constraints</summary>
+              <section
+                className="planning-requirements"
+                aria-labelledby="planning-requirements-heading"
+              >
+                <div className="section-heading compact-section-heading">
+                  <div>
+                    <p className="eyebrow">Required planning inputs</p>
+                    <h3 id="planning-requirements-heading">Choose the closest fit</h3>
+                    <small>Estimates are enough. DavDeploy uses them to avoid overbuilding.</small>
+                  </div>
+                </div>
                 <div className="form-grid three">
                   <label>
                     Region
                     <select
                       value={form.region}
                       onChange={(event) => update('region', event.target.value)}
+                      required
                     >
-                      <option>us-east-1</option>
-                      <option>eu-west-1</option>
+                      <option value="us-east-1">US East, N. Virginia</option>
+                      <option value="eu-west-1">Europe, Ireland</option>
                     </select>
                   </label>
                   <label>
-                    Data
+                    Data sensitivity
                     <select
                       value={form.dataClassification}
                       onChange={(event) => update('dataClassification', event.target.value)}
+                      required
                     >
-                      <option value="restricted">Restricted</option>
-                      <option value="internal">Internal</option>
-                      <option value="public">Public</option>
+                      <option value="restricted">Customer or sensitive data</option>
+                      <option value="internal">Company-internal data</option>
+                      <option value="public">Public data only</option>
                     </select>
                   </label>
                   <label>
-                    Monthly budget (USD)
-                    <input
-                      type="number"
-                      min="1"
+                    Monthly budget
+                    <select
                       value={form.budget}
                       onChange={(event) => update('budget', event.target.value)}
-                    />
+                      required
+                    >
+                      <option value="100">Lean start, up to $100</option>
+                      <option value="250">Small production, up to $250</option>
+                      <option value="500">Growing product, up to $500</option>
+                      <option value="1000">Established product, up to $1,000</option>
+                      <option value="2500">Larger operation, up to $2,500</option>
+                      <option value="5000">Scale budget, up to $5,000</option>
+                    </select>
                   </label>
                   <label>
                     Environments
-                    <input
+                    <select
                       value={form.environment}
                       onChange={(event) => update('environment', event.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Availability
-                    <select
-                      value={form.availability}
-                      onChange={(event) => update('availability', event.target.value)}
+                      required
                     >
-                      <option>99.9%</option>
-                      <option>99.99%</option>
+                      <option value="production">Production only</option>
+                      <option value="staging,production">Staging and production</option>
                     </select>
                   </label>
                   <label>
-                    Workload
-                    <input
+                    Reliability target
+                    <select
+                      value={form.availability}
+                      onChange={(event) => update('availability', event.target.value)}
+                      required
+                    >
+                      <option value="99.5%">Cost-first, occasional downtime is acceptable</option>
+                      <option value="99.9%">Standard production, recommended</option>
+                      <option value="99.95%">Business-critical</option>
+                      <option value="99.99%">Mission-critical</option>
+                    </select>
+                  </label>
+                  <label>
+                    Product type
+                    <select
                       value={form.workload}
                       onChange={(event) => update('workload', event.target.value)}
-                    />
+                      required
+                    >
+                      <option value="AI API">AI or model-powered API</option>
+                      <option value="Web API">Web or mobile API</option>
+                      <option value="Web application">Customer-facing web application</option>
+                      <option value="Background worker">Background jobs or automation</option>
+                      <option value="Data pipeline">Data processing pipeline</option>
+                    </select>
+                  </label>
+                  <label>
+                    Expected usage
+                    <select
+                      value={form.averageRps}
+                      onChange={(event) => update('averageRps', event.target.value)}
+                      required
+                    >
+                      <option value="1">Pilot or internal use</option>
+                      <option value="5">Early product, recommended if unsure</option>
+                      <option value="20">Growing product</option>
+                      <option value="100">Busy product</option>
+                      <option value="500">Large-scale product</option>
+                    </select>
+                    <small>No traffic forecast is required. Choose the closest stage.</small>
+                  </label>
+                  <label>
+                    Peak pattern
+                    <select
+                      value={form.peakMultiplier}
+                      onChange={(event) => update('peakMultiplier', event.target.value)}
+                      required
+                    >
+                      <option value="2">Mostly steady traffic</option>
+                      <option value="4">Normal daily bursts, recommended</option>
+                      <option value="8">Campaigns or sharp spikes</option>
+                      <option value="12">Highly unpredictable traffic</option>
+                    </select>
+                    <small>DavDeploy converts this into safe capacity assumptions.</small>
                   </label>
                 </div>
-              </details>
+              </section>
             </section>
             {error ? (
               <div className="notice notice-error" role="alert">

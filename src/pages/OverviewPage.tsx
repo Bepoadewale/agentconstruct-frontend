@@ -20,13 +20,15 @@ export default function OverviewPage() {
   const administrator = profile?.user.role === 'administrator';
   const state = useAsync(
     async (signal) => {
-      const dashboard = await api.request<DashboardResponse>('/api/v1/dashboard', { signal });
-      const queue = administrator
-        ? await api.request<CustomerPlanRevision[]>(
-            '/api/v1/admin/customer-plan-revisions?state=SUBMITTED',
-            { signal },
-          )
-        : [];
+      const [dashboard, queue] = await Promise.all([
+        api.request<DashboardResponse>('/api/v1/dashboard', { signal }),
+        administrator
+          ? api.request<CustomerPlanRevision[]>(
+              '/api/v1/admin/customer-plan-revisions?state=SUBMITTED',
+              { signal },
+            )
+          : Promise.resolve([]),
+      ]);
       return { dashboard, queue };
     },
     [api, administrator],

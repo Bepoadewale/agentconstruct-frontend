@@ -13,10 +13,11 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
-import { ApiClient, ApiError } from '../api/client';
+import { ApiClient } from '../api/client';
 import type { WorkspaceProfile } from '../api/contracts';
 import { config, emailOtpConfigured, oidcConfigured } from '../config';
 import type { EmailAuthResult, EmailOtpChallenge } from './cognitoEmail';
+import { resolveWorkspaceProfile } from './workspaceSession';
 
 interface AuthState {
   profile: WorkspaceProfile | null;
@@ -67,26 +68,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   const adoptToken = useCallback(
-    async (accessToken: string, identityName = 'My workspace') => {
+    async (accessToken: string, identityName = 'My workspace', createWorkspace = false) => {
       tokenRef.current = accessToken;
       setToken(accessToken);
       try {
-        const nextProfile = await api.request<WorkspaceProfile>('/api/v1/me');
-        setProfile(nextProfile);
+        const resolved = await resolveWorkspaceProfile(api, {
+          identityName,
+          invitationToken: pendingInvitation(),
+          createWorkspace,
+        });
+        setProfile(resolved.profile);
+        if (resolved.onboarded) window.sessionStorage.removeItem('davdeploy.invitation');
       } catch (requestError) {
-        if (requestError instanceof ApiError && requestError.status === 403) {
-          const nextProfile = await api.request<WorkspaceProfile>('/api/v1/onboarding', {
-            method: 'POST',
-            body: {
-              workspace_name: identityName.split('@')[0] || 'My workspace',
-              invitation_token: pendingInvitation() || undefined,
-            },
-            retrySafe: false,
-          });
-          setProfile(nextProfile);
-          window.sessionStorage.removeItem('davdeploy.invitation');
-          return;
-        }
         tokenRef.current = null;
         setToken(null);
         throw requestError;
@@ -158,7 +151,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           code,
         );
         if (result.status === 'AUTHENTICATED') {
-          await adoptToken(result.identityToken, challenge.email);
+          await adoptToken(result.identityToken, challenge.email, challenge.kind === 'SIGN_UP');
         }
         return result;
       } catch (requestError) {
