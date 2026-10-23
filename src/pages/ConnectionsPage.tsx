@@ -60,6 +60,27 @@ export default function ConnectionsPage() {
     }
   }
 
+  async function verifyConnection(id: string) {
+    setBusy(true);
+    setMessage(null);
+    try {
+      const job = await api.request<{ id: string; state: string }>(
+        `/api/v1/cloud-connections/${id}/aws-verify`,
+        { method: 'POST', body: { region: 'us-east-1' }, retrySafe: false },
+      );
+      setMessage(
+        job.state === 'SUCCEEDED'
+          ? 'Cloud connection verified. Live inventory is now available for planning.'
+          : 'Verification queued. Refresh this page shortly to see the verified connection.',
+      );
+      state.reload();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Connection verification failed.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="page">
       <div className="page-heading visual-page-heading">
@@ -166,6 +187,16 @@ export default function ConnectionsPage() {
                         <small>{item.account_id ?? 'Account setup pending'}</small>
                       </div>
                       <StatusBadge state={item.setup_state} />
+                      {item.setup_state === 'SETUP_LINK_GENERATED' ? (
+                        <button
+                          className="button button-secondary"
+                          disabled={busy}
+                          type="button"
+                          onClick={() => void verifyConnection(item.id)}
+                        >
+                          Verify setup
+                        </button>
+                      ) : null}
                       <button
                         className="button button-quiet"
                         disabled={busy}
