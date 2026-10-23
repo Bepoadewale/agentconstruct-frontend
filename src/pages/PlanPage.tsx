@@ -343,6 +343,21 @@ function ApprovedActions({
   const render = latest<Record<string, unknown>>(review.terraform_plan_renders);
   const preflight = latest<Record<string, unknown>>(review.cloud_readiness_preflights);
   const planReview = latest<Record<string, unknown>>(review.terraform_plan_reviews);
+  const authenticatedPlanReview = review.terraform_plan_reviews?.find(
+    (item) => item.state === 'AUTHENTICATED_PLAN_REVIEWED',
+  );
+  const authenticatedDestroyReview = review.terraform_plan_reviews?.find(
+    (item) => item.state === 'AUTHENTICATED_DESTROY_PLAN_REVIEWED',
+  );
+  const latestCloudRun = latest<Record<string, unknown>>(review.cloud_execution_runs);
+  const applySucceeded = review.cloud_execution_runs?.some(
+    (item) =>
+      item.mode === 'AUTHENTICATED_APP_RUNNER_APPLY' &&
+      item.state === 'SUCCEEDED_AWAITING_OBSERVATION',
+  );
+  const target = review.content.target ?? {};
+  const region = typeof target.region === 'string' ? target.region : 'us-east-1';
+  const accountId = typeof target.account_id === 'string' ? target.account_id : undefined;
   return (
     <div className="approved-actions">
       <div className="notice">
@@ -455,6 +470,151 @@ function ApprovedActions({
             }
           >
             Request guarded run record
+          </button>
+          <div className="notice notice-success">
+            <strong>Reviewed cloud lifecycle</strong>
+            <span>
+              This path is available only for a verified connection. It creates a saved plan for
+              review before an administrator can queue an exact apply or destroy operation.
+            </span>
+          </div>
+          <button
+            className="button button-secondary"
+            disabled={busy}
+            type="button"
+            onClick={() =>
+              void mutate(
+                `/api/v1/customer-plan-revisions/${review.id}/cloud-readiness-preflights`,
+                {
+                  content_digest: review.content_digest,
+                  expected_account_id: accountId,
+                  allowed_regions: [region],
+                  required_tags: { ManagedBy: 'davdeploy' },
+                  execution_mode: 'PLAN_ONLY',
+                  require_reviewed_pr: false,
+                  runtime_identity_configured: true,
+                },
+                'Cloud readiness recorded. The next step creates a real plan only.',
+              )
+            }
+          >
+            Check cloud readiness
+          </button>
+          <button
+            className="button button-primary"
+            disabled={busy || !render || !preflight || !applySucceeded}
+            type="button"
+            onClick={() =>
+              void mutate(
+                `/api/v1/customer-plan-revisions/${review.id}/terraform-plan-reviews`,
+                {
+                  content_digest: review.content_digest,
+                  preflight_id: preflight?.id ?? null,
+                  expected_account_id: accountId,
+                  expected_region: region,
+                  mode: 'AUTHENTICATED_TERRAFORM_PLAN',
+                  allow_cloud_plan: true,
+                },
+                'Authenticated Terraform plan submitted. Review its saved artifact before applying.',
+              )
+            }
+          >
+            Create real cloud plan
+          </button>
+          <button
+            className="button button-primary"
+            disabled={busy || !render || !preflight || !authenticatedPlanReview}
+            type="button"
+            onClick={() => {
+              const confirmation = window.prompt(
+                'Type EXECUTE_APP_RUNNER_WORKLOAD to queue the reviewed plan.',
+              );
+              if (confirmation !== 'EXECUTE_APP_RUNNER_WORKLOAD') return;
+              void mutate(
+                `/api/v1/customer-plan-revisions/${review.id}/cloud-execution-runs`,
+                {
+                  content_digest: review.content_digest,
+                  terraform_render_id: render?.id ?? null,
+                  preflight_id: preflight?.id ?? null,
+                  terraform_plan_review_id: authenticatedPlanReview?.id ?? null,
+                  expected_account_id: accountId,
+                  expected_region: region,
+                  mode: 'AUTHENTICATED_APP_RUNNER_APPLY',
+                  confirmation,
+                },
+                'Reviewed deployment request created. Queue it as the next explicit step.',
+              );
+            }}
+          >
+            Create reviewed deployment
+          </button>
+          <button
+            className="button button-primary"
+            disabled={busy || latestCloudRun?.state !== 'READY_FOR_OPERATOR_APP_RUNNER_EXECUTION'}
+            type="button"
+            onClick={() => {
+              const confirmation = window.prompt(
+                'Type EXECUTE_APP_RUNNER_WORKLOAD to queue the reviewed deployment.',
+              );
+              if (confirmation !== 'EXECUTE_APP_RUNNER_WORKLOAD') return;
+              void mutate(
+                `/api/v1/cloud-execution-runs/${latestCloudRun?.id}/execute`,
+                { content_digest: review.content_digest, confirmation },
+                'Deployment queued. Refresh to inspect trusted runner evidence.',
+              );
+            }}
+          >
+            Apply reviewed deployment
+          </button>
+          <button
+            className="button button-danger"
+            disabled={busy || !render || !preflight}
+            type="button"
+            onClick={() =>
+              void mutate(
+                `/api/v1/customer-plan-revisions/${review.id}/terraform-plan-reviews`,
+                {
+                  content_digest: review.content_digest,
+                  preflight_id: preflight?.id ?? null,
+                  expected_account_id: accountId,
+                  expected_region: region,
+                  mode: 'AUTHENTICATED_TERRAFORM_DESTROY_PLAN',
+                  allow_cloud_plan: true,
+                },
+                'Terraform destroy plan submitted. It is still review-only.',
+              )
+            }
+          >
+            Create reviewed destroy plan
+          </button>
+          <button
+            className="button button-danger"
+            disabled={
+              busy || !render || !preflight || !authenticatedDestroyReview || !applySucceeded
+            }
+            type="button"
+            onClick={() => {
+              const confirmation = window.prompt(
+                'Type DESTROY_APP_RUNNER_WORKLOAD to create the exact teardown request.',
+              );
+              if (confirmation !== 'DESTROY_APP_RUNNER_WORKLOAD') return;
+              void mutate(
+                `/api/v1/customer-plan-revisions/${review.id}/cloud-execution-runs`,
+                {
+                  content_digest: review.content_digest,
+                  terraform_render_id: render?.id ?? null,
+                  preflight_id: preflight?.id ?? null,
+                  terraform_plan_review_id: authenticatedDestroyReview?.id ?? null,
+                  expected_account_id: accountId,
+                  expected_region: region,
+                  mode: 'AUTHENTICATED_APP_RUNNER_DESTROY',
+                  confirmation,
+                },
+                'Reviewed teardown request created. Queue it only after final review.',
+              );
+            }}
+          >
+            Create reviewed teardown
           </button>
         </>
       ) : null}
